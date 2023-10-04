@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         text: "#e8e5fb",
-        background: "#050311",
+        background: "#0a0815",
         primary: "#4729db",
         secondary: "#070416",
         accent: "#a191ed",

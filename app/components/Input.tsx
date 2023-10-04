@@ -23,7 +23,7 @@ const Input: NextPage<inputprops> = ({
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
-    <div>
+    <div className="w-full">
       <label className="text-left font-semibold capitalize text-blue-950">
         {label}
       </label>
@@ -33,8 +33,8 @@ const Input: NextPage<inputprops> = ({
         value={value}
         className={`${
           additionalClasses
-            ? additionalClasses + " w-full"
-            : "h-10 w-full rounded-md border border-[#001746] bg-transparent px-4 py-2 text-[15px] font-light  outline-none md:placeholder-white md:placeholder-opacity-50 "
+            ? additionalClasses + "w-full"
+            : "h-10 w-full rounded-md text-[#e6e4e4] border-[#001746] bg-transparent px-4 py-2 text-[15px] font-light outline-none md:placeholder-white md:placeholder-opacity-50 "
         }`}
         type={!visible ? type : "text"}
         required={required}
