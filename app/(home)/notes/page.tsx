@@ -1,10 +1,15 @@
 "use client";
+import ProtectedRoute from "@/app/ProtectedRoute";
 import Card from "@/app/components/Card";
 import Input from "@/app/components/Input";
 import TopBar from "@/app/components/TopBar";
+import { RootState } from "@/app/store/store";
 import React, { useState } from "react";
 import { BiSearch } from "react-icons/bi";
+import { useSelector } from "react-redux";
 const Notes = () => {
+  const user = useSelector((state: RootState) => state.user.user);
+
   const [color, setColor] = useState("#FFFF");
   const handlerandomColor = () => {
     const randomColors =
@@ -26,7 +31,7 @@ const Notes = () => {
     },
   ];
   return (
-    <div>
+    <ProtectedRoute>
       <TopBar />
       <section className="flex flex-col gap-6 items-center justify-center mt-5">
         <h2 className="lg:text-5xl text-3xl font-bold text-[#e6e4e4]">
@@ -56,7 +61,7 @@ const Notes = () => {
           <Card content="I'm a card" key={index} />
         ))}
       </section>
-    </div>
+    </ProtectedRoute>
   );
 };
 
