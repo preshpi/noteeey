@@ -14,6 +14,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./firebase";
 import { setUser } from "./userSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const Home = () => {
   const user = useSelector((state: RootState) => state.user.user);
@@ -45,10 +46,10 @@ const Home = () => {
       dispatch(setUser(authenticatedUser));
 
       // Now you can work with the authenticated user object
-      alert("Logged in user:");
+      toast.success("Logged in");
     } catch (error) {
       // Handle sign-in errors here
-      alert("Error signing in:");
+      toast.error("Error signing in");
     }
   };
 
@@ -56,9 +57,9 @@ const Home = () => {
     try {
       await signOut(auth); // Sign the user out using Firebase Authentication
       dispatch(setUser(null)); // Clear the user from the Redux store
-      alert("Logged out successfully");
+      toast.success("Logged out successfully");
     } catch (error) {
-      alert("Error signing out:");
+      toast.error("Error signing out:");
     }
   };
 
@@ -105,6 +106,7 @@ const Home = () => {
             buttonAction={closeModal}
           />
         )}
+        <Toaster position="top-center"/>
       </section>
     </div>
   );

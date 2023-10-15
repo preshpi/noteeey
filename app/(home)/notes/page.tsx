@@ -9,6 +9,7 @@ import { BiSearch } from "react-icons/bi";
 import { useSelector } from "react-redux";
 const Notes = () => {
   const user = useSelector((state: RootState) => state.user.user);
+  
 
   const [color, setColor] = useState("#FFFF");
   const handlerandomColor = () => {
