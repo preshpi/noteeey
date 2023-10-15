@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <main>
       <h2 className="text-accent">yayy!</h2>
-      <Button className="" onClick={openModal}>open modal</Button>
+      <Button additionalClasses="w-full" onClick={openModal}>open modal</Button>
       <Card content="I'm a card" />
       <Input
         name="precious"
