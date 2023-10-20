@@ -14,7 +14,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./firebase";
 import { setUser } from "./userSlice";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "sonner";
 
 const Home = () => {
   const user = useSelector((state: RootState) => state.user.user);
@@ -106,7 +106,7 @@ const Home = () => {
             buttonAction={closeModal}
           />
         )}
-        <Toaster position="top-center"/>
+        <Toaster richColors position="top-center"/>
       </section>
     </div>
   );

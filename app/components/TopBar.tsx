@@ -8,8 +8,8 @@ import { signOut } from "firebase/auth";
 import { setUser } from "../userSlice";
 import { auth } from "../firebase";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
-
+// import toast, { Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 const TopBar = () => {
   const user = useSelector((state: RootState) => state.user.user);
   const [show, setShow] = useState(false);
@@ -22,10 +22,13 @@ const TopBar = () => {
       dispatch(setUser(null)); // Clear the user from the Redux store
       router.push("/");
       setShow(false);
+      
     } catch (error) {
       toast.error("Error signing out");
     }
   };
+
+  
 
   const handleProfileModal = () => {
     setShow(!show);
@@ -43,6 +46,7 @@ const TopBar = () => {
       <div>
         <div
           onClick={handleProfileModal}
+
           className="rounded w-10 h-10 items-center justify-center flex cursor-pointer hover:opacity-80 transition-all duration-300 mb-2"
         >
           <Image
@@ -60,14 +64,14 @@ const TopBar = () => {
           </p> */}
             <button
               onClick={handleLogout}
-              className="absolute rounded-md py-3 cursor-pointer text-base bg-[#e6e4e4] hover:text-white transition-colors duration-300 hover:bg-[#ff0000] w-24"
+              className="absolute transition-all rounded-md py-3 cursor-pointer text-base bg-[#e6e4e4] hover:text-white duration-300 hover:bg-[#ff0000] w-24"
             >
               Log Out
             </button>
           </div>
         )}
       </div>
-      <Toaster position="top-center"/>
+      <Toaster  position="top-center"/>
     </div>
   );
 };
