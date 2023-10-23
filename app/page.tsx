@@ -77,10 +77,10 @@ const Home = () => {
     setShow(false);
   };
   return (
-    <div className="bg-[#0a0815] min-h-screen">
+    <div className="bg-[#0a0815] flex flex-col h-screen">
       <Navbar signIn={handleGoogleSignIn} logOut={handleLogout}/>
 
-      <section className="items-center justify-center flex mt-16 px-5 flex-col">
+      <section className="items-center h-full  justify-center flex px-5 flex-col">
         <h1 className="text-[#FAF8FC] lg:text-[80px] md:text-[56px] text-[50px] font-bold text-center">
           Organize Your Ideas with Sticky Notes{" "}
           <span className="text-[#e85444]">Online</span>

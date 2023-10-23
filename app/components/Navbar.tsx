@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { FiLogOut } from "react-icons/fi";
 
 export interface navbarProps {
   signIn: () => void;
@@ -24,10 +25,14 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
             )}{" "}
             <button
               onClick={logOut}
-              className="px-6 py-2 rounded-lg bg-[#ff0000] text-slate-50 hover:bg-[#e85444] transition-colors duration-500"
+              className="px-6 py-2 lg:block hidden rounded-lg bg-[#ff0000] text-slate-50 hover:bg-[#e85444] transition-colors duration-500"
             >
               Logout
             </button>
+            <button onClick={logOut}
+              className="lg:hidden block px-2 py-2 rounded-md bg-[#e85444] hover:bg-[#ff0000] text-slate-50 transition-colors duration-500">
+                <FiLogOut />
+              </button>
           </div>
         ) : (
           <button

@@ -34,8 +34,8 @@ const Notes = () => {
   return (
     <ProtectedRoute>
       <TopBar />
-      <section className="flex flex-col gap-6 items-center justify-center mt-5">
-        <h2 className="lg:text-5xl text-3xl font-bold text-[#e6e4e4]">
+      <section className="flex flex-col gap-6 items-center justify-center mt-8 px-2 w-full">
+        <h2 className="lg:text-5xl text-3xl text-center font-bold text-[#e6e4e4]">
           <span className="text-[blue]">Create</span> Quick Access{" "}
           <span className="text-[green] italic">Sticky</span> Notes{" "}
         </h2>

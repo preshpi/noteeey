@@ -64,7 +64,7 @@ const TopBar = () => {
           </p> */}
             <button
               onClick={handleLogout}
-              className="absolute transition-all rounded-md py-3 cursor-pointer text-base bg-[#e6e4e4] hover:text-white duration-300 hover:bg-[#ff0000] w-24"
+              className="absolute transition-all rounded-md lg:py-3 py-2 cursor-pointer text-base bg-[#e6e4e4] hover:text-white duration-300 hover:bg-[#ff0000] lg:w-24 w-20"
             >
               Log Out
             </button>
