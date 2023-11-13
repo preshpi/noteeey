@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "./components/Button";
 import Card from "./components/Card";
 import Input from "./components/Input";
-import Modal from "./components/Modal";
+import Modal from "./components/Modals/AuthCheckModal";
 import Loader from "./components/Loader";
 
 export default function Home() {

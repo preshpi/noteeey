@@ -7,7 +7,7 @@ const rubik = Rubik({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Noteeey",
-  description: "Create and share notes",
+  description: "Create and share notes online",
 };
 
 export default function RootLayout({

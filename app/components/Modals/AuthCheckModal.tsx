@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import React, { useRef } from "react";
-import { ModalProps } from "../types/components";
-import Overlay from "./Overlay";
+import { AuthModalProps } from "../../types/components";
+import Overlay from "../Overlay";
 
-const Modal: NextPage<ModalProps> = ({
+const AuthCheckModal: NextPage<AuthModalProps> = ({
   show,
   setShow,
   content,
@@ -36,4 +36,4 @@ const Modal: NextPage<ModalProps> = ({
   );
 };
 
-export default Modal;
+export default AuthCheckModal;

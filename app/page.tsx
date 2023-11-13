@@ -5,7 +5,6 @@ import Button from "./components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { useRouter } from "next/navigation";
-import Modal from "./components/Modal";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -13,8 +12,11 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "./firebase";
+import { db } from "./firebase";
 import { setUser } from "./userSlice";
 import { Toaster, toast } from "sonner";
+import AuthCheckModal from "./components/Modals/AuthCheckModal";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const Home = () => {
   const user = useSelector((state: RootState) => state.user.user);
@@ -42,8 +44,20 @@ const Home = () => {
 
     try {
       const result = await signInWithPopup(auth, provider);
+
       const authenticatedUser = result.user;
       dispatch(setUser(authenticatedUser));
+
+      // Create a user document in Firestore
+      const userRef = doc(db, "user", authenticatedUser.uid);
+      const userSnapShot = await getDoc(userRef);
+
+      if (!userSnapShot.exists()) {
+        await setDoc(userRef, {
+          displayName: authenticatedUser.displayName,
+          email: authenticatedUser.email,
+        });
+      }
 
       // Now you can work with the authenticated user object
       toast.success("Logged in");
@@ -73,12 +87,12 @@ const Home = () => {
   };
 
   const closeModal = () => {
-    handleGoogleSignIn()
+    handleGoogleSignIn();
     setShow(false);
   };
   return (
     <div className="bg-[#0a0815] flex flex-col h-screen">
-      <Navbar signIn={handleGoogleSignIn} logOut={handleLogout}/>
+      <Navbar signIn={handleGoogleSignIn} logOut={handleLogout} />
 
       <section className="items-center h-full  justify-center flex px-5 flex-col">
         <h1 className="text-[#FAF8FC] lg:text-[80px] md:text-[56px] text-[50px] font-bold text-center">
@@ -98,7 +112,7 @@ const Home = () => {
         </Button>
 
         {show && (
-          <Modal
+          <AuthCheckModal
             show={show}
             content="You must be logged in to create a note"
             setShow={setShow}
@@ -106,7 +120,7 @@ const Home = () => {
             buttonAction={closeModal}
           />
         )}
-        <Toaster richColors position="top-center"/>
+        <Toaster richColors position="top-center" />
       </section>
     </div>
   );
