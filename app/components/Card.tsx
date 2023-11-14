@@ -53,7 +53,8 @@ const Card: NextPage<Cardsprops> = ({
       <EditModal
         setShow={setShowEditModal}
         show={showEditModal}
-        content="Edit your note title"
+        header="Edit your note title"
+        content={content}
         buttonContent="Update"
       />
       <DeleteModal

@@ -17,38 +17,21 @@ import { setUser } from "./userSlice";
 import { Toaster, toast } from "sonner";
 import AuthCheckModal from "./components/Modals/AuthCheckModal";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Home = () => {
-  const user = useSelector((state: RootState) => state.user.user);
+  const [user, loading, error] = useAuthState(auth);  
   const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, update the Redux store
-        dispatch(setUser(user));
-      } else {
-        // User is signed out, clear the user data in the Redux store
-        dispatch(setUser(null));
-      }
-    });
-
-    // Return a cleanup function to unsubscribe when the component unmounts
-    return () => unsubscribe();
-  }, [dispatch]);
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
 
     try {
       const result = await signInWithPopup(auth, provider);
-
       const authenticatedUser = result.user;
-      dispatch(setUser(authenticatedUser));
-
-      // Create a user document in Firestore
+      dispatch(setUser(authenticatedUser));     
       const userRef = doc(db, "user", authenticatedUser.uid);
       const userSnapShot = await getDoc(userRef);
 
@@ -58,19 +41,18 @@ const Home = () => {
           email: authenticatedUser.email,
         });
       }
-
-      // Now you can work with the authenticated user object
       toast.success("Logged in");
     } catch (error) {
-      // Handle sign-in errors here
       toast.error("Error signing in");
     }
   };
 
+ 
+
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Sign the user out using Firebase Authentication
-      dispatch(setUser(null)); // Clear the user from the Redux store
+      await signOut(auth);
+      dispatch(setUser(null)); 
       toast.success("Logged out successfully");
     } catch (error) {
       toast.error("Error signing out:");
@@ -79,7 +61,7 @@ const Home = () => {
 
   const handleCreateNote = () => {
     if (user) {
-      // User is logged in, navigate to the notes page
+      dispatch(setUser(user));
       router.push("/notes");
     } else {
       setShow(true);

@@ -3,10 +3,8 @@ import ProtectedRoute from "@/app/ProtectedRoute";
 import Card from "@/app/components/Card";
 import Input from "@/app/components/Input";
 import TopBar from "@/app/components/TopBar";
-import { RootState } from "@/app/store/store";
 import React, { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { useSelector } from "react-redux";
 import { Toaster, toast } from "sonner";
 import { BiPlus } from "react-icons/bi";
 import CreateNoteModal from "@/app/components/Modals/CreateNoteModal";
@@ -19,13 +17,14 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { db } from "@/app/firebase";
+import { auth, db } from "@/app/firebase";
 import moment from "moment";
+import { useAuthState } from "react-firebase-hooks/auth";
 const Notes = () => {
-  const user = useSelector((state: RootState) => state.user.user);
+
+  const [user, loading] = useAuthState(auth);
   const [createModal, setCreateModal] = useState(false);
   const [notes, setNotes] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
   const formatTimestamp = (timestamp: Timestamp): string | null => {
     if (timestamp) {
@@ -38,7 +37,7 @@ const Notes = () => {
   };
 
   const handleFetchNote = async () => {
-    if (user) {
+    if (user && !loading) {
       const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
       const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
       const notesQuery = query(noteCollectionRef, orderBy("timestamp", "desc"));
@@ -55,7 +54,6 @@ const Notes = () => {
         }));
 
         setNotes(formattedNotes);
-        setLoading(false);
       } catch (error) {
         toast.error("Error fetching notes");
       }
@@ -97,8 +95,10 @@ const Notes = () => {
   };
 
   useEffect(() => {
-    handleFetchNote();
-  }, []);
+    if (!loading) {
+      handleFetchNote();
+    }
+  }, [user, loading]);
 
   const [color, setColor] = useState("#FFFF");
   const handlerandomColor = () => {
@@ -137,17 +137,21 @@ const Notes = () => {
             </div>
           </section>
         </div>{" "}
-        <section className="flex flex-wrap max-w-[1000px] mx-auto gap-5 items-center justify-center pt-24 py-8">
-          {loading && <div className="text-white">loading notes....</div>}
-          {notes?.map((data) => (
-            <Card
-              key={data.id}
-              id={data.id}
-              content={data.title}
-              date={data.date}
-              handleDeleteCard={handleDeleteCard}
-            />
-          ))}
+        <section className="max-w-[1000px] mx-auto items-center justify-center pt-24 py-8">
+          {loading && (
+            <div className="text-white text-center">loading notes....</div>
+          )}
+          <div className="flex flex-wrap space-y-5 items-center justify-center">
+            {notes?.map((data) => (
+              <Card
+                key={data.id}
+                id={data.id}
+                content={data.title}
+                date={data.date}
+                handleDeleteCard={handleDeleteCard}
+              />
+            ))}
+          </div>
         </section>
         <div className="fixed bottom-4 right-4">
           <button

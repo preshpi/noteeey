@@ -10,32 +10,33 @@ import { db } from "@/app/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 
-export interface formData {
-  title: string;
-}
+// export interface formData {
+//   title: string;
+// }
 
 const EditModal: NextPage<EditModalProps> = ({
   show,
   setShow,
-  content,
-  buttonContent,  
+  header,
+  buttonContent, 
+  content 
 }) => {
+  
   const modalRef = useRef<HTMLDivElement>(null);
-  const [inputData, setInputData] = useState<formData>({ title: "" });
+  const [inputData, setInputData] = useState();
   const user = useSelector((state: RootState) => state.user.user);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setInputData({ title: event.target.value });
   };
 
   
-  const formValidation = () => {
-    if (!inputData.title) {
-      return false;
-    }
-    return true;
-  };
+  // const formValidation = () => {
+  //   if (!inputData.title) {
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   // const handleEditNote =async () => {
   //   if (!formValidation()) {
@@ -81,13 +82,14 @@ const EditModal: NextPage<EditModalProps> = ({
           className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] bg-white gap-3"
         >
           <p className="text-center text-lg text-[#221b3a] font-mono">
-            {content}
+            {header}
           </p>
+
           <form action="" className="w-full">
             <Input
               name="createNote"
               id="createNote"
-              value={inputData.title}
+              value={content}
               autoComplete="off"
               required
               onChange={handleInputChange}

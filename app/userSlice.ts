@@ -5,8 +5,8 @@ export interface User {
     displayName: string | null;
     email: string | null;
     photoURL: string | null;
-    // Additional user properties as needed
   }
+  
   
 
 export interface userProps {
