@@ -5,10 +5,14 @@ import { CreateModalProps } from "../../types/components";
 import Overlay from "../Overlay";
 import Input from "../Input";
 import { toast } from "sonner";
-import { addDoc, collection, doc, getDocs, serverTimestamp } from "firebase/firestore";
-import { db } from "@/app/firebase";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { auth, db } from "@/app/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export interface formData {
   title: string;
@@ -18,19 +22,18 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
   show,
   setShow,
   content,
-  buttonContent,  
+  buttonContent,
   addNewNote,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [inputData, setInputData] = useState<formData>({ title: "" });
-  const user = useSelector((state: RootState) => state.user.user);
+  const [user] = useAuthState(auth);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setInputData({ title: event.target.value });
   };
 
-  
   const formValidation = () => {
     if (!inputData.title) {
       return false;
@@ -38,29 +41,25 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
     return true;
   };
 
- 
-
   const handleCreateNoteey = async () => {
     if (!formValidation()) {
       toast.error("Please enter a title.");
     } else {
-      const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
-      const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
-      try {
-        const newNoteData = {
-          title: inputData.title,
-          timestamp: serverTimestamp(),
-        };
-        const newNoteDocRef = await addDoc(noteCollectionRef, newNoteData);
-
-        // Get the ID of the newly created note
-        const newNote = { id: newNoteDocRef.id, ...newNoteData };
-
-        // Pass the new note to the parent component to add it to the state
-        addNewNote(newNote);
-        setShow(false);
-      } catch (error) {
-        toast.error("Error adding note to user document");
+      if (user) {
+        const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
+        const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
+        try {
+          const newNoteData = {
+            title: inputData.title,
+            timestamp: serverTimestamp(),
+          };
+          const newNoteDocRef = await addDoc(noteCollectionRef, newNoteData);
+          const newNote = { id: newNoteDocRef.id, ...newNoteData };
+          addNewNote(newNote);
+          setShow(false);
+        } catch (error) {
+          toast.error("Error adding note to user document");
+        }
       }
     }
   };
@@ -68,7 +67,7 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
   const cancelModal = () => {
     setShow(false);
   };
-  
+
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (

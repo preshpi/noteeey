@@ -16,12 +16,15 @@ import {
   getDocs,
   orderBy,
   query,
+  updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "@/app/firebase";
 import moment from "moment";
 import { useAuthState } from "react-firebase-hooks/auth";
-const Notes = () => {
+import SkeletonLoader from "@/app/components/SkeletonLoader";
+import Footer from "@/app/components/Footer";
 
+const Notes = () => {
   const [user, loading] = useAuthState(auth);
   const [createModal, setCreateModal] = useState(false);
   const [notes, setNotes] = useState<any[]>([]);
@@ -29,7 +32,7 @@ const Notes = () => {
   const formatTimestamp = (timestamp: Timestamp): string | null => {
     if (timestamp) {
       const seconds = timestamp.seconds;
-      const nanoseconds = timestamp.nanoseconds / 1000000; // Convert nanoseconds to milliseconds
+      const nanoseconds = timestamp.nanoseconds / 1000000;
       const date = new Date(seconds * 1000 + nanoseconds);
       return moment(date).format("YYYY-MM-DD");
     }
@@ -62,25 +65,43 @@ const Notes = () => {
 
   const handleDeleteCard = async (id: string) => {
     if (user) {
-      const userDocRef = doc(db, "user", user.uid); // Reference to the user document
-
-      // Construct a reference to the specific card document using its ID
+      const userDocRef = doc(db, "user", user.uid);
       const cardDocRef = doc(userDocRef, "note", id);
 
       try {
         await deleteDoc(cardDocRef);
         setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+        toast.success("Card Deleted successfully");
       } catch (error) {
         toast.error("Error deleting the card");
       }
     }
   };
 
-  const addNewNote = (newNote: any) => {
-    // Ensure that newNote.timestamp is a valid Timestamp object
-    const timestamp = Timestamp.fromDate(new Date()); // Use the current date as an example
+  const handleUpdateDoc = async (id: string, newTitle: string) => {
+    if (user) {
+      const userDocRef = doc(db, "user", user.uid);
+      const cardDocRef = doc(userDocRef, "note", id);
+  
+      try {
+        await updateDoc(cardDocRef, {
+          title: newTitle,
+        });
+  
+        setNotes((prevNotes) =>
+          prevNotes.map((note) =>
+            note.id === id ? { ...note, title: newTitle } : note
+          )
+        );
+        toast.success("Card title updated successfully");
+      } catch (error) {
+        toast.error("Error updating the card title");
+      }
+    }
+  };
 
-    // Create a formatted note with the timestamp
+  const addNewNote = (newNote: any) => {
+    const timestamp = Timestamp.fromDate(new Date()); // Use the current date as an example
     const formattedNote = {
       ...newNote,
       timestamp: timestamp,
@@ -115,8 +136,10 @@ const Notes = () => {
         <div className="max-w-[800px] mx-auto">
           <section className="flex flex-col gap-6 items-center justify-center mt-8 px-2 w-full">
             <h2 className="lg:text-5xl text-3xl text-center font-bold text-[#e6e4e4]">
-              <span className="text-[blue]">Create</span> Quick Access{" "}
-              <span className="text-[green] italic">Sticky</span> Notes{" "}
+              <span className="text-[white]">Create Your</span> {" "}
+              <span className="text-[white] italic">Sticky </span> 
+              <span className="text-[#e85444]">Notes</span> {" "}
+
             </h2>
           </section>
           <section className="flex items-center justify-center mt-8">
@@ -137,11 +160,8 @@ const Notes = () => {
             </div>
           </section>
         </div>{" "}
-        <section className="max-w-[1000px] mx-auto items-center justify-center pt-24 py-8">
-          {loading && (
-            <div className="text-white text-center">loading notes....</div>
-          )}
-          <div className="flex flex-wrap space-y-5 items-center justify-center">
+        <section className="max-w-[1000px] mx-auto items-center justify-center py-24">
+          <div className="flex gap-5 flex-wrap items-center justify-center">
             {notes?.map((data) => (
               <Card
                 key={data.id}
@@ -149,11 +169,14 @@ const Notes = () => {
                 content={data.title}
                 date={data.date}
                 handleDeleteCard={handleDeleteCard}
+                handleUpdateDoc={handleUpdateDoc}
+                loading={data.loading}
               />
             ))}
+            {notes?.length === 0 && loading && <SkeletonLoader />}
           </div>
         </section>
-        <div className="fixed bottom-4 right-4">
+        <div className="fixed bottom-4 z-20 right-4">
           <button
             onClick={handleModal}
             className="text-white bg-[#e85444] hover:bg-[#f6695a] transition-colors duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
@@ -171,6 +194,7 @@ const Notes = () => {
           />
         )}
         <Toaster position="bottom-right" richColors />
+        <Footer/>
       </>
     </ProtectedRoute>
   );

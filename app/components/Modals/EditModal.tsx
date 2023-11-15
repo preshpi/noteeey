@@ -5,75 +5,43 @@ import { EditModalProps } from "../../types/components";
 import Overlay from "../Overlay";
 import Input from "../Input";
 import { toast } from "sonner";
-import { addDoc, collection, doc, getDocs, serverTimestamp } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/app/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
-
-// export interface formData {
-//   title: string;
-// }
 
 const EditModal: NextPage<EditModalProps> = ({
   show,
   setShow,
   header,
-  buttonContent, 
-  content 
+  buttonContent,
+  handleUpdateDoc,
+  content,
+  id,
 }) => {
-  
   const modalRef = useRef<HTMLDivElement>(null);
-  const [inputData, setInputData] = useState();
-  const user = useSelector((state: RootState) => state.user.user);
+  const [newTitle, setNewTitle] = useState(content);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
+  const formValidation = () => {
+    if (newTitle === "") {
+      return false;
+    }
+    return true;
   };
 
-  
-  // const formValidation = () => {
-  //   if (!inputData.title) {
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
-  // const handleEditNote =async () => {
-  //   if (!formValidation()) {
-  //          toast.error("Please enter a title.");
-  //        } else {
-  // }
- 
-
-  // const handleCreateNoteey = async () => {
-  //   if (!formValidation()) {
-  //     toast.error("Please enter a title.");
-  //   } else {
-  //     const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
-  //     const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
-  //     try {
-  //       const newNoteData = {
-  //         title: inputData.title,
-  //         timestamp: serverTimestamp(),
-  //       };
-  //       const newNoteDocRef = await addDoc(noteCollectionRef, newNoteData);
-
-  //       // Get the ID of the newly created note
-  //       const newNote = { id: newNoteDocRef.id, ...newNoteData };
-
-  //       // Pass the new note to the parent component to add it to the state
-  //       addNewNote(newNote);
-  //       setShow(false);
-  //     } catch (error) {
-  //       toast.error("Error adding note to user document");
-  //     }
-  //   }
-  // };
+  const updateTitle = () => {
+    if (!formValidation()) {
+      toast.error("please enter a title");
+    } else {
+      handleUpdateDoc(id, newTitle);
+      setShow(false);
+    }
+  };
 
   const cancelModal = () => {
     setShow(false);
   };
-  
+
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (
@@ -89,21 +57,20 @@ const EditModal: NextPage<EditModalProps> = ({
             <Input
               name="createNote"
               id="createNote"
-              value={content}
+              value={newTitle}
               autoComplete="off"
               required
-              onChange={handleInputChange}
+              onChange={(e) => setNewTitle(e.target.value)}
               type="text"
               additionalClasses="border w-full outline-none focus-none p-2 rounded text-black text-sm"
               placeholder="What's the title of your note?"
             />
           </form>
-          <p className="font-semibold">random text about the title</p>
           {buttonContent && (
             <div className="flex w-full py-2 gap-4">
               <button
                 className="w-full rounded-md bg-[#e85444] py-2 text-sm text-white"
-                // onClick={handleCreateNoteey}
+                onClick={updateTitle}
               >
                 {buttonContent}
               </button>

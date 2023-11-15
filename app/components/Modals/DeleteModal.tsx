@@ -14,9 +14,7 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const deleteCard = (id: string) => {
-    console.log("deleteCard");
-    
+  const deleteCard = (id: string) => {    
     handleDeleteCard(id);
     setShow(false);
   };
@@ -32,7 +30,7 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
         >
           <p className="text-center text-lg text-black">
             Are you sure you want to delete{" "}
-            <span className="font-semibold text-red-600">{content}</span>?
+            <span className="font-semibold text-red-600">{content}</span> ?
           </p>
           {buttonContent && (
             <div className="flex w-full py-4 gap-5">
