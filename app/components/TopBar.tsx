@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
+import { IoMdSettings } from "react-icons/io";
 
 const TopBar = () => {
   const [user, loading] = useAuthState(auth);
@@ -39,29 +40,36 @@ const TopBar = () => {
         </span>
       </Link>
 
-      <div>
-        <div
-          onClick={handleProfileModal}
-          className="rounded w-10 h-10 items-center justify-center flex cursor-pointer hover:opacity-80 transition-all duration-300 mb-2"
-        >
-          <Image
-            src={user?.photoURL || img}
-            alt="profile image"
-            className="object-over rounded-full"
-            width={50}
-            height={50}
-          />
-        </div>
-        {show && (
-          <div className="relative rounded-md shadow right-[50px]">
-            <button
-              onClick={handleLogout}
-              className="absolute transition-all rounded-md lg:py-3 py-2 cursor-pointer text-base bg-[#e6e4e4] hover:text-white duration-300 hover:bg-[#ff0000] lg:w-24 w-20"
-            >
-              Log Out
-            </button>
+      <div className="flex items-center gap-5 justify-center">
+        <>
+          <div
+            onClick={handleProfileModal}
+            className="relative w-10 h-10 cursor-pointer"
+          >
+            <Image
+              src={user?.photoURL || img}
+              alt="profile image"
+              className="object-over rounded-full  hover:opacity-70 transition-all duration-300"
+              width={50}
+              height={50}
+            />
+            {show && (
+              <div className="absolute left-[-30px] top-12">
+                <button
+                  onClick={handleLogout}
+                  className="rounded-md lg:py-3 py-2 cursor-pointer text-base bg-[#e6e4e4] hover:text-white  hover:bg-[#ff0000] lg:w-24 w-20 transition-all duration-300"
+                >
+                  Log Out
+                </button>
+              </div>
+            )}
           </div>
-        )}
+        </>
+        <Link href="/settings">
+          <div className="w-10 h-10 text-[#e85444] flex items-center justify-center cursor-pointer hover:opacity-70 duration-300 transition-all">
+            <IoMdSettings className="w-full h-full" />
+          </div>
+        </Link>
       </div>
     </div>
   );

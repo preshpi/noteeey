@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="border-t w-full py-3 text-slate-100 text-center bottom">
+    <div className="border-t w-full py-3 text-slate-100 text-center bottom absolute">
       <p>
         Made with 💕 by{" "}
         <a

@@ -5,14 +5,12 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { Cardsprops } from "../types/components";
 import DeleteModal from "./Modals/DeleteModal";
 import EditModal from "./Modals/EditModal";
-import SkeletonLoader from "./SkeletonLoader";
 
 const Card: NextPage<Cardsprops> = ({
   content,
   date,
   handleDeleteCard,
   handleUpdateDoc,
-  loading,
   id,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -25,14 +23,12 @@ const Card: NextPage<Cardsprops> = ({
   const handleEditModal = () => {
     setShowEditModal(true);
   };
-  if (loading) {
-    return <SkeletonLoader />;
-  }
+
   return (
     <>
-      <div className="group lg:w-[400px] md:w-[300px] w-[250px] h-[250px] mx-auto rounded-[30px] cursor-pointer bg-blue-600 transition-all durtaion-300 shadow-lg  items-center justify-center">
-        <div className="hidden group-hover:block">
-          <div className="flex items-center justify-between p-5 w-full">
+      <div className="group relative h-full rounded-[30px] cursor-pointer bg-blue-600 shadow-lg">
+        <div className="hidden group-hover:block ">
+          <div className="flex items-center absolute justify-between p-5 w-full">
             <div className="flex items-center justify-center gap-5">
               <span
                 onClick={handleEditModal}
@@ -47,12 +43,11 @@ const Card: NextPage<Cardsprops> = ({
                 <MdDelete size={20} />
               </span>
             </div>
-
             {date && <div className="text-base italic">{date}</div>}
           </div>
         </div>
-        <div className="flex flex-col gap-3 items-center justify-center h-full group-hover:h-[0px] group-hover:pt-[52px]">
-          <p className="text-center lg:text-xl text-base uppercase">
+        <div className="h-full flex items-center justify-center">
+          <p className="lg:text-xl text-base uppercase">
             {content}
           </p>
         </div>
