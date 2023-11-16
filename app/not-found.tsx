@@ -10,21 +10,25 @@ export default function NotFound() {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (typeof window !== "undefined") {
+      window.addEventListener("mousemove", handleMouseMove);
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+      };
+    }
   }, []);
 
   // Calculate the position of the white circle within the parent circle
   const parentCircleRadius = 50; // Adjust this based on your design
-  const deltaX = mousePosition.x - window.innerWidth / 2;
-  const deltaY = mousePosition.y - window.innerHeight / 2;
-  const angle = Math.atan2(deltaY, deltaX);
-  const whiteCircleX = Math.cos(angle) * parentCircleRadius;
-  const whiteCircleY = Math.sin(angle) * parentCircleRadius;
 
+  // Check if window is defined before accessing mousePosition
+  const deltaX = typeof window !== "undefined" ? mousePosition.x - window.innerWidth / 2 : 0;
+  const deltaY = typeof window !== "undefined" ? mousePosition.y - window.innerHeight / 2 : 0;
+
+  const angle = Math.atan2(deltaY, deltaX);
+  const whiteCircleX = typeof window !== "undefined" ? Math.cos(angle) * parentCircleRadius : 0;
+  const whiteCircleY = typeof window !== "undefined" ? Math.sin(angle) * parentCircleRadius : 0;
   return (
     <div className="items-center flex justify-center flex-col h-full gap-5">
       <div className="flex items-center text-[#e85444] gap-5">
@@ -53,7 +57,10 @@ export default function NotFound() {
       <h2 className="text-white font-semibold text-3xl">
         This Page does not exist
       </h2>
-      <Link href="/" className="text-white hover:text-slate-300 transition-colors duration-300">
+      <Link
+        href="/"
+        className="text-white hover:text-slate-300 transition-colors duration-300"
+      >
         Return Home
       </Link>
     </div>
