@@ -34,7 +34,7 @@ const Input: NextPage<inputprops> = ({
         className={`${
           additionalClasses
             ? additionalClasses + "w-full"
-            : "h-10 w-full rounded-md text-[#e6e4e4] border-[#001746] bg-transparent px-4 py-2 text-[15px] font-light outline-none md:placeholder-white md:placeholder-opacity-50 "
+            : "h-10 w-full rounded-md dark:text-[#e6e4e4] text-text border-[#001746] bg-transparent px-4 py-2 text-[15px] font-light outline-none dark:md:placeholder-white md:placeholder-opacity-50 "
         }`}
         type={!visible ? type : "text"}
         required={required}

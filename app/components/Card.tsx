@@ -26,7 +26,7 @@ const Card: NextPage<Cardsprops> = ({
 
   return (
     <>
-      <div className="group relative h-full rounded-[30px] cursor-pointer bg-blue-600 shadow-lg">
+      <div className="group relative h-full rounded-[30px] cursor-pointer hover:bg-blue-600 border-2 dark:border-slate-300 border-text hover:border-none transition-all duration-300 shadow-lg">
         <div className="hidden group-hover:block ">
           <div className="flex items-center absolute justify-between p-5 w-full">
             <div className="flex items-center justify-center gap-5">
@@ -47,9 +47,7 @@ const Card: NextPage<Cardsprops> = ({
           </div>
         </div>
         <div className="h-full flex items-center justify-center">
-          <p className="lg:text-xl text-base uppercase">
-            {content}
-          </p>
+          <p className="lg:text-xl text-base uppercase text-text dark:text-white">{content}</p>
         </div>
       </div>
       <EditModal

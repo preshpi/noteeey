@@ -2,14 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  position: relative;
+html {
+  scroll-behavior: smooth;
   min-height: 100%;
   margin: 0;
   padding: 0;
-  overflow: auto;
 }
+
+.gradient {
+  background: linear-gradient(120deg, #ff6d4d, #d12600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 
 .spinner {
   width: 56px;

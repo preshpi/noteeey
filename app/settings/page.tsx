@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import img from "../assets/defaultProfile.jpeg";
 import { IoArrowBack } from "react-icons/io5";
 import { IoMdCheckmark } from "react-icons/io";
+import DarkModeTheme from "../components/DarkModeTheme";
 const Settings = () => {
   const [user, loading] = useAuthState(auth);
   const [show, setShow] = useState(false);
@@ -45,15 +46,15 @@ const Settings = () => {
   return (
     <ProtectedRoute>
       <section>
-        <div className="flex items-center justify-between w-full py-6 px-10">
-          <div className="flex items-center justify-center gap-5 text-white">
+        <div className="flex items-center justify-between w-full py-5 px-12">
+          <div className="flex items-center justify-center gap-5 dark:text-white text-text">
             <div
               onClick={goBack}
               className="cursor-pointer text-3xl hover:animate-pulse"
             >
               <IoArrowBack />
             </div>
-            <h3 className="text-[18px]">Settings</h3>
+            <h3 className="text-[18px] font-semibold">Settings</h3>
           </div>
 
           <>
@@ -83,46 +84,25 @@ const Settings = () => {
         </div>
 
         <div className="max-w-[1000px] mx-auto mt-8 p-5">
-          <section className="rounded-[20px] bg-slate-900 w-full p-5 h-full shadow-lg">
-            <h1 className="font-semibold text-[#fff] text-[24px]">General</h1>
+          <section className="rounded-[20px] dark:bg-slate-900 bg-slate-100 w-full p-5 h-full shadow-lg">
+            <h1 className="font-semibold dark:text-[#fff] text-text text-[24px]">
+              General
+            </h1>
 
             <div className="flex items-center justify-between">
-              <h3 className="text-[18px] text-[#fff]">Theme Preferences</h3>
-
-              <div className="flex items-start px-12 gap-5">
-                <div className="flex flex-col items-start gap-3">
-                  <p className="text-[#fff] text-[16px]">light mode</p>
-                  <button
-                    onClick={() => handleTheme("light")}
-                    className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[white]"
-                  >
-                    {theme === "light" && (
-                      <IoMdCheckmark className="text-2xl text-[#000]" />
-                    )}
-                  </button>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <p className="text-[#fff] text-[16px]">Dark mode</p>
-                  <button
-                    onClick={() => handleTheme("dark")}
-                    className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[black]"
-                  >
-                    {theme === "dark" && (
-                      <IoMdCheckmark className="text-2xl text-[#fff]" />
-                    )}
-                  </button>
-                </div>
-              </div>
+              <h3 className="text-[18px] dark:text-[#fff] text-text">
+                Theme Preferences
+              </h3>
+              <DarkModeTheme />
             </div>
 
             <div className="flex items-center justify-between pt-5">
-              <h3 className="text-[18px] text-[#fff]">
+              <h3 className="text-[18px] dark:text-[#fff] text-text">
                 Note Display Preferences
               </h3>
-              <div className="flex flex-col items-start text-[#fff] gap-5 px-12">
+              <div className="flex flex-col items-start dark:text-[#fff] text-text gap-5 px-12">
                 <p>Card color</p>
                 <div className="flex flex-wrap gap-3">
-                  <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[white]"></button>
                   <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[#c84b4b]"></button>
                   <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[green]"></button>
                   <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[pink]"></button>

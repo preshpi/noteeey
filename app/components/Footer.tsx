@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="border-t w-full py-3 text-slate-100 text-center bottom absolute">
+    <footer className="border-t w-full py-3 text-text dark:text-slate-100 border-text dark:border-slate-50 text-center bottom-0 absolute">
       <p>
         Made with 💕 by{" "}
         <a
@@ -13,7 +13,7 @@ const Footer = () => {
           Precious.
         </a>{" "}
       </p>
-    </div>
+    </footer>
   );
 };
 export default Footer;

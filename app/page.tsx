@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  onAuthStateChanged,
   signOut,
 } from "firebase/auth";
 import { auth } from "./firebase";
@@ -73,22 +72,22 @@ const Home = () => {
     setShow(false);
   };
   return (
-    <div className="bg-[#0a0815] flex flex-col h-screen">
+    <div className="flex flex-col h-screen">
       <Navbar signIn={handleGoogleSignIn} logOut={handleLogout} />
 
-      <section className="items-center h-full  justify-center flex px-5 flex-col">
-        <h1 className="text-[#FAF8FC] lg:text-[80px] md:text-[56px] text-[50px] font-bold text-center">
+      <section className="items-center h-full justify-center flex px-12 flex-col">
+        <h1 className="dark:text-[#FAF8FC] text-text lg:text-[80px] md:text-[56px] text-[50px] font-bold text-center">
           Organize Your Ideas with Sticky Notes{" "}
-          <span className="text-[#e85444]">Online</span>
+          <span className="gradient">Online</span>
         </h1>
-        <p className="mt-5 text-gray-50 font-[300] text-center text-[17px] lg:text-[20px]">
+        <p className="dark:text-gray-50 text-text font-[300] mt-2 text-center text-[17px] lg:text-[20px]">
           Noteey is an online tool for taking notes. You can create, edit,
           delete and share notes.
         </p>
 
         <Button
           onClick={handleCreateNote}
-          additionalClasses="mt-12 text-slate-50 bg-[#e85444] px-10 py-3 rounded-2xl animate-pulse ring-8 ring-[#f6695a]"
+          additionalClasses="dark:text-white text-text dark:bg-[#d44141] bg-[#FF6D4C] px-10 py-3 rounded-2xl mt-5 hover:scale-x-110 transistion-all duration-300"
         >
           Create a note
         </Button>

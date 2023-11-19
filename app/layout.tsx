@@ -18,9 +18,10 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-      <body className={`${rubik.className} bg-slate-950`}>{children}</body>
-    </html>
+        <body className={`${rubik.className} dark:bg-slate-950 bg-Lightbackground`}>
+          {children}
+        </body>
+      </html>
     </StoreProvider>
-    
   );
 }
