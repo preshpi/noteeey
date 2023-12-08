@@ -22,6 +22,7 @@ import { auth, db } from "@/app/firebase";
 import moment from "moment";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Footer from "@/app/components/Footer";
+import Link from "next/link";
 
 const Notes = () => {
   const [user, loading] = useAuthState(auth);
@@ -114,6 +115,7 @@ const Notes = () => {
     setCreateModal(true);
   };
 
+
   useEffect(() => {
     if (!loading) {
       handleFetchNote();
@@ -129,10 +131,9 @@ const Notes = () => {
 
   return (
     <ProtectedRoute>
-      <div className="relative min-h-screen flex flex-col">
+      <div className="relative flex flex-col w-full min-h-screen">
         <TopBar />
-        <main className="flex-grow mb-8">
-          <div className="max-w-[800px] mx-auto">
+        {/* <div className="max-w-[800px] mx-auto">
             <section className="flex flex-col gap-6 items-center justify-center mt-8 px-2 w-full">
               <h2 className="lg:text-5xl text-3xl text-center font-bold dark:text-[#e6e4e4]">
                 <span className="dark:text-[white]">Create Your</span>{" "}
@@ -157,46 +158,55 @@ const Notes = () => {
                 />
               </div>
             </section>
-          </div>{" "}
-          <section className="p-12 h-full flex flex-col items-center justify-center">
-            {loading && <div className="spinner"></div>}
-            <div className="flex flex-wrap gap-5 w-full justify-center">
-              {notes?.map((data) => (
-                <div
-                  key={data.id}
-                  className="w-full sm:w-1/2 lg:w-1/3 h-[250px]"
-                >
-                  <Card
-                    id={data.id}
-                    content={data.title}
-                    date={data.date}
-                    handleDeleteCard={handleDeleteCard}
-                    handleUpdateDoc={handleUpdateDoc}
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-          <div className="fixed bottom-4 z-20 right-4">
-            <button
-              onClick={handleModal}
-              className="text-white bg-[#e85444] hover:bg-[#f6695a] transition-colors duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
-            >
-              <BiPlus className="text-[45px]" />
-            </button>
+          </div>{" "} */}
+        <section className="flex flex-col items-center justify-center h-[100%]">
+          {loading && <div className="spinner"></div>}
+          <div className="flex flex-wrap gap-5 w-full justify-center">
+            {notes?.map((data) => (
+              <Link href={`/notes/${data.id}`} key={data.id} className="w-full sm:w-1/2 lg:w-1/3 h-[250px]">
+                <Card
+                  id={data.id}
+                  content={data.title}
+                  date={data.date}
+                  handleDeleteCard={handleDeleteCard}
+                  handleUpdateDoc={handleUpdateDoc}
+                />
+                <Card
+                  id={data.id}
+                  content={data.title}
+                  date={data.date}
+                  handleDeleteCard={handleDeleteCard}
+                  handleUpdateDoc={handleUpdateDoc}
+                />
+                <Card
+                  id={data.id}
+                  content={data.title}
+                  date={data.date}
+                  handleDeleteCard={handleDeleteCard}
+                  handleUpdateDoc={handleUpdateDoc}
+                />
+              </Link>
+            ))}
           </div>
-          {createModal && (
-            <CreateNoteModal
-              show={createModal}
-              content="Create a note"
-              setShow={setCreateModal}
-              buttonContent="Submit"
-              addNewNote={addNewNote}
-            />
-          )}
-          <Toaster position="bottom-right" richColors />
-        </main>
-          <Footer />
+        </section>
+        <div className="fixed bottom-4 z-20 right-4">
+          <button
+            onClick={handleModal}
+            className="text-white bg-[#e85444] hover:bg-[#f6695a] transition-colors duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
+          >
+            <BiPlus className="text-[45px]" />
+          </button>
+        </div>
+        {createModal && (
+          <CreateNoteModal
+            show={createModal}
+            content="Create a note"
+            setShow={setCreateModal}
+            buttonContent="Submit"
+            addNewNote={addNewNote}
+          />
+        )}
+        <Toaster position="bottom-right" richColors />
       </div>
     </ProtectedRoute>
   );

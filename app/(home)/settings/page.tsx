@@ -1,18 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import ProtectedRoute from "../ProtectedRoute";
+import ProtectedRoute from "../../ProtectedRoute";
 import Image from "next/image";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
-import { setUser } from "../userSlice";
+import { setUser } from "../../userSlice";
 import { toast } from "sonner";
-import img from "../assets/defaultProfile.jpeg";
+import img from "../../assets/defaultProfile.jpeg";
 import { IoArrowBack } from "react-icons/io5";
-import { IoMdCheckmark } from "react-icons/io";
-import DarkModeTheme from "../components/DarkModeTheme";
+import DarkModeTheme from "../../components/DarkModeTheme";
 const Settings = () => {
   const [user, loading] = useAuthState(auth);
   const [show, setShow] = useState(false);
@@ -39,14 +38,12 @@ const Settings = () => {
     router.back();
   };
 
-  const handleTheme = (mode: any) => {
-    setTheme(mode);
-  };
+
 
   return (
     <ProtectedRoute>
-      <section>
-        <div className="flex items-center justify-between w-full py-5 px-12">
+      <section className="w-full">
+        <div className="flex items-center justify-between w-full p-5">
           <div className="flex items-center justify-center gap-5 dark:text-white text-text">
             <div
               onClick={goBack}
@@ -83,7 +80,7 @@ const Settings = () => {
           </>
         </div>
 
-        <div className="max-w-[1000px] mx-auto mt-8 p-5">
+        <div className="max-w-[1000px] mx-auto mt-8">
           <section className="rounded-[20px] dark:bg-slate-900 bg-slate-100 w-full p-5 h-full shadow-lg">
             <h1 className="font-semibold dark:text-[#fff] text-text text-[24px]">
               General

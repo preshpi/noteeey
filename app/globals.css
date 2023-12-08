@@ -15,7 +15,6 @@ html {
   -webkit-text-fill-color: transparent;
 }
 
-
 .spinner {
   width: 56px;
   height: 56px;
@@ -57,4 +56,22 @@ html {
   100% {
     transform: rotate(1turn);
   }
+}
+
+.ql-toolbar {
+  display: flex;
+  position: sticky;
+  top:0;
+  margin: 0 auto;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #ededef;
+  z-index: 50;
+}
+
+.ql-container {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  min-height: 100vh;
+  margin-top: 10px;
 }
