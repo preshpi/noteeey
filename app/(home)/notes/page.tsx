@@ -29,6 +29,8 @@ const Notes = () => {
   const [createModal, setCreateModal] = useState(false);
   const [notes, setNotes] = useState<any[]>([]);
 
+  
+  
   const formatTimestamp = (timestamp: Timestamp): string | null => {
     if (timestamp) {
       const seconds = timestamp.seconds;
@@ -133,6 +135,11 @@ const Notes = () => {
     <ProtectedRoute>
       <div className="relative flex flex-col w-full min-h-screen">
         <TopBar />
+        <div className="px-5 text-text dark:text-white pt-5">
+        <span className="lg:text-2xl text-xl font-bold">All Notes</span>
+
+        </div>
+
         {/* <div className="max-w-[800px] mx-auto">
             <section className="flex flex-col gap-6 items-center justify-center mt-8 px-2 w-full">
               <h2 className="lg:text-5xl text-3xl text-center font-bold dark:text-[#e6e4e4]">
@@ -159,7 +166,7 @@ const Notes = () => {
               </div>
             </section>
           </div>{" "} */}
-        <section className="flex flex-col items-center justify-center h-[100%]">
+        <section className="flex flex-col items-center justify-center h-[100%] p-5">
           {loading && <div className="spinner"></div>}
           <div className="flex flex-wrap gap-5 w-full justify-center">
             {notes?.map((data) => (
@@ -171,7 +178,7 @@ const Notes = () => {
                   handleDeleteCard={handleDeleteCard}
                   handleUpdateDoc={handleUpdateDoc}
                 />
-                <Card
+                {/* <Card
                   id={data.id}
                   content={data.title}
                   date={data.date}
@@ -184,7 +191,7 @@ const Notes = () => {
                   date={data.date}
                   handleDeleteCard={handleDeleteCard}
                   handleUpdateDoc={handleUpdateDoc}
-                />
+                /> */}
               </Link>
             ))}
           </div>

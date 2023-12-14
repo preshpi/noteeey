@@ -8,7 +8,6 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
   setShow,
   content,
   buttonContent,
-  buttonAction,
   handleDeleteCard,
   id,
 }) => {

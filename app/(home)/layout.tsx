@@ -7,14 +7,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [sidebar, setSidebar] = useState(true);
 
   return (
-    <main className="flex bg-[red] w-full items-center">
+    <main className="flex w-full">
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-      <button
-        onClick={() => setSidebar(true)}
-        className="cursor-pointer hover:bg-slate-50 opacity-50"
-      >
-        <FiMenu />
-      </button>
+      {!sidebar && (
+        <div className="p-3">
+          <button
+            onClick={() => setSidebar(true)}
+            className="cursor-pointer hover:bg-opacity-50 w-full bg-black text-white rounded-md p-3"
+          >
+            <FiMenu />
+          </button>
+        </div>
+      )}
       {children}
     </main>
   );

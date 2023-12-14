@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import { IoMdSettings } from "react-icons/io";
+import { FiMenu } from "react-icons/fi";
 
 const TopBar = () => {
   const [user, loading] = useAuthState(auth);
@@ -31,11 +32,11 @@ const TopBar = () => {
   const handleProfileModal = () => {
     setShow(!show);
   };
-
   return (
-    <header className="flex items-center justify-between w-full p-5  text-[#180202] dark:text-[#effefb]">
-        <span className="lg:text-2xl text-xl font-bold">All Notes</span>
-
+    <header className="flex items-center justify-between w-full p-3 border-b text-[#180202] dark:text-[#effefb]">
+      <div className="flex flex-col">
+        <p className="text-[30px] font-semibold">Hello, {user?.displayName}</p>
+      </div>
       <button
         onClick={handleProfileModal}
         className="relative w-10 h-10 cursor-pointer"

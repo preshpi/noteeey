@@ -3,13 +3,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Button from "./components/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./store/store";
 import { useRouter } from "next/navigation";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { db } from "./firebase";
 import { setUser } from "./userSlice";
@@ -19,7 +14,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const Home = () => {
-  const [user, loading, error] = useAuthState(auth);  
+  const [user, loading, error] = useAuthState(auth);
   const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
@@ -30,7 +25,7 @@ const Home = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const authenticatedUser = result.user;
-      dispatch(setUser(authenticatedUser));     
+      dispatch(setUser(authenticatedUser));
       const userRef = doc(db, "user", authenticatedUser.uid);
       const userSnapShot = await getDoc(userRef);
 
@@ -41,17 +36,16 @@ const Home = () => {
         });
       }
       toast.success("Logged in");
+      router.push("/notes");
     } catch (error) {
       toast.error("Error signing in");
     }
   };
 
- 
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      dispatch(setUser(null)); 
+      dispatch(setUser(null));
       toast.success("Logged out successfully");
     } catch (error) {
       toast.error("Error signing out:");
@@ -59,7 +53,7 @@ const Home = () => {
   };
 
   const handleCreateNote = () => {
-    if (user) {
+    if (user && !loading) {
       dispatch(setUser(user));
       router.push("/notes");
     } else {
@@ -77,7 +71,7 @@ const Home = () => {
 
       <section className="items-center h-full justify-center flex px-12 flex-col">
         <h1 className="dark:text-[#FAF8FC] text-text lg:text-[80px] md:text-[56px] text-[50px] font-bold text-center">
-          Organize Your Ideas with Sticky Notes{" "}
+          Organize Your Ideas With Sticky Notes{" "}
           <span className="gradient">Online</span>
         </h1>
         <p className="dark:text-gray-50 text-text font-[300] mt-2 text-center text-[17px] lg:text-[20px]">
@@ -87,9 +81,10 @@ const Home = () => {
 
         <Button
           onClick={handleCreateNote}
+          disabled={loading}
           additionalClasses="dark:text-white text-text dark:bg-[#d44141] bg-[#FF6D4C] px-10 py-3 rounded-2xl mt-5 hover:scale-x-110 transistion-all duration-300"
         >
-          Create a note
+          {loading ? "loading..." : "Create a note"}
         </Button>
 
         {show && (

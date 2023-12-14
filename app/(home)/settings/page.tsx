@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import img from "../../assets/defaultProfile.jpeg";
 import { IoArrowBack } from "react-icons/io5";
 import DarkModeTheme from "../../components/DarkModeTheme";
+import TopBar from "@/app/components/TopBar";
 const Settings = () => {
   const [user, loading] = useAuthState(auth);
   const [show, setShow] = useState(false);
@@ -38,49 +39,20 @@ const Settings = () => {
     router.back();
   };
 
-
-
   return (
     <ProtectedRoute>
       <section className="w-full">
-        <div className="flex items-center justify-between w-full p-5">
-          <div className="flex items-center justify-center gap-5 dark:text-white text-text">
-            <div
-              onClick={goBack}
-              className="cursor-pointer text-3xl hover:animate-pulse"
-            >
-              <IoArrowBack />
-            </div>
-            <h3 className="text-[18px] font-semibold">Settings</h3>
+        <div className="flex items-center justify-start px-5 gap-5 dark:text-white text-text mt-3">
+          <div
+            onClick={goBack}
+            className="cursor-pointer text-3xl hover:animate-pulse"
+          >
+            <IoArrowBack />
           </div>
-
-          <>
-            <div
-              onClick={handleProfileModal}
-              className="relative w-10 h-10 cursor-pointer"
-            >
-              <Image
-                src={user?.photoURL || img}
-                alt="profile image"
-                className="object-over rounded-full  hover:opacity-70 transition-all duration-300"
-                width={50}
-                height={50}
-              />
-              {show && (
-                <div className="absolute left-[-30px] top-12">
-                  <button
-                    onClick={handleLogout}
-                    className="rounded-md lg:py-3 py-2 cursor-pointer text-base bg-[#e6e4e4] hover:text-white  hover:bg-[#ff0000] lg:w-24 w-20 transition-all duration-300"
-                  >
-                    Log Out
-                  </button>
-                </div>
-              )}
-            </div>
-          </>
+          <h3 className="text-[30px] font-semibold">Settings</h3>
         </div>
 
-        <div className="max-w-[1000px] mx-auto mt-8">
+        <div className="max-w-[1000px] mx-auto mt-8 p-5">
           <section className="rounded-[20px] dark:bg-slate-900 bg-slate-100 w-full p-5 h-full shadow-lg">
             <h1 className="font-semibold dark:text-[#fff] text-text text-[24px]">
               General
