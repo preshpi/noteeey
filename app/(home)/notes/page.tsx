@@ -29,8 +29,6 @@ const Notes = () => {
   const [createModal, setCreateModal] = useState(false);
   const [notes, setNotes] = useState<any[]>([]);
 
-  
-  
   const formatTimestamp = (timestamp: Timestamp): string | null => {
     if (timestamp) {
       const seconds = timestamp.seconds;
@@ -117,7 +115,6 @@ const Notes = () => {
     setCreateModal(true);
   };
 
-
   useEffect(() => {
     if (!loading) {
       handleFetchNote();
@@ -133,87 +130,66 @@ const Notes = () => {
 
   return (
     <ProtectedRoute>
-      <div className="relative flex flex-col w-full min-h-screen">
+      <div className="flex flex-col w-full min-h-screen overflow-auto">
         <TopBar />
-        <div className="px-5 text-text dark:text-white pt-5">
-        <span className="lg:text-2xl text-xl font-bold">All Notes</span>
-
-        </div>
-
-        {/* <div className="max-w-[800px] mx-auto">
-            <section className="flex flex-col gap-6 items-center justify-center mt-8 px-2 w-full">
-              <h2 className="lg:text-5xl text-3xl text-center font-bold dark:text-[#e6e4e4]">
-                <span className="dark:text-[white]">Create Your</span>{" "}
-                <span className="dark:text-[white] italic">Sticky </span>
-                <span className="text-[#e85444]">Notes</span>{" "}
-              </h2>
-            </section>
-            <section className="flex items-center justify-center mt-8">
-              <div className="flex items-center justify-center lg:w-[500px] md:w-[500px] border dark:border-gray-300 text-text dark:text-[#e6e4e4] rounded-lg focus-within:shadow-md">
-                <span className="px-3 py-3 text-xl">
-                  <BiSearch />
-                </span>
-                <Input
-                  type="search"
-                  id="search"
-                  value=""
-                  onChange={() => console.log("search")}
-                  required
-                  autoComplete="off"
-                  name="search"
-                  placeholder="Search here..."
-                />
-              </div>
-            </section>
-          </div>{" "} */}
-        <section className="flex flex-col items-center justify-center h-[100%] p-5">
-          {loading && <div className="spinner"></div>}
-          <div className="flex flex-wrap gap-5 w-full justify-center">
-            {notes?.map((data) => (
-              <Link href={`/notes/${data.id}`} key={data.id} className="w-full sm:w-1/2 lg:w-1/3 h-[250px]">
-                <Card
-                  id={data.id}
-                  content={data.title}
-                  date={data.date}
-                  handleDeleteCard={handleDeleteCard}
-                  handleUpdateDoc={handleUpdateDoc}
-                />
-                {/* <Card
-                  id={data.id}
-                  content={data.title}
-                  date={data.date}
-                  handleDeleteCard={handleDeleteCard}
-                  handleUpdateDoc={handleUpdateDoc}
-                />
-                <Card
-                  id={data.id}
-                  content={data.title}
-                  date={data.date}
-                  handleDeleteCard={handleDeleteCard}
-                  handleUpdateDoc={handleUpdateDoc}
-                /> */}
-              </Link>
-            ))}
+        <div className="p-5 flex flex-col gap-5">
+          <div className="text-text dark:text-white mt-5">
+            <span className="lg:text-2xl text-xl font-bold">All Notes</span>
           </div>
-        </section>
-        <div className="fixed bottom-4 z-20 right-4">
-          <button
-            onClick={handleModal}
-            className="text-white bg-[#e85444] hover:bg-[#f6695a] transition-colors duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
-          >
-            <BiPlus className="text-[45px]" />
-          </button>
+          <div>
+            <div className="flex items-center justify-center lg:w-[300px] md:w-[500px] border dark:border-gray-300 text-text dark:text-[#e6e4e4] rounded-lg focus-within:shadow-md">
+              <span className="px-3 py-3 text-xl">
+                <BiSearch />
+              </span>
+              <Input
+                type="search"
+                id="search"
+                value=""
+                onChange={() => console.log("search")}
+                required
+                autoComplete="off"
+                name="search"
+                placeholder="Search here..."
+              />
+            </div>
+          </div>
+
+          <section className="flex flex-col mt-12">
+            {loading && <div className="spinner"></div>}
+            <div className="flex flex-wrap gap-8 w-full justify-start">
+              {notes?.map((data) => (
+                <div key={data.id}>
+                  <Card
+                    id={data.id}
+                    content={data.title}
+                    date={data.date}
+                    handleDeleteCard={handleDeleteCard}
+                    handleUpdateDoc={handleUpdateDoc}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="fixed bottom-4 z-20 right-4">
+            <button
+              onClick={handleModal}
+              className="text-white bg-[#e85444] hover:bg-[#f6695a] transition-colors duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
+            >
+              <BiPlus className="text-[45px]" />
+            </button>
+          </div>
+          {createModal && (
+            <CreateNoteModal
+              show={createModal}
+              content="Create a note"
+              setShow={setCreateModal}
+              buttonContent="Submit"
+              addNewNote={addNewNote}
+            />
+          )}
+          <Toaster position="bottom-right" richColors />
         </div>
-        {createModal && (
-          <CreateNoteModal
-            show={createModal}
-            content="Create a note"
-            setShow={setCreateModal}
-            buttonContent="Submit"
-            addNewNote={addNewNote}
-          />
-        )}
-        <Toaster position="bottom-right" richColors />
       </div>
     </ProtectedRoute>
   );

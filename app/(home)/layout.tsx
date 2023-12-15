@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [sidebar, setSidebar] = useState(true);
 
   return (
-    <main className="flex w-full">
+    <main className="flex w-full h-full">
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
       {!sidebar && (
         <div className="p-3">

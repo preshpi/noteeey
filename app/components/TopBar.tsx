@@ -35,7 +35,7 @@ const TopBar = () => {
   return (
     <header className="flex items-center justify-between w-full p-3 border-b text-[#180202] dark:text-[#effefb]">
       <div className="flex flex-col">
-        <p className="text-[30px] font-semibold">Hello, {user?.displayName}</p>
+        <p className="text-[20px] font-semibold">Hello, {user?.displayName}</p>
       </div>
       <button
         onClick={handleProfileModal}
