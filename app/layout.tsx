@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import { StoreProvider } from "./store/storeProvider";
-import { DarkModeProvider } from "./context/DarkmodeContext";
+import { AppProvider } from "./context/AppContext";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <StoreProvider>
-      <DarkModeProvider>
+      <AppProvider>
         <html lang="en">
           <body
             className={`${rubik.className} dark:bg-[#1c1c1c] bg-Lightbackground`}
@@ -26,7 +26,7 @@ export default function RootLayout({
             {children}
           </body>
         </html>
-      </DarkModeProvider>
+      </AppProvider>
     </StoreProvider>
   );
 }

@@ -1,36 +1,39 @@
 "use client";
 import React, { useState } from "react";
 import { MdClose, MdSettings } from "react-icons/md";
-import { SidebarProps } from "../types/components";
-import { NextPage } from "next";
 import Link from "next/link";
 import { PiNoteThin } from "react-icons/pi";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { VscFeedback } from "react-icons/vsc";
-import { FiMenu } from "react-icons/fi";
 import FeedbackModal from "./Modals/FeedbackModal";
-const Sidebar: NextPage<SidebarProps> = ({ sidebar, setSidebar }) => {
+import { useAppContext } from "../context/AppContext";
+
+const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
+  const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
 
   const handleFeedbackPopup = () => {
     setFeedback(true);
   };
   return (
     <>
-      {sidebar && (
+      {isSideBarOpen && (
         <>
           <aside className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[240px] text-white bg-black">
             <div className="w-full p-4 h-full">
-              <div className="w-full flex justify-between items-center text-[30px]">
-                <div className="flex items-center lg:hidden hover:bg-opacity-50">
+              <div className="w-full flex justify-between items-center ">
+                <div className="flex items-center lg:hidden hover:bg-opacity-50 w-8 h-8 justify-center">
                   <button
-                    onClick={() => setSidebar(false)}
-                    className="bg-[#222] p-2 text-[24px] text-white duration-200 transition-all rounded-md"
+                    onClick={() => setIsSideBarOpen(false)}
+                    className="bg-[#222] w-full h-full text-[24px] text-white duration-200 transition-all rounded-md flex items-center justify-center"
                   >
                     <MdClose />
                   </button>
                 </div>
-                <Link href="/" className="font-bold hover:opacity-80">
+                <Link
+                  href="/"
+                  className="font-bold hover:opacity-80 text-[25px]"
+                >
                   Noteey
                 </Link>
               </div>

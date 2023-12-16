@@ -11,12 +11,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import { IoMdSettings } from "react-icons/io";
 import { FiMenu } from "react-icons/fi";
+import { useAppContext } from "../context/AppContext";
 
 const TopBar = () => {
   const [user, loading] = useAuthState(auth);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
 
   const handleLogout = async () => {
     try {
@@ -29,15 +31,22 @@ const TopBar = () => {
     }
   };
 
-  const handleProfileModal = () => {
-    setShow(!show);
-  };
   return (
-    <header className="flex items-center justify-between w-full p-3 border-b text-[#180202] dark:text-[#effefb]">
-      <div className="flex flex-col">
+    <header className="flex items-center justify-between w-full p-4 text-[#180202] dark:text-[#effefb]">
+      {!isSideBarOpen && (
+        <div className="w-8 h-8 flex items-center justify-center">
+          <button
+            onClick={() => setIsSideBarOpen(true)}
+            className="flex items-center justify-center hover:bg-opacity-50 bg-black text-white rounded-md w-full h-full"
+          >
+            <FiMenu />
+          </button>
+        </div>
+      )}
+      {user && (
         <p className="text-[20px] font-semibold">Hello, {user?.displayName}</p>
-      </div>
-      <button
+      )}
+      {/* <button
         onClick={handleProfileModal}
         className="relative w-10 h-10 cursor-pointer"
       >
@@ -58,7 +67,7 @@ const TopBar = () => {
             </button>
           </div>
         )}
-      </button>
+      </button> */}
     </header>
   );
 };

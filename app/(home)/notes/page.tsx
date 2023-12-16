@@ -155,7 +155,7 @@ const Notes = () => {
           </div>
 
           <section className="flex flex-col mt-12">
-            {loading && <div className="spinner"></div>}
+            <div className="flex justify-center items-center">{loading && <div className="spinner"></div>}</div>
             <div className="flex flex-wrap gap-8 w-full justify-start">
               {notes?.map((data) => (
                 <div key={data.id}>

@@ -1,11 +1,10 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { IoMdCheckmark } from "react-icons/io";
-import { DarkmodeContext } from "../context/DarkmodeContext";
+import { useAppContext } from "../context/AppContext";
 
 const DarkModeTheme = () => {
-  // const [theme, setTheme] = useState(localStorage.getItem("theme") || null);
-  const [theme, setTheme] = useContext(DarkmodeContext);
+  const {theme, setTheme} = useAppContext();
 
   
   const handleThemeSwitch = () => {
