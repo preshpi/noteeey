@@ -27,13 +27,6 @@ const SettingsModal = () => {
   };
   return (
     <ul className="bg-[#1d1d1d] text-white rounded-lg bottom-14 space-y-3 w-full p-2 absolute">
-      <Link href="/settings">
-        <li className="flex items-center gap-5 cursor-pointer transition-all p-1 duration-300 hover:bg-[#3e3e3e] text-x rounded-lg w-full">
-          <MdSettings />
-          Settings
-        </li>
-      </Link>
-
       <button className="w-full">
         <a
           className="flex items-center gap-5 cursor-pointer transition-all p-1 duration-300 hover:bg-[#3e3e3e] text-x rounded-lg w-full"

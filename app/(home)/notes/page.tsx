@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { Toaster, toast } from "sonner";
 import { BiPlus } from "react-icons/bi";
+import { BsGrid } from "react-icons/bs";
 import CreateNoteModal from "@/app/components/Modals/CreateNoteModal";
 import {
   Timestamp,
@@ -23,6 +24,8 @@ import moment from "moment";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Footer from "@/app/components/Footer";
 import Link from "next/link";
+import { HiMiniArrowsUpDown } from "react-icons/hi2";
+import { CiBoxList } from "react-icons/ci";
 
 const Notes = () => {
   const [user, loading] = useAuthState(auth);
@@ -133,14 +136,8 @@ const Notes = () => {
       <div className="flex flex-col w-full min-h-screen overflow-auto">
         <TopBar />
         <div className="p-5 flex flex-col gap-5">
-          <div className="text-text dark:text-white mt-5">
-            <span className="lg:text-2xl text-xl font-bold">All Notes</span>
-          </div>
-          <div>
-            <div className="flex items-center justify-center lg:w-[300px] md:w-[500px] border dark:border-gray-300 text-text dark:text-[#e6e4e4] rounded-lg focus-within:shadow-md">
-              <span className="px-3 py-3 text-xl">
-                <BiSearch />
-              </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between lg:w-[300px] md:w-[500px] dark:bg-[#2C2C2C] bg-[#f2f2f2] dark:border-none border text-black dark:text-[#929292] text-[14px] rounded-lg focus-within:shadow-md">
               <Input
                 type="search"
                 id="search"
@@ -149,8 +146,23 @@ const Notes = () => {
                 required
                 autoComplete="off"
                 name="search"
-                placeholder="Search here..."
+                placeholder="Search notes"
               />
+              <span className="px-3 py-3 text-xl">
+                <BiSearch />
+              </span>
+            </div>
+
+            <div className="flex gap-5 text-[#d6d5d5] items-center">
+              <button className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
+                <HiMiniArrowsUpDown />
+              </button>
+              <button className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
+                <BsGrid />
+              </button>
+              <button className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
+                <CiBoxList />
+              </button>
             </div>
           </div>
 
@@ -158,7 +170,7 @@ const Notes = () => {
             <div className="flex justify-center items-center">
               {loading && <div className="spinner"></div>}
             </div>
-            {notes?.length === 0 ? (
+            {loading && notes?.length === 0 ? (
               <h3 className="text-gray-400 font-semibold text-[28px] text-center">
                 No Notes
               </h3>

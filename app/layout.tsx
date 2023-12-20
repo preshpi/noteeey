@@ -21,7 +21,7 @@ export default function RootLayout({
       <AppProvider>
         <html lang="en">
           <body
-            className={`${rubik.className} dark:bg-[#1c1c1c] bg-Lightbackground`}
+            className={`${rubik.className} dark:bg-[#1D1D1D] bg-Lightbackground`}
           >
             {children}
           </body>

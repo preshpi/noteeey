@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoArrowBack } from "react-icons/io5";
 import { toast } from "sonner";
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 
@@ -18,9 +18,12 @@ const NoteDetails = ({ params }: { params: any }) => {
   };
   const [user, loading] = useAuthState(auth);
   const [notes, setNotes] = useState<any[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
-  const [value, setValue] = useState("");
-  const [isSaving, setIsSaving] = useState(false)
+
+  const Id = params.details;
+  const selectedNote = notes.find((note) => note.id === Id);
+
+  const initialValue = selectedNote ? selectedNote.content || "" : "";
+  const [value, setValue] = useState(initialValue);
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -46,57 +49,25 @@ const NoteDetails = ({ params }: { params: any }) => {
     toolbar: toolbarOptions,
   };
 
-  useEffect(() => {
-    const handfetchDetails = async () => {
-      if (user && !loading && !isFetching) {
-        const userDocRef = doc(db, "user", user?.uid);
-        const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
-        try {
-          const querySnapshot = await getDocs(noteCollectionRef);
-          const notesData: React.SetStateAction<any[]> = [];
-          querySnapshot.forEach((doc) => {
-            notesData.push({ id: doc.id, ...doc.data() });
-          });
-          //apply the formate function to the timestamp inside the data directly
-          setIsFetching(true);
-          const formattedNotes = notesData.map((data) => ({
-            ...data,
-          }));
-          setNotes(formattedNotes);
-        } catch (error) {
-          toast.error("Error fetching notes");
-        } finally {
-          setIsFetching(false); // Reset the flag when the fetch is complete
-        }
-      }
-    };
-    handfetchDetails();
-  }, [user, loading, isFetching]);
+  if (user && !loading) {
+    const userDocRef = doc(db, "user", user?.uid);
+    const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
+  }
 
-  const Id = params.details;
-  const selectedNote = notes.find((note) => note.id === Id);
-
-  useEffect(() => {
-    const saveChanges = async () => {
-      if (user && selectedNote && !isSaving) {
-        try {
-          setIsSaving(true);
-          const userDocRef = doc(db, "user", user.uid);
-          const noteDocRef = doc(userDocRef, "note", selectedNote.id);
-  
-          await setDoc(noteDocRef, { content: value }, { merge: true });
-        } catch (error) {
-          console.error("Error saving note:", error);
-          toast.error("Error saving note");
-        } finally {
-          setIsSaving(false);
-        }
-      }
-    };
-  
-    saveChanges();
-  }, [user, selectedNote, value]);
-  
+  // try {
+  //   const querySnapshot = await getDocs(noteCollectionRef);
+  //   const notesData: React.SetStateAction<any[]> = [];
+  //   querySnapshot.forEach((doc) => {
+  //     notesData.push({ id: doc.id, ...doc.data() });
+  //   });
+  //   //apply the formate function to the timestamp inside the data directly
+  //   const formattedNotes = notesData.map((data) => ({
+  //     ...data,
+  //   }));
+  //   setNotes(formattedNotes);
+  // } catch (error) {
+  //   toast.error("Error fetching notes");
+  // }
 
   return (
     <ProtectedRoute>
@@ -112,7 +83,12 @@ const NoteDetails = ({ params }: { params: any }) => {
                   <IoArrowBack />
                 </button>
               </div>
-              <p className="text-center p-2 dark:text-white text-2xl font-semibold" key={selectedNote.id}>{selectedNote.title}</p>
+              <p
+                className="text-center p-2 dark:text-white text-2xl font-semibold"
+                key={selectedNote.id}
+              >
+                {selectedNote.title}
+              </p>
 
               <ReactQuill
                 modules={modules}

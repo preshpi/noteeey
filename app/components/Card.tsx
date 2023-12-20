@@ -43,21 +43,21 @@ const Card: NextPage<Cardsprops> = ({
   }, []);
   return (
     <>
-      <div className="dark:bg-gray-100 bg-gray-200 p-4 mb-4 rounded-md border-l-4 border-red-500 w-[288px]">
+      <div className="dark:bg-[#2C2C2C] bg-gray-200 p-4 mb-4 rounded-md border-l-4 border-red-500 w-[288px]">
         <div className="flex justify-between gap-2 items-center text-xl mb-2">
           <Link href={`/notes/${id}`}>
-            <h2 className="font-semibold cursor-pointer hover:opacity-80 transition-all duration-300 text-wrap w-42">
+            <h2 className="font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-black transition-all duration-300 text-wrap w-42">
               {content}
             </h2>
           </Link>
           <button
             onClick={() => setMoreModal(!moreModal)}
-            className="text-black hover:bg-gray-100 opacity-80 rounded-lg p-2 transition-all duration-300"
+            className="text-black dark:text-[#D6D6D6] hover:dark:bg-[#222] hover:bg-gray-100 opacity-80 rounded-lg p-2 transition-all duration-300"
           >
             <IoMdMore />
           </button>
         </div>
-        <p className="text-gray-500">{date}</p>
+        <p className="text-gray-500 dark:text-[#747373]">{date}</p>
       </div>
       {moreModal && (
         <div

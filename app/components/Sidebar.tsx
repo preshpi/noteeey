@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
-import { PiNoteThin } from "react-icons/pi";
+import { PiNoteThin, PiNotebookLight } from "react-icons/pi";
 import FeedbackModal from "./Modals/FeedbackModal";
 import { useAppContext } from "../context/AppContext";
 import { HiChevronUpDown } from "react-icons/hi2";
@@ -10,6 +10,8 @@ import SettingsModal from "./Modals/SettingsModal";
 import { VscFeedback } from "react-icons/vsc";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
+import { IoSettingsOutline } from "react-icons/io5";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
@@ -21,9 +23,10 @@ const Sidebar = () => {
     <>
       {isSideBarOpen && (
         <>
-          <aside className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[240px] text-white bg-black">
+          <aside className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[240px] text-white bg-[#131313]">
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4">
+                {/* first div */}
                 <div>
                   <div className="w-full flex justify-between items-center">
                     <Link
@@ -41,12 +44,32 @@ const Sidebar = () => {
                       </button>
                     </div>
                   </div>
-                  <Link href="/notes">
-                    <button className="p-2 bg-[#222] mt-8 text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
-                      {" "}
-                      <PiNoteThin /> Notes
-                    </button>
-                  </Link>
+                  <ul className="mt-8 space-y-4">
+                    <li>
+                      <Link href="/notes">
+                        <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
+                          {" "}
+                          <PiNotebookLight /> Notes
+                        </button>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/deleted">
+                        <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
+                          {" "}
+                          <AiOutlineDelete /> Deleted
+                        </button>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/settings">
+                        <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
+                          {" "}
+                          <IoSettingsOutline /> Settings
+                        </button>
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
                 {/* second div */}
                 <div className="space-y-5 relative">
@@ -60,13 +83,9 @@ const Sidebar = () => {
                   <div className="">{settingsModal && <SettingsModal />}</div>
                   <button
                     onClick={() => SetSettingsModal(!settingsModal)}
-                    className="flex p-2 bg-[#222] rounded-lg justify-between items-center text-slate-50 hover:opacity-90 text-x w-full"
+                    className="flex p-3 bg-[#222] rounded-lg justify-between items-center text-slate-50 hover:opacity-90 text-[14px] w-full"
                   >
-                    {user && (
-                      <p className="text-x">
-                        {user?.displayName}
-                      </p>
-                    )}{" "}
+                    {user && <p className="text-x">{user?.displayName}</p>}{" "}
                     <HiChevronUpDown />
                   </button>
                 </div>
