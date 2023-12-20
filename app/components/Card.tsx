@@ -67,18 +67,18 @@ const Card: NextPage<Cardsprops> = ({
           <ul className="flex flex-col gap-3 p-2">
             <li
               onClick={handleEditModal}
-              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-100 dark:hover:bg-[#1e1e1e] transition-all duration-30"
+              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30"
             >
               <MdEdit size={20} />
               <p>Rename</p>{" "}
             </li>
-            <li className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-100 dark:hover:bg-[#1e1e1e] transition-all duration-30">
+            <li className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30">
               <FaLink size={20} />
               <p>Copy url</p>
             </li>
             <li
               onClick={handleDeleteModal}
-              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-100 dark:hover:bg-[#1e1e1e] transition-all duration-30 dark:text-red-400 text-red-600"
+              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30 dark:text-red-400 text-red-600"
             >
               <MdDelete size={20} />
               <p>Delete</p>

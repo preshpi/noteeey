@@ -6,4 +6,3 @@ export * from "./Modals/AuthModal";
 export * from "./Modals/EditModal";
 export * from "./Overlay";
 export * from "./Loader";
-export * from "./Sidebar";

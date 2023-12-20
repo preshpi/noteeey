@@ -155,20 +155,28 @@ const Notes = () => {
           </div>
 
           <section className="flex flex-col mt-12">
-            <div className="flex justify-center items-center">{loading && <div className="spinner"></div>}</div>
-            <div className="flex flex-wrap gap-8 w-full justify-start">
-              {notes?.map((data) => (
-                <div key={data.id}>
-                  <Card
-                    id={data.id}
-                    content={data.title}
-                    date={data.date}
-                    handleDeleteCard={handleDeleteCard}
-                    handleUpdateDoc={handleUpdateDoc}
-                  />
-                </div>
-              ))}
+            <div className="flex justify-center items-center">
+              {loading && <div className="spinner"></div>}
             </div>
+            {notes?.length === 0 ? (
+              <h3 className="text-gray-400 font-semibold text-[28px] text-center">
+                No Notes
+              </h3>
+            ) : (
+              <div className="flex flex-wrap gap-8 w-full justify-start">
+                {notes?.map((data) => (
+                  <div key={data.id}>
+                    <Card
+                      id={data.id}
+                      content={data.title}
+                      date={data.date}
+                      handleDeleteCard={handleDeleteCard}
+                      handleUpdateDoc={handleUpdateDoc}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           <div className="fixed bottom-4 z-20 right-4">
