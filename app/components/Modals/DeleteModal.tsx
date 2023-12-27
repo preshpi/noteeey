@@ -13,7 +13,7 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const deleteCard = (id: string) => {    
+  const deleteCard = (id: string) => {
     handleDeleteCard(id);
     setShow(false);
   };
@@ -34,18 +34,18 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
           {buttonContent && (
             <div className="flex w-full py-4 gap-5">
               <button
-                className="w-full rounded-md bg-[#e85444]  py-2 text-sm text-white"
-                onClick={() => {
-                  deleteCard(id)
-                }}
-              >
-                {buttonContent}
-              </button>
-              <button
-                className="w-full rounded-md py-2 text-sm text-black border"
+                className="w-full py-2 rounded-lg transition-all duration-300 dark:hover:bg-[#b6b5b5] hover:bg-[#e1dfdf] hover:text-black border dark:text-white"
                 onClick={cancelModal}
               >
                 Cancel
+              </button>
+              <button
+                className="w-full rounded-lg transition-all duration-300 hover:opacity-90 bg-[#e85444] py-2 text-sm text-white"
+                onClick={() => {
+                  deleteCard(id);
+                }}
+              >
+                {buttonContent}
               </button>
             </div>
           )}

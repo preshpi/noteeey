@@ -69,8 +69,8 @@ const Home = () => {
     <div className="flex flex-col h-screen">
       <Navbar signIn={handleGoogleSignIn} logOut={handleLogout} />
 
-      <section className="items-center h-full justify-center flex px-12 flex-col">
-        <h1 className="dark:text-[#FAF8FC] text-text lg:text-[80px] md:text-[56px] text-[50px] font-bold text-center">
+      <section className="items-center pt-20 justify-center flex px-4 flex-col">
+        <h1 className="dark:text-[#FAF8FC] text-text lg:text-[80px] md:text-[56px] text-[30px] font-bold text-center">
           Organize Your Ideas With Sticky Notes{" "}
           <span className="gradient">Online</span>
         </h1>
@@ -82,9 +82,11 @@ const Home = () => {
         <Button
           onClick={handleCreateNote}
           disabled={loading}
-          additionalClasses="dark:text-white text-text dark:bg-[#d44141] bg-[#FF6D4C] px-10 py-3 rounded-2xl mt-5 hover:scale-x-110 transistion-all duration-300"
+          additionalClasses={`dark:text-white text-text dark:bg-[#d44141] bg-[#FF6D4C] px-10 py-3 rounded-2xl mt-5 hover:scale-x-110 transistion-all duration-300 ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          {loading ? "loading..." : "Create a note"}
+          Create a note
         </Button>
 
         {show && (

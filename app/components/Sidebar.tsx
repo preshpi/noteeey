@@ -23,7 +23,7 @@ const Sidebar = () => {
     <>
       {isSideBarOpen && (
         <>
-          <aside className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[240px] text-white bg-[#131313]">
+          <aside className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[220px] text-white bg-[#131313]">
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4">
                 {/* first div */}
@@ -54,7 +54,7 @@ const Sidebar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/deleted">
+                      <Link href="/deletedNotes">
                         <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
                           {" "}
                           <AiOutlineDelete /> Deleted

@@ -8,12 +8,14 @@ import EditModal from "./Modals/EditModal";
 import { IoIosMore, IoMdMore } from "react-icons/io";
 import Link from "next/link";
 import { FaLink } from "react-icons/fa6";
+import { useAppContext } from "../context/AppContext";
 const Card: NextPage<Cardsprops> = ({
   content,
   date,
   handleDeleteCard,
   handleUpdateDoc,
   id,
+  viewMode
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
@@ -41,9 +43,17 @@ const Card: NextPage<Cardsprops> = ({
       document.removeEventListener("mousedown", handleClickOutsideModal);
     };
   }, []);
+
+  const { color } = useAppContext();
+  const borderStyle = color ? { borderLeftColor: color } : {};
+
   return (
-    <>
-      <div className="dark:bg-[#2C2C2C] bg-gray-200 p-4 mb-4 rounded-md border-l-4 border-red-500 w-[288px]">
+    <section className="w-full">
+      <div
+        className={`dark:bg-[#2C2C2C] bg-gray-200 p-4 mb-4 rounded-md border-l-4 
+         ${viewMode === "grid" ? "w-[288px]" : "w-full"}`}
+         style={borderStyle}
+      >
         <div className="flex justify-between gap-2 items-center text-xl mb-2">
           <Link href={`/notes/${id}`}>
             <h2 className="font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-black transition-all duration-300 text-wrap w-42">
@@ -62,7 +72,7 @@ const Card: NextPage<Cardsprops> = ({
       {moreModal && (
         <div
           ref={modalRef}
-          className="dark:text-white text-text w-[192px] rounded-lg dark:bg-[#282828] bg-gray-200"
+          className="dark:text-white text-text absolute w-[192px] rounded-lg dark:bg-[#282828] bg-gray-200"
         >
           <ul className="flex flex-col gap-3 p-2">
             <li
@@ -104,7 +114,7 @@ const Card: NextPage<Cardsprops> = ({
         handleDeleteCard={handleDeleteCard}
         id={id}
       />
-    </>
+    </section>
   );
 };
 

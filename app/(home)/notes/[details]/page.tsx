@@ -1,7 +1,15 @@
 "use client";
 import ProtectedRoute from "@/app/ProtectedRoute";
 import { auth, db } from "@/app/firebase";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,13 +26,10 @@ const NoteDetails = ({ params }: { params: any }) => {
   };
   const [user, loading] = useAuthState(auth);
   const [notes, setNotes] = useState<any[]>([]);
+  const [editorContent, setEditorContent] = useState<string>("");
 
   const Id = params.details;
   const selectedNote = notes.find((note) => note.id === Id);
-
-  const initialValue = selectedNote ? selectedNote.content || "" : "";
-  const [value, setValue] = useState(initialValue);
-
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block"],
@@ -49,31 +54,15 @@ const NoteDetails = ({ params }: { params: any }) => {
     toolbar: toolbarOptions,
   };
 
-  if (user && !loading) {
-    const userDocRef = doc(db, "user", user?.uid);
-    const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
-  }
 
-  // try {
-  //   const querySnapshot = await getDocs(noteCollectionRef);
-  //   const notesData: React.SetStateAction<any[]> = [];
-  //   querySnapshot.forEach((doc) => {
-  //     notesData.push({ id: doc.id, ...doc.data() });
-  //   });
-  //   //apply the formate function to the timestamp inside the data directly
-  //   const formattedNotes = notesData.map((data) => ({
-  //     ...data,
-  //   }));
-  //   setNotes(formattedNotes);
-  // } catch (error) {
-  //   toast.error("Error fetching notes");
-  // }
+
 
   return (
     <ProtectedRoute>
       <div className="p-5 w-full h-full">
         <div className="h-full">
-          {selectedNote && (
+          yoo
+          {/* {selectedNote && (
             <div className="flex items-center justify-center flex-col">
               <div className="flex items-center justify-start w-full dark:text-white text-text">
                 <button
@@ -93,12 +82,13 @@ const NoteDetails = ({ params }: { params: any }) => {
               <ReactQuill
                 modules={modules}
                 theme="snow"
-                value={value}
                 className="dark:text-white mb-16"
-                onChange={setValue}
+                value={editorContent}
+                onChange={handleEditorChange}
               />
+             
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </ProtectedRoute>

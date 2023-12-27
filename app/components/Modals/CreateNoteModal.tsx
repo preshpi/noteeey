@@ -5,12 +5,7 @@ import { CreateModalProps } from "../../types/components";
 import Overlay from "../Overlay";
 import Input from "../Input";
 import { toast } from "sonner";
-import {
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/app/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -73,9 +68,9 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
       {show && (
         <div
           ref={modalRef}
-          className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] bg-white gap-3"
+          className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] dark:bg-[#1f1f1f] bg-white gap-3"
         >
-          <p className="text-center text-lg text-[#221b3a] font-mono">
+          <p className="text-center text-lg text-[#221b3a] dark:text-[#eee] font-mono">
             {content}
           </p>
           <form action="" className="w-full">
@@ -87,24 +82,22 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
               required
               onChange={handleInputChange}
               type="text"
-              additionalClasses="border w-full outline-none focus-none p-2 rounded text-black text-sm"
               placeholder="What's the title of your note?"
             />
           </form>
-          <p className="uppercase font-semibold">{inputData.title}</p>
           {buttonContent && (
             <div className="flex w-full py-2 gap-4">
               <button
-                className="w-full rounded-md bg-[#e85444] py-2 text-sm text-white"
-                onClick={handleCreateNoteey}
-              >
-                {buttonContent}
-              </button>
-              <button
-                className="w-full rounded-md transition-colors duration-300 hover:bg-[#e85444] py-2 text-sm text-black hover:text-white border"
+                className="w-full py-2 rounded-lg transition-all duration-300 dark:hover:bg-[#b6b5b5] hover:bg-[#e1dfdf] hover:text-black border dark:text-white"
                 onClick={cancelModal}
               >
                 Cancel
+              </button>
+              <button
+                className="w-full rounded-lg bg-[#e85444] hover:opacity-90 transition-all duration-300  px-4 py-2 text-sm text-white"
+                onClick={handleCreateNoteey}
+              >
+                {buttonContent}
               </button>
             </div>
           )}

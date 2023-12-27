@@ -48,18 +48,18 @@ export default function NotFound() {
                 left: `calc(50% - 15px + ${whiteCircleX}px)`,
               }}
             >
-              <span className="bg-[white] rounded-full p-1 absolute"></span>
+              <span className="rounded-full p-1 absolute"></span>
             </span>
           </span>
         </span>
         <span className="text-[200px]">4</span>
       </div>
-      <h2 className="text-white font-semibold text-3xl">
+      <h2 className="dark:text-white text-black font-semibold text-3xl">
         This Page does not exist
       </h2>
       <Link
         href="/"
-        className="text-white hover:text-slate-300 transition-colors duration-300"
+        className="dark:text-white dark:hover:text-slate-300 underline transition-colors duration-300"
       >
         Return Home
       </Link>

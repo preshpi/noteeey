@@ -24,3 +24,18 @@
 
   //   saveChanges();
   // }, [user, selectedNote, value]);
+
+  // try {
+  //   const querySnapshot = await getDocs(noteCollectionRef);
+  //   const notesData: React.SetStateAction<any[]> = [];
+  //   querySnapshot.forEach((doc) => {
+  //     notesData.push({ id: doc.id, ...doc.data() });
+  //   });
+  //   //apply the formate function to the timestamp inside the data directly
+  //   const formattedNotes = notesData.map((data) => ({
+  //     ...data,
+  //   }));
+  //   setNotes(formattedNotes);
+  // } catch (error) {
+  //   toast.error("Error fetching notes");
+  // }

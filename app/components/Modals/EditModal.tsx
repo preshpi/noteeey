@@ -1,14 +1,10 @@
 "use client";
 import { NextPage } from "next";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { EditModalProps } from "../../types/components";
 import Overlay from "../Overlay";
 import Input from "../Input";
 import { toast } from "sonner";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "@/app/firebase";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
 
 const EditModal: NextPage<EditModalProps> = ({
   show,
@@ -69,16 +65,16 @@ const EditModal: NextPage<EditModalProps> = ({
           {buttonContent && (
             <div className="flex w-full py-2 gap-4">
               <button
-                className="w-full rounded-md bg-[#e85444] py-2 text-sm text-white"
-                onClick={updateTitle}
-              >
-                {buttonContent}
-              </button>
-              <button
-                className="w-full rounded-md transition-colors duration-300 hover:bg-[#e85444] py-2 text-sm text-black hover:text-white border"
+                className="w-full py-2 rounded-lg transition-all duration-300 dark:hover:bg-[#b6b5b5] hover:bg-[#e1dfdf] hover:text-black border dark:text-white"
                 onClick={cancelModal}
               >
                 Cancel
+              </button>
+              <button
+                className="w-full rounded-lg bg-[#e85444] hover:opacity-90 transition-all duration-300  px-4 py-2 text-sm text-white"
+                onClick={updateTitle}
+              >
+                {buttonContent}
               </button>
             </div>
           )}

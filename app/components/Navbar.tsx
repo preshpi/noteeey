@@ -13,7 +13,7 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
   const [user, loading, error] = useAuthState(auth);
 
   return (
-    <div className="flex justify-between items-center px-12 py-5 border-b border-[#E1E1E1] text-[#180202] dark:text-[#effefb]">
+    <div className="flex justify-between items-center lg:px-12 px-4 py-5 border-b border-[#E1E1E1] text-[#180202] dark:text-[#effefb]">
       <h1 className="text-2xl cursor-pointer font-bold">Noteey</h1>
       <div className="flex items-center gap-3">
         {user && loading ? (
@@ -33,14 +33,18 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
             </button>
           </div>
         ) : (
-          <button
-            onClick={signIn}
-            className="px-6 py-2 rounded-lg bg-[#221b3a] text-slate-50 hover:bg-[#e85444] transition-colors duration-500"
-          >
-            Get Started
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={signIn}
+              className="px-6 py-2 rounded-lg bg-[#141318] text-slate-50 hover:bg-[#e85444] transition-colors duration-500"
+            >
+              Get Started
+            </button>
+            <div>{loading && <div className="spinner"> </div>}</div>
+          </div>
         )}
       </div>
+      {error && <p>An error occurced, please try again. </p>}
     </div>
   );
 };

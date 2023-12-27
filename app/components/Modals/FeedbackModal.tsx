@@ -51,7 +51,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (
-        <div className="max-w-[512px] w-full bg-black bg-opacity-90 rounded-lg shadow h-auto max-h-[500px] overflow-auto">
+        <div className="max-w-[405px] m-10 w-full bg-[#1f1f1f] rounded-lg shadow-lg h-auto max-h-[500px] overflow-auto">
           <div className="p-5 text-[#eee]">
             <div className="flex justify-between items-center text-2xl">
               <p className="font-semibold tracking-tight">Send us a feedback</p>
@@ -80,7 +80,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
                     message: e.target.value,
                   });
                 }}
-                className="p-4 text-sm h-32 rounded-lg border focus:outline-none bg-black text-[#eee] border-slate-200"
+                className="p-4 text-sm h-32 rounded-lg border focus:outline-none bg-[#1f1f1f] text-[#eee] border-slate-200"
                 placeholder="Let us know the issue..."
               ></textarea>
               <div className="flex justify-end gap-5">

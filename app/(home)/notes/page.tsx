@@ -22,8 +22,6 @@ import {
 import { auth, db } from "@/app/firebase";
 import moment from "moment";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Footer from "@/app/components/Footer";
-import Link from "next/link";
 import { HiMiniArrowsUpDown } from "react-icons/hi2";
 import { CiBoxList } from "react-icons/ci";
 
@@ -31,6 +29,9 @@ const Notes = () => {
   const [user, loading] = useAuthState(auth);
   const [createModal, setCreateModal] = useState(false);
   const [notes, setNotes] = useState<any[]>([]);
+  const [fetching, setFetching] = useState(true);
+  const [ascendingOrder, setAscendingOrder] = useState(true);
+  const [viewMode, setViewMode] = useState("grid");
 
   const formatTimestamp = (timestamp: Timestamp): string | null => {
     if (timestamp) {
@@ -46,7 +47,10 @@ const Notes = () => {
     if (user && !loading) {
       const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
       const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
-      const notesQuery = query(noteCollectionRef, orderBy("timestamp", "desc"));
+      const notesQuery = query(
+        noteCollectionRef,
+        orderBy("timestamp", ascendingOrder ? "desc" : "asc")
+      );
       try {
         const querySnapshot = await getDocs(notesQuery);
         const notesData: React.SetStateAction<any[]> = [];
@@ -60,10 +64,22 @@ const Notes = () => {
         }));
 
         setNotes(formattedNotes);
+        setFetching(false);
       } catch (error) {
         toast.error("Error fetching notes");
       }
     }
+  };
+
+  const handleToggleOrder = () => {
+    setAscendingOrder((prevOrder) => {
+      return !prevOrder;
+    });
+    handleFetchNote();
+  };
+
+  const handleViewMode = () => {
+    setViewMode((prevMode) => (prevMode === "grid" ? "list" : "grid"));
   };
 
   const handleDeleteCard = async (id: string) => {
@@ -124,20 +140,13 @@ const Notes = () => {
     }
   }, [user, loading]);
 
-  const [color, setColor] = useState("#FFFF");
-  const handlerandomColor = () => {
-    const randomColors =
-      "#" + Math.floor(Math.random() * 16777215).toString(16);
-    setColor(randomColors);
-  };
-
   return (
     <ProtectedRoute>
       <div className="flex flex-col w-full min-h-screen overflow-auto">
         <TopBar />
         <div className="p-5 flex flex-col gap-5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center justify-between lg:w-[300px] md:w-[500px] dark:bg-[#2C2C2C] bg-[#f2f2f2] dark:border-none border text-black dark:text-[#929292] text-[14px] rounded-lg focus-within:shadow-md">
+          <div className="flex gap-y-5 lg:justify-between flex-col lg:flex-row">
+            <div className="flex items-center justify-between w-[300px] dark:bg-[#2C2C2C] bg-[#f2f2f2] border-none text-black dark:text-[#929292] text-[14px] rounded-lg focus-within:shadow-md">
               <Input
                 type="search"
                 id="search"
@@ -148,20 +157,20 @@ const Notes = () => {
                 name="search"
                 placeholder="Search notes"
               />
-              <span className="px-3 py-3 text-xl">
+              <span className="px-3 py-3 text-xl cursor-pointer">
                 <BiSearch />
               </span>
             </div>
 
             <div className="flex gap-5 text-[#d6d5d5] items-center">
-              <button className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
+              <button
+                onClick={handleToggleOrder}
+                className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300"
+              >
                 <HiMiniArrowsUpDown />
               </button>
-              <button className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
-                <BsGrid />
-              </button>
-              <button className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
-                <CiBoxList />
+              <button onClick={handleViewMode} className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
+                {viewMode === "grid" ? <BsGrid /> : <CiBoxList />}
               </button>
             </div>
           </div>
@@ -170,12 +179,12 @@ const Notes = () => {
             <div className="flex justify-center items-center">
               {loading && <div className="spinner"></div>}
             </div>
-            {loading && notes?.length === 0 ? (
+            {!fetching && notes?.length === 0 ? (
               <h3 className="text-gray-400 font-semibold text-[28px] text-center">
                 No Notes
               </h3>
             ) : (
-              <div className="flex flex-wrap gap-8 w-full justify-start">
+              <div className={`gap-5 w-full ${viewMode === "grid" ? "flex flex-wrap justify-start" : "grid"}`}>
                 {notes?.map((data) => (
                   <div key={data.id}>
                     <Card
@@ -184,6 +193,7 @@ const Notes = () => {
                       date={data.date}
                       handleDeleteCard={handleDeleteCard}
                       handleUpdateDoc={handleUpdateDoc}
+                      viewMode={viewMode}
                     />
                   </div>
                 ))}

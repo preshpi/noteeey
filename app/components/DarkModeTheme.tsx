@@ -1,12 +1,16 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { useAppContext } from "../context/AppContext";
 
 const DarkModeTheme = () => {
-  const {theme, setTheme} = useAppContext();
+  const { theme, setTheme } = useAppContext();
+  const [mounted, setMounted] = useState(false);
 
-  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleThemeSwitch = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
@@ -32,7 +36,7 @@ const DarkModeTheme = () => {
     }
   }, [theme]);
   return (
-    <div className="flex items-center px-12 gap-5">
+    <div className="flex items-center gap-3">
       <div className="flex flex-col items-center gap-3">
         <p className="dark:text-[#fff] text-text  text-[16px]">light mode</p>
         <button
@@ -50,7 +54,7 @@ const DarkModeTheme = () => {
           onClick={handleThemeSwitch}
           className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[black]"
         >
-          {theme === "dark" && (
+          {mounted && theme === "dark" && (
             <IoMdCheckmark className="text-2xl text-[#fff]" />
           )}
         </button>

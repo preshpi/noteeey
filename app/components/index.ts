@@ -5,3 +5,4 @@ export * from "./Overlay";
 export * from "./Modals/AuthCheckModal";
 export * from "./Loader";
 export * from "./TopBar";
+export * from "./ColorPicker";
