@@ -5,6 +5,7 @@ import { EditModalProps } from "../../types/components";
 import Overlay from "../Overlay";
 import Input from "../Input";
 import { toast } from "sonner";
+import { useAppContext } from "@/app/context/AppContext";
 
 const EditModal: NextPage<EditModalProps> = ({
   show,
@@ -17,6 +18,8 @@ const EditModal: NextPage<EditModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [newTitle, setNewTitle] = useState(content);
+  const { color } = useAppContext();
+  const backgroundStyle = color ? { backgroundColor: color } : {};
 
   const formValidation = () => {
     if (newTitle === "") {
@@ -65,13 +68,14 @@ const EditModal: NextPage<EditModalProps> = ({
           {buttonContent && (
             <div className="flex w-full py-2 gap-4">
               <button
-                className="w-full py-2 rounded-lg transition-all duration-300 dark:hover:bg-[#b6b5b5] hover:bg-[#e1dfdf] hover:text-black border dark:text-white"
+                className="w-full py-2 rounded-lg transition-all duration-300 hover:bg-[#eee] hover:text-black border dark:text-text"
                 onClick={cancelModal}
               >
                 Cancel
               </button>
               <button
-                className="w-full rounded-lg bg-[#e85444] hover:opacity-90 transition-all duration-300  px-4 py-2 text-sm text-white"
+                className="w-full rounded-lg hover:opacity-90 transition-all duration-300  px-4 py-2 text-sm text-text"
+                style={backgroundStyle}
                 onClick={updateTitle}
               >
                 {buttonContent}

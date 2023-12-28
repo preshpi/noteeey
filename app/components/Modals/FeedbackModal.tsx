@@ -5,6 +5,7 @@ import Overlay from "../Overlay";
 import { MdClose } from "react-icons/md";
 import { Toaster, toast } from "sonner";
 import emailjs from "@emailjs/browser";
+import { useAppContext } from "@/app/context/AppContext";
 
 const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   const [isRequestSent, setRequestSent] = useState(false);
@@ -16,6 +17,8 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   const cancelModal = () => {
     setShow(false);
   };
+  const { color } = useAppContext();
+  const backgroundStyle = color ? { backgroundColor: color } : {};
 
   const handleSendFeedback = (e: any) => {
     e.preventDefault();
@@ -93,7 +96,8 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
                 <button
                   type="submit"
                   disabled={isRequestSent}
-                  className="px-4 py-2 rounded-lg bg-white text-black hover:opacity-70 transition-all duration-300"
+                  style={backgroundStyle}
+                  className="px-4 py-2 rounded-lg text-black hover:opacity-70 transition-all duration-300"
                 >
                   Send
                 </button>

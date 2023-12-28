@@ -5,17 +5,19 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { Cardsprops } from "../types/components";
 import DeleteModal from "./Modals/DeleteModal";
 import EditModal from "./Modals/EditModal";
-import { IoIosMore, IoMdMore } from "react-icons/io";
+import { IoMdMore } from "react-icons/io";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import Link from "next/link";
 import { FaLink } from "react-icons/fa6";
 import { useAppContext } from "../context/AppContext";
+import { toast } from "sonner";
 const Card: NextPage<Cardsprops> = ({
   content,
   date,
   handleDeleteCard,
   handleUpdateDoc,
   id,
-  viewMode
+  viewMode,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
@@ -24,9 +26,13 @@ const Card: NextPage<Cardsprops> = ({
   const handleDeleteModal = () => {
     setShowModal(true);
   };
-
   const handleEditModal = () => {
     setShowEditModal(true);
+  };
+  const urlToCopy = `https://noteeey.vercel.app/notes/${id}`;
+
+  const handleCopyNote = () => {
+    toast.success("Copied note!");
   };
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -52,7 +58,7 @@ const Card: NextPage<Cardsprops> = ({
       <div
         className={`dark:bg-[#2C2C2C] bg-gray-200 p-4 mb-4 rounded-md border-l-4 
          ${viewMode === "grid" ? "w-[288px]" : "w-full"}`}
-         style={borderStyle}
+        style={borderStyle}
       >
         <div className="flex justify-between gap-2 items-center text-xl mb-2">
           <Link href={`/notes/${id}`}>
@@ -82,10 +88,15 @@ const Card: NextPage<Cardsprops> = ({
               <MdEdit size={20} />
               <p>Rename</p>{" "}
             </li>
-            <li className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30">
-              <FaLink size={20} />
-              <p>Copy url</p>
-            </li>
+            <CopyToClipboard text={urlToCopy}>
+              <li
+                onClick={handleCopyNote}
+                className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30"
+              >
+                <FaLink size={20} />
+                <p>Copy url</p>
+              </li>
+            </CopyToClipboard>
             <li
               onClick={handleDeleteModal}
               className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30 dark:text-red-400 text-red-600"

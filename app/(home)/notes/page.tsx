@@ -11,9 +11,11 @@ import { BsGrid } from "react-icons/bs";
 import CreateNoteModal from "@/app/components/Modals/CreateNoteModal";
 import {
   Timestamp,
+  addDoc,
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -24,6 +26,7 @@ import moment from "moment";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { HiMiniArrowsUpDown } from "react-icons/hi2";
 import { CiBoxList } from "react-icons/ci";
+import { useAppContext } from "@/app/context/AppContext";
 
 const Notes = () => {
   const [user, loading] = useAuthState(auth);
@@ -32,6 +35,11 @@ const Notes = () => {
   const [fetching, setFetching] = useState(true);
   const [ascendingOrder, setAscendingOrder] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
+  const [searchInput, setSearchInput] = useState("");
+
+  const { color } = useAppContext();
+  const backgroundStyle = color ? { backgroundColor: color } : {};
+  const textStyle = color ? { color: color } : {};
 
   const formatTimestamp = (timestamp: Timestamp): string | null => {
     if (timestamp) {
@@ -87,12 +95,26 @@ const Notes = () => {
       const userDocRef = doc(db, "user", user.uid);
       const cardDocRef = doc(userDocRef, "note", id);
 
+      // try {
+      //   await deleteDoc(cardDocRef);
+      //   setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+      //   toast.success("Note Deleted successfully");
+      // } catch (error) {
+      //   toast.error("Error deleting the card");
+      // }
+
       try {
-        await deleteDoc(cardDocRef);
+        const deletedNote = await getDoc(cardDocRef);
+        const deletedNoteData = { id: deletedNote.id, ...deletedNote.data() };
+        const deletedNotesCollectionRef = collection(userDocRef, 'deletedNotes');
+        await addDoc(deletedNotesCollectionRef, deletedNoteData);
+  
+        // Remove the note from the current notes list
         setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
-        toast.success("Card Deleted successfully");
+  
+        toast.success('Note moved to Deleted Notes');
       } catch (error) {
-        toast.error("Error deleting the card");
+        toast.error('Error moving the note');
       }
     }
   };
@@ -112,7 +134,7 @@ const Notes = () => {
             note.id === id ? { ...note, title: newTitle } : note
           )
         );
-        toast.success("Card title updated successfully");
+        toast.success("Note title updated successfully");
       } catch (error) {
         toast.error("Error updating the card title");
       }
@@ -140,6 +162,11 @@ const Notes = () => {
     }
   }, [user, loading]);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setSearchInput("");
+  };
+
   return (
     <ProtectedRoute>
       <div className="flex flex-col w-full min-h-screen overflow-auto">
@@ -150,14 +177,18 @@ const Notes = () => {
               <Input
                 type="search"
                 id="search"
-                value=""
-                onChange={() => console.log("search")}
+                value={searchInput}
+                onChange={handleInputChange}
                 required
                 autoComplete="off"
+                additionalClasses="h-10 w-full rounded-md w-full dark:text-[#eee] text-text bg-transparent px-4 py-3 text-[15px] font-light outline-none md:placeholder-text"
                 name="search"
                 placeholder="Search notes"
               />
-              <span className="px-3 py-3 text-xl cursor-pointer">
+              <span
+                style={textStyle}
+                className="px-3 py-3 text-xl cursor-pointer"
+              >
                 <BiSearch />
               </span>
             </div>
@@ -165,11 +196,16 @@ const Notes = () => {
             <div className="flex gap-5 text-[#d6d5d5] items-center">
               <button
                 onClick={handleToggleOrder}
-                className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300"
+                style={textStyle}
+                className="px-4 py-3 rounded hover:opacity-90 bg-[#2C2C2C] transition-all duration-300"
               >
                 <HiMiniArrowsUpDown />
               </button>
-              <button onClick={handleViewMode} className="px-4 py-3 rounded bg-[#2C2C2C] hover:opacity-90 transition-all duration-300">
+              <button
+                onClick={handleViewMode}
+                style={textStyle}
+                className="px-4 py-3 rounded hover:opacity-90 bg-[#2C2C2C] transition-all duration-300"
+              >
                 {viewMode === "grid" ? <BsGrid /> : <CiBoxList />}
               </button>
             </div>
@@ -184,7 +220,11 @@ const Notes = () => {
                 No Notes
               </h3>
             ) : (
-              <div className={`gap-5 w-full ${viewMode === "grid" ? "flex flex-wrap justify-start" : "grid"}`}>
+              <div
+                className={`gap-5 w-full ${
+                  viewMode === "grid" ? "flex flex-wrap justify-start" : "grid"
+                }`}
+              >
                 {notes?.map((data) => (
                   <div key={data.id}>
                     <Card
@@ -204,7 +244,8 @@ const Notes = () => {
           <div className="fixed bottom-4 z-20 right-4">
             <button
               onClick={handleModal}
-              className="text-white bg-[#e85444] hover:bg-[#f6695a] transition-colors duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
+              style={backgroundStyle}
+              className="text-white transition-colors duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
             >
               <BiPlus className="text-[45px]" />
             </button>

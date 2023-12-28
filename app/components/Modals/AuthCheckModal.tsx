@@ -23,7 +23,7 @@ const AuthCheckModal: NextPage<AuthModalProps> = ({
           {buttonContent && (
             <div className="flex w-full py-4">
               <button
-                className="w-full rounded-md bg-[#221b3a]  py-2 text-sm text-white"
+                className="w-full rounded-md bg-[#221b3a] py-2 text-sm text-white"
                 onClick={buttonAction}
               >
                 {buttonContent}

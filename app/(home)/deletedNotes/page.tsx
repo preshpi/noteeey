@@ -2,7 +2,7 @@ import React from 'react'
 
 const DeletedNotes = () => {
   return (
-    <div>DeletedNotes</div>
+    <div>DeletedNotes should be here</div>
   )
 }
 

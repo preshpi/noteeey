@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/app/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useAppContext } from "@/app/context/AppContext";
 
 export interface formData {
   title: string;
@@ -63,16 +64,17 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
     setShow(false);
   };
 
+  const { color } = useAppContext();
+  const backgroundStyle = color ? { backgroundColor: color } : {};
+
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (
         <div
           ref={modalRef}
-          className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] dark:bg-[#1f1f1f] bg-white gap-3"
+          className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] bg-white gap-3"
         >
-          <p className="text-center text-lg text-[#221b3a] dark:text-[#eee] font-mono">
-            {content}
-          </p>
+          <p className="text-center text-lg text-text font-mono">{content}</p>
           <form action="" className="w-full">
             <Input
               name="createNote"
@@ -88,13 +90,14 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
           {buttonContent && (
             <div className="flex w-full py-2 gap-4">
               <button
-                className="w-full py-2 rounded-lg transition-all duration-300 dark:hover:bg-[#b6b5b5] hover:bg-[#e1dfdf] hover:text-black border dark:text-white"
+                className="w-full py-2 rounded-lg transition-all duration-300 dark:hover:bg-[#eee] hover:bg-[#e1dfdf] hover:text-black border dark:text-text"
                 onClick={cancelModal}
               >
                 Cancel
               </button>
               <button
-                className="w-full rounded-lg bg-[#e85444] hover:opacity-90 transition-all duration-300  px-4 py-2 text-sm text-white"
+                className="w-full rounded-lg hover:opacity-90 transition-all duration-300  px-4 py-2 text-sm text-text"
+                style={backgroundStyle}
                 onClick={handleCreateNoteey}
               >
                 {buttonContent}
