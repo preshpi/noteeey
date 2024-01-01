@@ -31,31 +31,40 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
   };
 
   const formValidation = () => {
-    if (!inputData.title) {
+    const words = inputData.title.trim().split(/\s+/);
+
+    if (inputData.title.trim() === "") {
+      toast.error("Please enter a title.");
       return false;
     }
+
+    if (words.length !== 3) {
+      toast.error("Please enter exactly three words in the title.");
+      return false;
+    }
+
     return true;
   };
 
   const handleCreateNoteey = async () => {
     if (!formValidation()) {
-      toast.error("Please enter a title.");
-    } else {
-      if (user) {
-        const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
-        const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
-        try {
-          const newNoteData = {
-            title: inputData.title,
-            timestamp: serverTimestamp(),
-          };
-          const newNoteDocRef = await addDoc(noteCollectionRef, newNoteData);
-          const newNote = { id: newNoteDocRef.id, ...newNoteData };
-          addNewNote(newNote);
-          setShow(false);
-        } catch (error) {
-          toast.error("Error adding note to user document");
-        }
+      return; 
+    }
+
+    if (user) {
+      const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
+      const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
+      try {
+        const newNoteData = {
+          title: inputData.title,
+          timestamp: serverTimestamp(),
+        };
+        const newNoteDocRef = await addDoc(noteCollectionRef, newNoteData);
+        const newNote = { id: newNoteDocRef.id, ...newNoteData };
+        addNewNote(newNote);
+        setShow(false);
+      } catch (error) {
+        toast.error("Error adding note to user document");
       }
     }
   };

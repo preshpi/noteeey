@@ -16,8 +16,8 @@ html {
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: radial-gradient(farthest-side, #e37b0d 94%, #0000) top/6.4px 6.4px
       no-repeat,

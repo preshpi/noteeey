@@ -56,24 +56,25 @@ const Card: NextPage<Cardsprops> = ({
   return (
     <section className="w-full">
       <div
-        className={`dark:bg-[#2C2C2C] bg-gray-200 p-4 mb-4 rounded-md border-l-4 
-         ${viewMode === "grid" ? "w-[288px]" : "w-full"}`}
+        className={`dark:bg-[#2C2C2C] bg-gray-200 mb-4 rounded-md border-l-4 
+         ${viewMode === "grid" ? "w-[288px] p-3" : "w-full p-2"}`}
         style={borderStyle}
       >
-        <div className="flex justify-between gap-2 items-center text-xl mb-2">
+        <div className="flex justify-between gap-2 items-center">
           <Link href={`/notes/${id}`}>
-            <h2 className="font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-black transition-all duration-300 text-wrap w-42">
+            <h2 className="text-xl font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-black transition-all duration-300 text-wrap w-42">
               {content}
             </h2>
+            <p className="text-gray-500 dark:text-[#747373] pt-2">{date}</p>
           </Link>
+
           <button
             onClick={() => setMoreModal(!moreModal)}
-            className="text-black dark:text-[#D6D6D6] hover:dark:bg-[#222] hover:bg-gray-100 opacity-80 rounded-lg p-2 transition-all duration-300"
+            className="text-black dark:text-[#D6D6D6] hover:dark:bg-[#222] text-xl hover:bg-gray-100 opacity-80 rounded-lg p-2 transition-all duration-300"
           >
             <IoMdMore />
           </button>
         </div>
-        <p className="text-gray-500 dark:text-[#747373]">{date}</p>
       </div>
       {moreModal && (
         <div

@@ -13,12 +13,11 @@ import {
   Timestamp,
   addDoc,
   collection,
-  deleteDoc,
   doc,
-  getDoc,
   getDocs,
   orderBy,
   query,
+  runTransaction,
   updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "@/app/firebase";
@@ -94,6 +93,7 @@ const Notes = () => {
     if (user) {
       const userDocRef = doc(db, "user", user.uid);
       const cardDocRef = doc(userDocRef, "note", id);
+      const deletedNotesCollectionRef = collection(userDocRef, "deletedNotes");
 
       // try {
       //   await deleteDoc(cardDocRef);
@@ -104,17 +104,24 @@ const Notes = () => {
       // }
 
       try {
-        const deletedNote = await getDoc(cardDocRef);
-        const deletedNoteData = { id: deletedNote.id, ...deletedNote.data() };
-        const deletedNotesCollectionRef = collection(userDocRef, 'deletedNotes');
-        await addDoc(deletedNotesCollectionRef, deletedNoteData);
-  
+        await runTransaction(db, async (transaction) => {
+          // Get the note to be deleted
+          const noteSnapshot = await transaction.get(cardDocRef);
+          const noteData = noteSnapshot.data();
+
+          // Move the note to the "deletedNotes" collection
+          await transaction.set(doc(deletedNotesCollectionRef, id), noteData);
+
+          // Delete the note from the "note" collection
+          await transaction.delete(cardDocRef);
+        });
+
         // Remove the note from the current notes list
         setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
-  
-        toast.success('Note moved to Deleted Notes');
+
+        toast.success("Note moved to Trash");
       } catch (error) {
-        toast.error('Error moving the note');
+        toast.error("Error moving the note");
       }
     }
   };

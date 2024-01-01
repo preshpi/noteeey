@@ -54,10 +54,10 @@ const Sidebar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/deletedNotes">
+                      <Link href="/trash">
                         <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
                           {" "}
-                          <AiOutlineDelete /> Deleted
+                          <AiOutlineDelete /> Trash
                         </button>
                       </Link>
                     </li>
