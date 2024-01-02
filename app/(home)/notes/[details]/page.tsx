@@ -14,13 +14,15 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoArrowBack } from "react-icons/io5";
-import { toast } from "sonner";
+
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
+import { toast } from "sonner";
 
 const NoteDetails = ({ params }: { params: any }) => {
   const router = useRouter();
+
   const goBack = () => {
     router.back();
   };
@@ -30,6 +32,7 @@ const NoteDetails = ({ params }: { params: any }) => {
 
   const Id = params.details;
   const selectedNote = notes.find((note) => note.id === Id);
+
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block"],
@@ -54,41 +57,86 @@ const NoteDetails = ({ params }: { params: any }) => {
     toolbar: toolbarOptions,
   };
 
+  const getQuillData = (value: any) => {
+    setEditorContent(value);
+  };
 
+  useEffect(() => {
+    if (user && !loading) {
+      const userDocRef = doc(db, "user", user?.uid);
+      const collectionRef = collection(userDocRef, "note");
 
+      const updateDocsData = setTimeout(() => {
+        const document = doc(collectionRef, Id);
+        updateDoc(document, {
+          editorContent: editorContent,
+        })
+          .then(() => {
+            toast.success("Document saved");
+          })
+          .catch(() => {
+            toast.error("Cannot Save Document");
+          });
+      }, 1500);
+      return () => clearTimeout(updateDocsData);
+    }
+  }, [editorContent]);
+
+  useEffect(() => {
+    if (user && !loading) {
+      const userDocRef = doc(db, "user", user?.uid);
+      const collectionRef = collection(userDocRef, "note");
+
+      const getData = async () => {
+        const document = doc(collectionRef, Id);
+
+        onSnapshot(document, (docs) => {
+          setEditorContent(docs.data()?.editorContent);
+        });
+        try {
+          const querySnapshot = await getDocs(collectionRef);
+          const fetchedNotes = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setNotes(fetchedNotes);
+        } catch (error) {
+          toast.error("Error fetching notes");
+        }
+      };
+
+      getData();
+    }
+  }, [editorContent]);
 
   return (
     <ProtectedRoute>
       <div className="p-5 w-full h-full">
-        <div className="h-full">
-          yoo
-          {/* {selectedNote && (
-            <div className="flex items-center justify-center flex-col">
-              <div className="flex items-center justify-start w-full dark:text-white text-text">
-                <button
-                  onClick={goBack}
-                  className="cursor-pointer text-3xl hover:animate-pulse"
-                >
-                  <IoArrowBack />
-                </button>
-              </div>
-              <p
-                className="text-center p-2 dark:text-white text-2xl font-semibold"
-                key={selectedNote.id}
+        <div className="h-full text-white">
+          <div className="flex items-center justify-center flex-col">
+            <div className="flex items-center justify-start w-full dark:text-white text-text">
+              <button
+                onClick={goBack}
+                className="cursor-pointer text-3xl hover:animate-pulse"
               >
-                {selectedNote.title}
-              </p>
-
-              <ReactQuill
-                modules={modules}
-                theme="snow"
-                className="dark:text-white mb-16"
-                value={editorContent}
-                onChange={handleEditorChange}
-              />
-             
+                <IoArrowBack />
+              </button>
             </div>
-          )} */}
+            <p
+              className="text-center p-2 dark:text-white text-2xl font-semibold"
+              key={selectedNote?.id}
+            >
+              {selectedNote?.title}
+            </p>
+
+            <ReactQuill
+              value={editorContent}
+              onChange={getQuillData}
+              modules={modules}
+              theme="snow"
+              className="dark:text-white mb-16"
+            />
+          </div>
         </div>
       </div>
     </ProtectedRoute>
