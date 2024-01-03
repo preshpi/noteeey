@@ -4,20 +4,17 @@ import { auth, db } from "@/app/firebase";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   onSnapshot,
-  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoArrowBack } from "react-icons/io5";
-
+import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
-import dynamic from "next/dynamic";
 import { toast } from "sonner";
 
 const NoteDetails = ({ params }: { params: any }) => {
@@ -68,15 +65,18 @@ const NoteDetails = ({ params }: { params: any }) => {
 
       const updateDocsData = setTimeout(() => {
         const document = doc(collectionRef, Id);
-        updateDoc(document, {
-          editorContent: editorContent,
-        })
-          .then(() => {
-            toast.success("Document saved");
+
+        if (editorContent !== undefined) {
+          updateDoc(document, {
+            editorContent: editorContent,
           })
-          .catch(() => {
-            toast.error("Cannot Save Document");
-          });
+            .then(() => {
+              toast.success("Document saved");
+            })
+            .catch(() => {
+              toast.error("Cannot Save Document");
+            });
+        }
       }, 1500);
       return () => clearTimeout(updateDocsData);
     }
@@ -130,10 +130,11 @@ const NoteDetails = ({ params }: { params: any }) => {
             </p>
 
             <ReactQuill
-              value={editorContent}
-              onChange={getQuillData}
+              value={editorContent || ""}
+              onChange={(content: string) => setEditorContent(content)}
               modules={modules}
               theme="snow"
+              style={{ height: "500px" }} 
               className="dark:text-white mb-16"
             />
           </div>

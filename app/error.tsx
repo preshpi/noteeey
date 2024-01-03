@@ -1,23 +1,27 @@
-'use client' // Error components must be Client Components
- 
-import { useEffect } from 'react'
- 
+"use client"; // Error components must be Client Components
+
+import { useEffect } from "react";
+import { toast } from "sonner";
+
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error)
-  }, [error])
- 
+    toast.error("An error occured" );
+  }, [error]);
+
   return (
-    <div>
-      <h2>Something went wrong!</h2>
+    <div className="items-center flex justify-center flex-col h-full gap-5">
+      <h2 className="dark:text-white text-black font-semibold text-3xl">
+        Something went wrong!
+      </h2>
       <button
+        className="dark:text-white dark:hover:text-slate-300 underline transition-colors duration-300"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()
@@ -26,5 +30,5 @@ export default function Error({
         Try again
       </button>
     </div>
-  )
+  );
 }

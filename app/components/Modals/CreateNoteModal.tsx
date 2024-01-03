@@ -9,6 +9,7 @@ import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/app/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useAppContext } from "@/app/context/AppContext";
+import useModalAnimation from "./useModalAnimation";
 
 export interface formData {
   title: string;
@@ -30,6 +31,8 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
     setInputData({ title: event.target.value });
   };
 
+  useModalAnimation(modalRef);
+
   const formValidation = () => {
     const words = inputData.title.trim().split(/\s+/);
 
@@ -38,8 +41,8 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
       return false;
     }
 
-    if (words.length !== 3) {
-      toast.error("Please enter exactly three words in the title.");
+    if (words.length > 3) {
+      toast.error("Please enter less than three words!");
       return false;
     }
 
@@ -47,8 +50,8 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
   };
 
   const handleCreateNoteey = async () => {
-    if (!formValidation()) {
-      return; 
+    if (!formValidation() || !user) {
+      return;
     }
 
     if (user) {
@@ -81,6 +84,7 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
       {show && (
         <div
           ref={modalRef}
+          id="createModal"
           className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] bg-white gap-3"
         >
           <p className="text-center text-lg text-text font-mono">{content}</p>

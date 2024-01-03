@@ -6,6 +6,7 @@ import Overlay from "../Overlay";
 import Input from "../Input";
 import { toast } from "sonner";
 import { useAppContext } from "@/app/context/AppContext";
+import useModalAnimation from "./useModalAnimation";
 
 const EditModal: NextPage<EditModalProps> = ({
   show,
@@ -21,8 +22,16 @@ const EditModal: NextPage<EditModalProps> = ({
   const { color } = useAppContext();
   const backgroundStyle = color ? { backgroundColor: color } : {};
 
+  useModalAnimation(modalRef);
+
   const formValidation = () => {
+    const words = newTitle.trim().split(/\s+/);
+
     if (newTitle === "") {
+      return false;
+    }
+    if (words.length > 3) {
+      toast.error("Please enter less than three words!");
       return false;
     }
     return true;
@@ -30,7 +39,7 @@ const EditModal: NextPage<EditModalProps> = ({
 
   const updateTitle = () => {
     if (!formValidation()) {
-      toast.error("please enter a title");
+      return;
     } else {
       handleUpdateDoc(id, newTitle);
       setShow(false);
@@ -46,6 +55,7 @@ const EditModal: NextPage<EditModalProps> = ({
       {show && (
         <div
           ref={modalRef}
+          id="editModal"
           className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] bg-white gap-3"
         >
           <p className="text-center text-lg text-[#221b3a] font-mono">

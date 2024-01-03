@@ -22,6 +22,7 @@ import { CiBoxList } from "react-icons/ci";
 import { HiMiniArrowsUpDown } from "react-icons/hi2";
 import { IoArrowBack } from "react-icons/io5";
 import { Toaster, toast } from "sonner";
+import { GoMultiSelect } from "react-icons/go";
 
 const DeletedNotes = () => {
   const [user, loading] = useAuthState(auth);
@@ -42,12 +43,6 @@ const DeletedNotes = () => {
       );
       try {
         const querySnapshot = await getDocs(notesQuery);
-        // const notesData: React.SetStateAction<any[]> = [];
-        // querySnapshot.forEach((doc) => {
-        //   notesData.push({ id: doc.id, ...doc.data() });
-        // });
-
-        // setDeletedNotes(notesData);
         const deletedNotesData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -73,9 +68,8 @@ const DeletedNotes = () => {
     FetchDeletedNotes();
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setSearchInput("");
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
   };
 
   const handleViewMode = () => {
@@ -89,6 +83,9 @@ const DeletedNotes = () => {
     router.back();
   };
 
+  const handleSelect = () => {
+    console.log("coming soon");
+  };
   const handleDeleteCard = async (id: string) => {
     if (user) {
       const userDocRef = doc(db, "user", user.uid);
@@ -100,7 +97,7 @@ const DeletedNotes = () => {
         setDeletedNotes((prevNotes) =>
           prevNotes.filter((note) => note.id !== id)
         );
-        toast.success("Note Deleted successfully");
+        toast.success("Note Deleted permanently");
       } catch (error) {
         toast.error("Error deleting the card");
       }
@@ -122,7 +119,7 @@ const DeletedNotes = () => {
             note.id === id ? { ...note, title: newTitle } : note
           )
         );
-        toast.success("Note title updated permanently");
+        toast.success("Note title updated successfully");
       } catch (error) {
         toast.error("Error updating the card title");
       }
@@ -164,16 +161,23 @@ const DeletedNotes = () => {
 
           <div className="flex gap-5 text-[#d6d5d5] items-center">
             <button
+              onClick={handleSelect}
+              style={textStyle}
+              className="px-4 py-3 rounded hover:opacity-75 bg-[#2C2C2C] transition-all duration-300"
+            >
+              <GoMultiSelect />
+            </button>
+            <button
               onClick={handleToggleOrder}
               style={textStyle}
-              className="px-4 py-3 rounded hover:opacity-90 bg-[#2C2C2C] transition-all duration-300"
+              className="px-4 py-3 rounded hover:opacity-75 bg-[#2C2C2C] transition-all duration-300"
             >
               <HiMiniArrowsUpDown />
             </button>
             <button
               onClick={handleViewMode}
               style={textStyle}
-              className="px-4 py-3 rounded hover:opacity-90 bg-[#2C2C2C] transition-all duration-300"
+              className="px-4 py-3 rounded hover:opacity-75 bg-[#2C2C2C] transition-all duration-300"
             >
               {viewMode === "grid" ? <BsGrid /> : <CiBoxList />}
             </button>
@@ -185,9 +189,7 @@ const DeletedNotes = () => {
           </div>
           {!fetching && deletedNote?.length === 0 ? (
             <div className="flex flex-col gap-2 text-gray-400 font-semibold w-full justify-center items-center">
-              <h3 className="text-[28px]">
-                No Notes
-              </h3>
+              <h3 className="text-[28px]">No Notes</h3>
               <p className="text-[16px]">Deleted notes will be located here</p>
             </div>
           ) : (
@@ -196,18 +198,26 @@ const DeletedNotes = () => {
                 viewMode === "grid" ? "flex flex-wrap justify-start" : "grid"
               }`}
             >
-              {deletedNote?.map((data) => (
-                <div key={data.id}>
-                  <Card
-                    id={data.id}
-                    content={data.title}
-                    date={data.date}
-                    handleDeleteCard={handleDeleteCard}
-                    handleUpdateDoc={handleUpdateDoc}
-                    viewMode={viewMode}
-                  />
-                </div>
-              ))}
+              {deletedNote
+                .filter(
+                  (data) =>
+                    !searchInput ||
+                    data.title
+                      .toLowerCase()
+                      .includes(searchInput.toLocaleLowerCase())
+                )
+                .map((data: any) => (
+                  <div key={data.id}>
+                    <Card
+                      id={data.id}
+                      content={data.title}
+                      date={data.date}
+                      handleDeleteCard={handleDeleteCard}
+                      handleUpdateDoc={handleUpdateDoc}
+                      viewMode={viewMode}
+                    />
+                  </div>
+                ))}
             </div>
           )}
         </section>

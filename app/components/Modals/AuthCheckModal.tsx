@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import React, { useRef } from "react";
 import { AuthModalProps } from "../../types/components";
 import Overlay from "../Overlay";
+import useModalAnimation from "./useModalAnimation";
 
 const AuthCheckModal: NextPage<AuthModalProps> = ({
   show,
@@ -11,12 +12,15 @@ const AuthCheckModal: NextPage<AuthModalProps> = ({
   buttonAction,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  useModalAnimation(modalRef);
+
 
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (
         <div
           ref={modalRef}
+          id="authModal"
           className="m-10 flex h-fit w-[80%] max-w-[675px] flex-col items-center rounded-[10px] bg-white p-4  md:w-fit md:p-8"
         >
           <p className="text-center text-lg text-red-600">{content}</p>

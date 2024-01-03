@@ -16,9 +16,9 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
     <div className="flex justify-between items-center lg:px-12 px-4 py-5 border-b border-[#E1E1E1] text-[#180202] dark:text-[#effefb]">
       <h1 className="text-2xl cursor-pointer font-bold">Noteey</h1>
       <div className="flex items-center gap-3">
-        {user && loading ? (
+        {user ? (
           <div className="flex items-center gap-3">
-            {user.displayName && <p>Welcome, {user.displayName}</p>}{" "}
+            {user.displayName && <p>Welcome, {user.displayName}</p>}
             <button
               onClick={logOut}
               className="px-6 py-2 lg:block hidden rounded-lg bg-[#e85444] text-white hover:bg-[#D12600] transition-colors duration-500"
@@ -40,10 +40,11 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
             >
               Get Started
             </button>
-            <div>{loading && <div className="spinner"> </div>}</div>
+            {loading && <div className="spinner"></div>}
           </div>
         )}
       </div>
+
       {error && <p>An error occurced, please try again. </p>}
     </div>
   );

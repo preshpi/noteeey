@@ -1,11 +1,12 @@
 import { FeedbackModalProps } from "@/app/types/components/Modals/FeedbackModal";
 import { NextPage } from "next";
-import React, { useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import Overlay from "../Overlay";
 import { MdClose } from "react-icons/md";
 import { Toaster, toast } from "sonner";
 import emailjs from "@emailjs/browser";
 import { useAppContext } from "@/app/context/AppContext";
+import useModalAnimation from "./useModalAnimation";
 
 const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   const [isRequestSent, setRequestSent] = useState(false);
@@ -14,11 +15,15 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   });
   const modalRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
+
   const cancelModal = () => {
     setShow(false);
   };
   const { color } = useAppContext();
   const backgroundStyle = color ? { backgroundColor: color } : {};
+
+  const animateCom = useRef(null);
+  useModalAnimation(animateCom);
 
   const handleSendFeedback = (e: any) => {
     e.preventDefault();
@@ -34,7 +39,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
             "service_aakyhrk",
             "template_p5ls11n",
             formElement,
-            process.env.NEXT_PUBLIC_EMAIL_API_KEY,
+            process.env.NEXT_PUBLIC_EMAIL_API_KEY
           )
           .then(
             (result) => {
@@ -54,7 +59,11 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (
-        <div className="max-w-[405px] m-10 w-full bg-[#1f1f1f] rounded-lg shadow-lg h-auto max-h-[500px] overflow-auto">
+        <div
+          ref={animateCom}
+          id="box"
+          className="max-w-[405px] m-10 w-full bg-[#1f1f1f] rounded-lg shadow-lg h-auto max-h-[500px] overflow-auto"
+        >
           <div className="p-5 text-[#eee]">
             <div className="flex justify-between items-center text-2xl">
               <p className="font-semibold tracking-tight">Send us a feedback</p>

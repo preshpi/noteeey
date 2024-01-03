@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
-import { PiNoteThin, PiNotebookLight } from "react-icons/pi";
+import { PiNotebookLight } from "react-icons/pi";
 import FeedbackModal from "./Modals/FeedbackModal";
 import { useAppContext } from "../context/AppContext";
 import { HiChevronUpDown } from "react-icons/hi2";
@@ -12,18 +12,25 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
+import useModalAnimation from "./Modals/useModalAnimation";
 
 const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
   const [settingsModal, SetSettingsModal] = useState<boolean>(false);
   const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
   const [user, loading] = useAuthState(auth);
+  const animateCom = useRef(null);
+  useModalAnimation(animateCom);
 
   return (
     <>
       {isSideBarOpen && (
         <>
-          <aside className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[220px] text-white bg-[#131313]">
+          <aside
+            id="sidebar"
+            ref={animateCom}
+            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[220px] text-white bg-[#131313]"
+          >
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4">
                 {/* first div */}

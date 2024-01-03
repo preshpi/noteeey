@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import Overlay from "../Overlay";
 import { DeleteModalProps } from "@/app/types/components/Modals/DeleteModal";
 import { useAppContext } from "@/app/context/AppContext";
+import useModalAnimation from "./useModalAnimation";
 
 const DeleteModal: NextPage<DeleteModalProps> = ({
   show,
@@ -13,6 +14,8 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
   id,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  useModalAnimation(modalRef);
+
   const { color } = useAppContext();
   const backgroundStyle = color ? { backgroundColor: color } : {};
 
@@ -28,6 +31,7 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
       {show && (
         <div
           ref={modalRef}
+          id="deleteModal"
           className="m-10 flex h-fit w-[80%] max-w-[675px] flex-col items-center rounded-[10px] bg-white p-4  md:w-fit md:p-8"
         >
           <p className="text-center text-lg text-black">

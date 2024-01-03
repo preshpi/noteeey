@@ -1,6 +1,6 @@
 "use client";
 import { NextPage } from "next";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { Cardsprops } from "../types/components";
 import DeleteModal from "./Modals/DeleteModal";
@@ -11,6 +11,8 @@ import Link from "next/link";
 import { FaLink } from "react-icons/fa6";
 import { useAppContext } from "../context/AppContext";
 import { toast } from "sonner";
+import gsap from "gsap";
+import useModalAnimation from "./Modals/useModalAnimation";
 const Card: NextPage<Cardsprops> = ({
   content,
   date,
@@ -53,14 +55,17 @@ const Card: NextPage<Cardsprops> = ({
   const { color } = useAppContext();
   const borderStyle = color ? { borderLeftColor: color } : {};
 
+  const animateCom = useRef(null);
+  useModalAnimation(animateCom);
+  
   return (
-    <section className="w-full">
+    <section className="w-full" ref={animateCom}>
       <div
         className={`dark:bg-[#2C2C2C] bg-gray-200 mb-4 rounded-md border-l-4 
          ${viewMode === "grid" ? "w-[288px] p-3" : "w-full p-2"}`}
         style={borderStyle}
       >
-        <div className="flex justify-between gap-2 items-center">
+        <div id="card" className="flex justify-between gap-2 items-center">
           <Link href={`/notes/${id}`}>
             <h2 className="text-xl font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-black transition-all duration-300 text-wrap w-42">
               {content}
@@ -79,6 +84,7 @@ const Card: NextPage<Cardsprops> = ({
       {moreModal && (
         <div
           ref={modalRef}
+          id="moreModal"
           className="dark:text-white text-text absolute w-[192px] rounded-lg dark:bg-[#282828] bg-gray-200"
         >
           <ul className="flex flex-col gap-3 p-2">

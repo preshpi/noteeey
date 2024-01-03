@@ -18,6 +18,7 @@
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "firebase": "^10.4.0",
+    "gsap": "^3.12.4",
     "moment": "^2.29.4",
     "next": "^14.0.1",
     "postcss": "8.4.28",

@@ -9,9 +9,9 @@ import { Toaster, toast } from "sonner";
 import { BiPlus } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import CreateNoteModal from "@/app/components/Modals/CreateNoteModal";
+
 import {
   Timestamp,
-  addDoc,
   collection,
   doc,
   getDocs,
@@ -95,14 +95,6 @@ const Notes = () => {
       const cardDocRef = doc(userDocRef, "note", id);
       const deletedNotesCollectionRef = collection(userDocRef, "deletedNotes");
 
-      // try {
-      //   await deleteDoc(cardDocRef);
-      //   setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
-      //   toast.success("Note Deleted successfully");
-      // } catch (error) {
-      //   toast.error("Error deleting the card");
-      // }
-
       try {
         await runTransaction(db, async (transaction) => {
           // Get the note to be deleted
@@ -169,9 +161,8 @@ const Notes = () => {
     }
   }, [user, loading]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setSearchInput("");
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
   };
 
   return (
@@ -208,6 +199,7 @@ const Notes = () => {
               >
                 <HiMiniArrowsUpDown />
               </button>
+            
               <button
                 onClick={handleViewMode}
                 style={textStyle}
@@ -232,18 +224,26 @@ const Notes = () => {
                   viewMode === "grid" ? "flex flex-wrap justify-start" : "grid"
                 }`}
               >
-                {notes?.map((data) => (
-                  <div key={data.id}>
-                    <Card
-                      id={data.id}
-                      content={data.title}
-                      date={data.date}
-                      handleDeleteCard={handleDeleteCard}
-                      handleUpdateDoc={handleUpdateDoc}
-                      viewMode={viewMode}
-                    />
-                  </div>
-                ))}
+                {notes
+                  .filter(
+                    (data) =>
+                      !searchInput ||
+                      data.title
+                        .toLowerCase()
+                        .includes(searchInput.toLocaleLowerCase())
+                  )
+                  .map((data: any) => (
+                    <div key={data.id}>
+                      <Card
+                        id={data.id}
+                        content={data.title}
+                        date={data.date}
+                        handleDeleteCard={handleDeleteCard}
+                        handleUpdateDoc={handleUpdateDoc}
+                        viewMode={viewMode}
+                      />
+                    </div>
+                  ))}
               </div>
             )}
           </section>
