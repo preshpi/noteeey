@@ -11,12 +11,15 @@ import { toast } from "sonner";
 import { IoArrowBack } from "react-icons/io5";
 import DarkModeTheme from "../../components/DarkModeTheme";
 import ColorPicker from "@/app/components/ColorPicker";
+import { useAppContext } from "@/app/context/AppContext";
+import { FiMenu } from "react-icons/fi";
 
 const Settings = () => {
   const [user, loading] = useAuthState(auth);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
 
   const handleLogout = async () => {
     try {
@@ -37,6 +40,16 @@ const Settings = () => {
     <ProtectedRoute>
       <section className="w-full">
         <div className="flex items-center justify-start px-5 gap-5 dark:text-white text-text mt-3">
+          {!isSideBarOpen && (
+            <div className="w-8 h-8 flex items-center justify-center">
+              <button
+                onClick={() => setIsSideBarOpen(true)}
+                className="flex items-center justify-center hover:bg-opacity-50 bg-[#131313] text-white rounded-md w-full h-full"
+              >
+                <FiMenu />
+              </button>
+            </div>
+          )}
           <div
             onClick={goBack}
             className="cursor-pointer text-3xl hover:animate-pulse"

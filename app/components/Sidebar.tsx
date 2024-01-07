@@ -13,14 +13,15 @@ import { auth } from "../firebase";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
 import useModalAnimation from "./Modals/useModalAnimation";
-
+import { usePathname } from "next/navigation";
 const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
   const [settingsModal, SetSettingsModal] = useState<boolean>(false);
   const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const animateCom = useRef(null);
   useModalAnimation(animateCom);
+  const pathname = usePathname();
 
   return (
     <>
@@ -54,7 +55,11 @@ const Sidebar = () => {
                   <ul className="mt-8 space-y-4">
                     <li>
                       <Link href="/notes">
-                        <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
+                        <button
+                          className={`p-2 text-slate-50 text-x hover:bg-[#222] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
+                            pathname === "/" ? "bg-[#323135]" : "bg-none"
+                          }`}
+                        >
                           {" "}
                           <PiNotebookLight /> Notes
                         </button>
@@ -62,7 +67,11 @@ const Sidebar = () => {
                     </li>
                     <li>
                       <Link href="/trash">
-                        <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
+                        <button
+                          className={`p-2 text-slate-50 text-x hover:bg-[#222] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
+                            pathname === "/trash" ? "bg-[#323135]" : "bg-none"
+                          }`}
+                        >
                           {" "}
                           <AiOutlineDelete /> Trash
                         </button>
@@ -70,7 +79,13 @@ const Sidebar = () => {
                     </li>
                     <li>
                       <Link href="/settings">
-                        <button className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center">
+                        <button
+                          className={`p-2 text-slate-50 text-x hover:bg-[#222] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
+                            pathname === "/settings"
+                              ? "bg-[#323135]"
+                              : "bg-none"
+                          }`}
+                        >
                           {" "}
                           <IoSettingsOutline /> Settings
                         </button>

@@ -23,6 +23,7 @@ import { HiMiniArrowsUpDown } from "react-icons/hi2";
 import { IoArrowBack } from "react-icons/io5";
 import { Toaster, toast } from "sonner";
 import { GoMultiSelect } from "react-icons/go";
+import { FiMenu } from "react-icons/fi";
 
 const DeletedNotes = () => {
   const [user, loading] = useAuthState(auth);
@@ -32,6 +33,7 @@ const DeletedNotes = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
+  const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
 
   const FetchDeletedNotes = async () => {
     if (user && !loading) {
@@ -130,6 +132,16 @@ const DeletedNotes = () => {
     <ProtectedRoute>
       <section className="w-full p-5">
         <div className="flex items-center w-full lg:justify-start gap-5 dark:text-white text-text">
+          {!isSideBarOpen && (
+            <div className="w-8 h-8 flex items-center justify-center">
+              <button
+                onClick={() => setIsSideBarOpen(true)}
+                className="flex items-center justify-center hover:bg-opacity-50 bg-[#131313] text-white rounded-md w-full h-full"
+              >
+                <FiMenu />
+              </button>
+            </div>
+          )}
           <div
             onClick={goBack}
             className="cursor-pointer text-3xl hover:animate-pulse"

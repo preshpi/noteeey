@@ -82,7 +82,7 @@ const Home = () => {
         <Button
           onClick={handleCreateNote}
           disabled={loading}
-          additionalClasses={`dark:text-white text-text dark:bg-[#d44141] bg-[#FF6D4C] px-12 py-4 rounded-2xl hover:opacity-75 transistion-all duration-300 ${
+          additionalClasses={`dark:text-white text-text dark:bg-[#d44141] bg-[#FF6D4C] px-12 py-3 rounded-2xl hover:opacity-75 transistion-all duration-300 ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >

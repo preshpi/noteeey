@@ -2,7 +2,6 @@
 import ProtectedRoute from "@/app/ProtectedRoute";
 import { auth, db } from "@/app/firebase";
 import {
-  DocumentReference,
   collection,
   doc,
   getDocs,
@@ -20,38 +19,75 @@ import { toast } from "sonner";
 
 const NoteDetails = ({ params }: { params: any }) => {
   const router = useRouter();
+
+  const goBack = () => {
+    router.back();
+  };
   const [user, loading] = useAuthState(auth);
-  const [editorContent, setEditorContent] = useState<string>("");
-  const [documentRef, setDocumentRef] = useState<DocumentReference | null>(
-    null
-  );
   const [notes, setNotes] = useState<any[]>([]);
+  const [editorContent, setEditorContent] = useState<string>("");
 
   const Id = params.details;
   const selectedNote = notes.find((note) => note.id === Id);
   console.log(selectedNote);
 
-  const goBack = () => {
-    router.back();
+  var toolbarOptions = [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
+    ["link", "image"],
+
+    [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"], // remove formatting button
+  ];
+
+  const modules = {
+    toolbar: toolbarOptions,
   };
 
-  const subscribeToUpdates = (docRef: DocumentReference) => {
-    return onSnapshot(docRef, (doc) => {
-      if (doc.exists()) {
-        setEditorContent(doc.data()?.editorContent || "");
-      }
-    });
+  const getQuillData = (value: any) => {
+    setEditorContent(value);
   };
 
   useEffect(() => {
     if (user && !loading) {
       const userDocRef = doc(db, "user", user?.uid);
       const collectionRef = collection(userDocRef, "note");
-      const docRef = doc(collectionRef, Id);
-      setDocumentRef(docRef);
 
-      const unsubscribe = subscribeToUpdates(docRef);
+      const updateDocsData = setTimeout(() => {
+        const document = doc(collectionRef, Id);
+
+        updateDoc(document, {
+          editorContent: editorContent,
+        })
+          .then(() => {
+            console.log("Document saved");
+          })
+          .catch(() => {
+            console.error("Cannot Save Document");
+          });
+      }, 1000);
+      return () => clearTimeout(updateDocsData);
+    }
+  }, [editorContent]);
+
+  useEffect(() => {
+    if (user && !loading) {
+      const userDocRef = doc(db, "user", user?.uid);
+      const collectionRef = collection(userDocRef, "note");
+
       const getData = async () => {
+        const document = doc(collectionRef, Id);
         try {
           const querySnapshot = await getDocs(collectionRef);
           const fetchedNotes = querySnapshot.docs.map((doc) => ({
@@ -66,26 +102,8 @@ const NoteDetails = ({ params }: { params: any }) => {
       };
 
       getData();
-      return () => unsubscribe();
     }
-  }, [user, loading, Id]);
-
-  const getQuillData = (value: any) => {
-    setEditorContent(value);
-
-    // Update document in response to user's actions
-    if (documentRef) {
-      updateDoc(documentRef, {
-        editorContent: value,
-      })
-        .then(() => {
-          toast.success("Document saved");
-        })
-        .catch(() => {
-          toast.error("Cannot Save Document");
-        });
-    }
-  };
+  }, [editorContent]);
 
   return (
     <ProtectedRoute>
@@ -110,23 +128,7 @@ const NoteDetails = ({ params }: { params: any }) => {
             <ReactQuill
               value={editorContent || ""}
               onChange={getQuillData}
-              modules={{
-                toolbar: [
-                  ["bold", "italic", "underline", "strike"],
-                  ["blockquote", "code-block"],
-                  ["link", "image"],
-                  [{ header: 1 }, { header: 2 }],
-                  [{ list: "ordered" }, { list: "bullet" }],
-                  [{ script: "sub" }, { script: "super" }],
-                  [{ indent: "-1" }, { indent: "+1" }],
-                  [{ direction: "rtl" }],
-                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                  [{ color: [] }, { background: [] }],
-                  [{ font: [] }],
-                  [{ align: [] }],
-                  ["clean"],
-                ],
-              }}
+              modules={modules}
               theme="snow"
               style={{ height: "500px" }}
               className="dark:text-white mb-16"

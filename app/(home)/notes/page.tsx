@@ -45,7 +45,7 @@ const Notes = () => {
       const seconds = timestamp.seconds;
       const nanoseconds = timestamp.nanoseconds / 1000000;
       const date = new Date(seconds * 1000 + nanoseconds);
-      return moment(date).format("YYYY-MM-DD");
+      return moment(date).format("MM/DD/YYYY - h:mm A");
     }
     return "";
   };
@@ -199,7 +199,7 @@ const Notes = () => {
               >
                 <HiMiniArrowsUpDown />
               </button>
-            
+
               <button
                 onClick={handleViewMode}
                 style={textStyle}

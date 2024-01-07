@@ -32,23 +32,23 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
         <div
           ref={modalRef}
           id="deleteModal"
-          className="m-10 flex h-fit w-[80%] max-w-[675px] flex-col items-center rounded-[10px] bg-white p-4  md:w-fit md:p-8"
+          className="m-10 flex px-4 py-6 w-full max-w-[446px] text-[#FFFFFF] flex-col items-center shadow gap-2 rounded-[10px] dark:bg-[#232323]"
         >
-          <p className="text-center text-lg text-black">
-            Are you sure you want to delete{" "}
-            <span className="font-semibold text-red-600">{content}</span> ?
-          </p>
+          <div className="text-center text-lg">
+            <p>Are you sure you want to delete </p>
+            <p className="font-semibold">&apos;{content}&apos; ?</p>
+          </div>
+
           {buttonContent && (
             <div className="flex w-full py-4 gap-5">
               <button
-                className="w-full py-2 rounded-lg transition-all duration-300 dark:hover:bg-[#eee] hover:text-black border dark:text-text"
+                className="w-full py-2 rounded-lg transition-all duration-300 border border-[#3D3D3D] dark:text-[#CCCCCC] hover:opacity-90"
                 onClick={cancelModal}
               >
                 Cancel
               </button>
               <button
-                className="w-full rounded-lg transition-all duration-300 hover:opacity-90 py-2 text-sm text-text"
-                style={backgroundStyle}
+                className="w-full rounded-lg transition-all duration-300 hover:opacity-90 py-2 text-sm  bg-[#CD4628]"
                 onClick={() => {
                   deleteCard(id);
                 }}
