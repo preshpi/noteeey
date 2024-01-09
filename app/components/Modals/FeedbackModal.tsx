@@ -45,13 +45,14 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
             (result) => {
               toast.success(result.text);
               setRequestSent(true);
+              setShow(false);
             },
             (error) => {
               toast.error(error.text);
             }
           );
       } else {
-        console.error("Form element is not available.");
+        toast.error("Form element is not available.");
       }
     }
   };
@@ -92,13 +93,13 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
                     message: e.target.value,
                   });
                 }}
-                className="p-4 text-sm h-32 rounded-lg border focus:outline-none bg-[#1f1f1f] text-[#eee] border-slate-200"
+                className="p-4 text-sm h-32 rounded-lg border focus:outline-none dark:bg-[#1f1f1f] bg-[#EAEAEA] dark:border-[#3D3D3D] border-[#C2C2C2] dark:text-[#eee] text-text"
                 placeholder="Let us know the issue..."
               ></textarea>
               <div className="flex justify-end gap-5">
                 <button
                   onClick={cancelModal}
-                  className="px-4 py-2 rounded-lg border transition-all duration-300 hover:bg-[#b6b5b5] hover:text-black"
+                  className="px-4 py-2 rounded-lg transition-all duration-300 hover:bg-[#eee] dark:hover:bg-[#1d1d1d] border border-[#3D3D3D] dark:border-[#C2C2C2]"
                 >
                   Cancel
                 </button>
