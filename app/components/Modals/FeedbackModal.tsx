@@ -62,9 +62,9 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
         <div
           ref={animateCom}
           id="box"
-          className="max-w-[405px] m-10 w-full bg-[#1f1f1f] rounded-lg shadow-lg h-auto max-h-[500px] overflow-auto"
+          className="max-w-[405px] m-10 w-full dark:bg-[#1f1f1f] bg-[#EAEAEA] rounded-lg shadow-lg h-auto max-h-[500px] overflow-auto"
         >
-          <div className="p-5 text-[#eee]">
+          <div className="p-5 dark:text-[#eee] text-[#131313]">
             <div className="flex justify-between items-center text-2xl">
               <p className="font-semibold tracking-tight">Send us a feedback</p>
               <button onClick={cancelModal}>
@@ -72,7 +72,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
               </button>
             </div>
 
-            <p className="text-x pt-3 text-[#eee]">
+            <p className="text-x pt-3">
               Bugs? Honest feedback would be apperciated. You can also send new
               features you want us to add.
             </p>
@@ -98,7 +98,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
               <div className="flex justify-end gap-5">
                 <button
                   onClick={cancelModal}
-                  className="px-4 py-2 rounded-lg transition-all duration-300 hover:bg-[#b6b5b5] hover:text-black"
+                  className="px-4 py-2 rounded-lg border transition-all duration-300 hover:bg-[#b6b5b5] hover:text-black"
                 >
                   Cancel
                 </button>

@@ -171,7 +171,7 @@ const Notes = () => {
         <TopBar />
         <div className="p-5 flex flex-col gap-5">
           <div className="flex gap-y-5 lg:justify-between flex-col lg:flex-row">
-            <div className="flex items-center justify-between w-[300px] dark:bg-[#2C2C2C] bg-[#f2f2f2] border-none text-black dark:text-[#929292] text-[14px] rounded-lg focus-within:shadow-md">
+            <div className="flex items-center justify-between w-[300px] dark:bg-[#2C2C2C] bg-[#F7F7F7] border-none text-[14px] rounded-lg focus-within:shadow-md">
               <Input
                 type="search"
                 id="search"
@@ -195,7 +195,7 @@ const Notes = () => {
               <button
                 onClick={handleToggleOrder}
                 style={textStyle}
-                className="px-4 py-3 rounded hover:opacity-90 bg-[#2C2C2C] transition-all duration-300"
+                className="px-4 py-3 rounded hover:opacity-90 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
               >
                 <HiMiniArrowsUpDown />
               </button>
@@ -203,7 +203,7 @@ const Notes = () => {
               <button
                 onClick={handleViewMode}
                 style={textStyle}
-                className="px-4 py-3 rounded hover:opacity-90 bg-[#2C2C2C] transition-all duration-300"
+                className="px-4 py-3 rounded hover:opacity-90 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
               >
                 {viewMode === "grid" ? <BsGrid /> : <CiBoxList />}
               </button>

@@ -142,13 +142,10 @@ const DeletedNotes = () => {
               </button>
             </div>
           )}
-          <div
-            onClick={goBack}
-            className="cursor-pointer text-3xl hover:animate-pulse"
-          >
-            <IoArrowBack />
-          </div>
-          <h3 className="text-[30px] font-semibold">Trash</h3>
+          <div className="flex flex-col gap-1 text-[#131313] dark:text-[#FFFFFF]">
+            <h3 className="text-[20px] text-[#131313]">Trash</h3>
+            <p className="text-[14px] text-[#131313]">Recover deleted notes.</p>
+          </div>{" "}
         </div>
         <div className="flex gap-y-5 justify-between flex-col lg:flex-row pt-5">
           <div className="flex items-center justify-between w-[300px] dark:bg-[#2C2C2C] bg-[#f2f2f2] border-none text-black dark:text-[#929292] text-[14px] rounded-lg focus-within:shadow-md">
@@ -172,24 +169,24 @@ const DeletedNotes = () => {
           </div>
 
           <div className="flex gap-5 text-[#d6d5d5] items-center">
-            <button
+            {/* <button
               onClick={handleSelect}
               style={textStyle}
-              className="px-4 py-3 rounded hover:opacity-75 bg-[#2C2C2C] transition-all duration-300"
+              className="px-4 py-3 rounded hover:opacity-75 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
             >
               <GoMultiSelect />
-            </button>
+            </button> */}
             <button
               onClick={handleToggleOrder}
               style={textStyle}
-              className="px-4 py-3 rounded hover:opacity-75 bg-[#2C2C2C] transition-all duration-300"
+              className="px-4 py-3 rounded hover:opacity-75 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
             >
               <HiMiniArrowsUpDown />
             </button>
             <button
               onClick={handleViewMode}
               style={textStyle}
-              className="px-4 py-3 rounded hover:opacity-75 bg-[#2C2C2C] transition-all duration-300"
+              className="px-4 py-3 rounded hover:opacity-75 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
             >
               {viewMode === "grid" ? <BsGrid /> : <CiBoxList />}
             </button>

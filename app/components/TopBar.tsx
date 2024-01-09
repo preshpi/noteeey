@@ -21,10 +21,12 @@ const TopBar = () => {
       )}
       {user && !loading && (
         <div>
-          <p className="text-[20px] font-[500]">
+          <p className="text-[20px] font-[500] dark:text-[#FFFFFF] text-[#131313]">
             Hello, {user?.displayName}
           </p>
-          <p className="text-[14px] dark:text-[#BBB] text-gray-500">What are you writing today?</p>
+          <p className="text-[14px] dark:text-[#BBBBBB] text-[#131313]">
+            What are you writing today?
+          </p>
         </div>
       )}
     </header>

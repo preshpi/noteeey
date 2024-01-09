@@ -30,11 +30,11 @@ const SettingsModal = () => {
     <div
       ref={modalRef}
       id="settingsModal"
-      className="bg-[#1d1d1d] text-white rounded-lg bottom-14 space-y-3 w-full p-2 absolute"
+      className="dark:bg-[#1d1d1d] bg-[#EAEAEA] shadow dark:text-white text-[#131313] rounded-lg bottom-14 space-y-3 w-full p-2 absolute"
     >
       <button className="w-full">
         <a
-          className="flex items-center gap-5 cursor-pointer transition-all p-1 duration-300 hover:bg-[#3e3e3e] text-x rounded-lg w-full"
+          className="flex items-center gap-5 cursor-pointer transition-all p-1 duration-300 dark:hover:bg-[#3e3e3e] hover:bg-[#cbcbcb] text-x rounded-lg w-full"
           href="https://linktr.ee/preciousegwuenu"
           target="_blank"
         >
@@ -45,7 +45,7 @@ const SettingsModal = () => {
 
       <p
         onClick={handleLogout}
-        className="cursor-pointer text-x rounded-lg w-full flex items-center gap-5 p-1 transition-all duration-300 hover:bg-[#3e3e3e] "
+        className="cursor-pointer text-x rounded-lg w-full flex items-center gap-5 p-1 transition-all duration-300 dark:hover:bg-[#3e3e3e] hover:bg-[#cbcbcb]"
       >
         <CiLogout /> Logout
       </p>

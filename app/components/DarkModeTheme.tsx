@@ -36,28 +36,36 @@ const DarkModeTheme = () => {
     }
   }, [theme]);
   return (
-    <div className="flex items-center gap-3">
-      <div className="flex flex-col items-center gap-3">
-        <p className="dark:text-[#fff] text-text  text-[16px]">light mode</p>
-        <button
-          onClick={handleThemeSwitch}
-          className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[white]"
-        >
-          {theme === "light" && (
-            <IoMdCheckmark className="text-2xl text-[#000]" />
-          )}
-        </button>
-      </div>
-      <div className="flex flex-col items-center gap-3">
-        <p className="dark:text-[#fff] text-text text-[16px]">Dark mode</p>
-        <button
-          onClick={handleThemeSwitch}
-          className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[black]"
-        >
-          {mounted && theme === "dark" && (
-            <IoMdCheckmark className="text-2xl text-[#fff]" />
-          )}
-        </button>
+    <div className="flex items-center justify-center flex-col gap-3">
+      <p className="text-[#131313] dark:text-[#FFFF] text-[14px]">
+        Select your favorite theme
+      </p>
+      <div className="flex items-center gap-3">
+        <div className="flex flex-col items-center gap-3">
+          {" "}
+          <button
+            onClick={handleThemeSwitch}
+            className={`w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all border border-[#3D3D3D] bg-[#fff] ${
+              theme === "light" ? "border border-[#3D3D3D]" : ""
+            }`}
+          >
+            {theme === "light" && (
+              <IoMdCheckmark className="text-2xl text-[#000]" />
+            )}
+          </button>
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          <button
+            onClick={handleThemeSwitch}
+            className={`w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[#1C1C1C] ${
+              theme === "dark" ? "border border-[#3D3D3D]" : ""
+            }`}
+          >
+            {mounted && theme === "dark" && (
+              <IoMdCheckmark className="text-2xl text-[#fff]" />
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

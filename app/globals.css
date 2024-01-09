@@ -53,3 +53,10 @@ html {
   min-height: 100vh;
   margin-top: 10px;
 }
+
+.ql-tooltip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50px !important;
+}

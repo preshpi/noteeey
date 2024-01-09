@@ -12,11 +12,11 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    toast.error("An error occured" );
+    toast.error("An error occured");
   }, [error]);
 
   return (
-    <div className="items-center flex justify-center flex-col h-full gap-5">
+    <div className="items-center flex justify-center flex-col h-screen gap-5">
       <h2 className="dark:text-white text-black font-semibold text-3xl">
         Something went wrong!
       </h2>

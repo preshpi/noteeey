@@ -56,9 +56,9 @@ const EditModal: NextPage<EditModalProps> = ({
         <div
           ref={modalRef}
           id="editModal"
-          className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] bg-white gap-3"
+          className="m-10 max-w-[405px] p-6 flex h-fit w-full flex-col items-center rounded-[10px] bg-white dark:bg-[#232323] gap-3"
         >
-          <p className="text-center text-lg text-[#221b3a] font-mono">
+          <p className="text-center text-lg text-[#221b3a] dark:text-[#FFFFFF]">
             {header}
           </p>
 
@@ -71,14 +71,14 @@ const EditModal: NextPage<EditModalProps> = ({
               required
               onChange={(e) => setNewTitle(e.target.value)}
               type="text"
-              additionalClasses="border w-full outline-none focus-none p-2 rounded text-black text-sm"
-              placeholder="What's the title of your note?"
+              additionalClasses="border w-full outline-none focus-none bg-transparent dark:border-[#3D3D3D] border-[#C2C2C2] dark:text-[#FFFFFF] p-2 rounded text-black text-sm"
+              placeholder="Rename note title"
             />
           </form>
           {buttonContent && (
             <div className="flex w-full py-2 gap-4">
               <button
-                className="w-full py-2 rounded-lg transition-all duration-300 hover:bg-[#eee] hover:text-black border dark:text-text"
+                className="w-full py-2 rounded-lg transition-all duration-300 hover:bg-[#eee] dark:hover:bg-[#1d1d1d] hover:text-black border dark:border-[#3D3D3D] border-[#C2C2C2] dark:text-[#CCCCCC]"
                 onClick={cancelModal}
               >
                 Cancel

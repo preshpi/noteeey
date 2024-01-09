@@ -12,13 +12,20 @@ const ColorPicker = () => {
 
   return (
     <div className="flex flex-col items-center dark:text-[#fff] text-text gap-3">
-      <label htmlFor="favcolor">Select your favorite color</label>
+      <label
+        htmlFor="favcolor"
+        className="text-[#131313] dark:text-[#FFFF] text-[14px]"
+      >
+        Select your favorite color
+      </label>
+
       <input
         type="color"
         id="favcolor"
         name="favcolor"
-        value={color || "#e85444"}
+        value={color || "#131313"}
         onChange={handleColorChange}
+        className="rounded-md"
       />
     </div>
   );

@@ -63,25 +63,27 @@ const Card: NextPage<Cardsprops> = ({
     <section className="w-full" ref={animateCom}>
       <Draggable scale={1}>
         <div
-          className={`dark:bg-[#232323] bg-gray-200 mb-4 rounded-lg border-l-4 cursor-move space-y-3 shadow-md
+          className={`dark:bg-[#232323] bg-[#F7F7F7] mb-4 rounded-lg border-l-4 cursor-move space-y-3 shadow-md 
          ${viewMode === "grid" ? "w-[264px] p-4" : "w-full p-2"}`}
           style={borderStyle}
         >
           <div id="card" className="flex justify-between gap-2 items-center">
             <Link href={`/notes/${id}`}>
-              <h2 className="text-xl font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-black transition-all duration-300 text-wrap w-42">
+              <h2 className="text-xl font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-[#131313] transition-all duration-300 text-wrap w-42">
                 {content}
               </h2>
             </Link>
 
             <button
               onClick={() => setMoreModal(!moreModal)}
-              className="text-[#686868] dark:text-[#D6D6D6] border-[#3D3D3D] border opacity-80 rounded p-1 transition-all duration-300"
+              className="text-[#858585] dark:text-[#D6D6D6] dark:border-[#3D3D3D] border-[#858585] border opacity-80 rounded p-1 transition-all duration-300"
             >
               <IoMdMore />
             </button>
           </div>
-          <p className="text-gray-500 dark:text-[#747373] pt-2">{date}</p>
+          <p className="text-[#5C5C5C] dark:text-[#747373] mt-2 text-[12px]">
+            {date}
+          </p>
         </div>
       </Draggable>
 
@@ -89,12 +91,12 @@ const Card: NextPage<Cardsprops> = ({
         <div
           ref={modalRef}
           id="moreModal"
-          className="dark:text-white text-text absolute w-[192px] rounded-lg dark:bg-[#282828] bg-gray-200"
+          className="dark:text-white text-text absolute z-10 w-[170px] rounded-lg shadow dark:bg-[#1C1C1C] bg-[#FFFFFF] dark:border-[#232323] border border-[#F2F4F7]"
         >
-          <ul className="flex flex-col gap-3 p-2">
+          <ul className="flex flex-col gap-2 p-2">
             <li
               onClick={handleEditModal}
-              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30"
+              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-[#F7F7F7] dark:text-[#D6D6D6] text-[#888888] hover:text-[#131313] hover:dark:text-[#FFFFFF] dark:hover:bg-[#232323] transition-all duration-30"
             >
               <MdEdit size={20} />
               <p>Rename</p>{" "}
@@ -102,7 +104,7 @@ const Card: NextPage<Cardsprops> = ({
             <CopyToClipboard text={urlToCopy}>
               <li
                 onClick={handleCopyNote}
-                className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30"
+                className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-[#F7F7F7] dark:hover:bg-[#232323] dark:text-[#D6D6D6] hover:text-[#131313] text-[#888888] hover:dark:text-[#FFFFFF] transition-all duration-30"
               >
                 <FaLink size={20} />
                 <p>Copy url</p>
@@ -110,7 +112,7 @@ const Card: NextPage<Cardsprops> = ({
             </CopyToClipboard>
             <li
               onClick={handleDeleteModal}
-              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-gray-300 dark:hover:bg-[#1e1e1e] transition-all duration-30 dark:text-red-400 text-red-600"
+              className="flex gap-3 rounded-lg cursor-pointer p-3 hover:bg-[#F7F7F7] dark:hover:bg-[#232323] transition-all duration-30  hover:text-[#CD4628] text-red-500"
             >
               <MdDelete size={20} />
               <p>Delete</p>

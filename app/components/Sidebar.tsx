@@ -30,7 +30,7 @@ const Sidebar = () => {
           <aside
             id="sidebar"
             ref={animateCom}
-            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[220px] text-white bg-[#131313]"
+            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
           >
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4">
@@ -39,7 +39,7 @@ const Sidebar = () => {
                   <div className="w-full flex justify-between items-center">
                     <Link
                       href="/"
-                      className="font-bold hover:opacity-80 text-[25px]"
+                      className="font-bold hover:opacity-80 text-[25px] dark:text-[#FBFBFB] text-[#131313]"
                     >
                       Noteey
                     </Link>
@@ -56,8 +56,10 @@ const Sidebar = () => {
                     <li>
                       <Link href="/notes">
                         <button
-                          className={`p-2 text-slate-50 text-x hover:bg-[#222] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
-                            pathname === "/" ? "bg-[#323135]" : "bg-none"
+                          className={`p-2 dark:text-slate-50 text-[#131313] text-x dark:hover:bg-[#222] hover:bg-[#EAEAEA] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
+                            pathname === "/notes"
+                              ? "dark:bg-[#323135] bg-[#EAEAEA]"
+                              : "bg-none"
                           }`}
                         >
                           {" "}
@@ -68,8 +70,10 @@ const Sidebar = () => {
                     <li>
                       <Link href="/trash">
                         <button
-                          className={`p-2 text-slate-50 text-x hover:bg-[#222] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
-                            pathname === "/trash" ? "bg-[#323135]" : "bg-none"
+                          className={`p-2 dark:text-slate-50 text-[#131313] text-x dark:hover:bg-[#222] hover:bg-[#EAEAEA] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
+                            pathname === "/trash"
+                              ? "dark:bg-[#323135] bg-[#EAEAEA]"
+                              : "bg-none"
                           }`}
                         >
                           {" "}
@@ -80,9 +84,9 @@ const Sidebar = () => {
                     <li>
                       <Link href="/settings">
                         <button
-                          className={`p-2 text-slate-50 text-x hover:bg-[#222] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
+                          className={`p-2 dark:text-slate-50 text-[#131313] text-x dark:hover:bg-[#222] hover:bg-[#EAEAEA] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center ${
                             pathname === "/settings"
-                              ? "bg-[#323135]"
+                              ? "dark:bg-[#323135] bg-[#EAEAEA]"
                               : "bg-none"
                           }`}
                         >
@@ -97,7 +101,7 @@ const Sidebar = () => {
                 <div className="space-y-5 relative">
                   <button
                     onClick={() => setFeedback(!feedback)}
-                    className="p-2 bg-[#222] text-slate-50 text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center"
+                    className="p-2 dark:bg-[#222] bg-[#EAEAEA] dark:text-slate-50 text-[#131313] text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center"
                   >
                     <VscFeedback />
                     Send Feedback
@@ -105,7 +109,7 @@ const Sidebar = () => {
                   <div className="">{settingsModal && <SettingsModal />}</div>
                   <button
                     onClick={() => SetSettingsModal(!settingsModal)}
-                    className="flex p-3 bg-[#222] rounded-lg justify-between items-center text-slate-50 hover:opacity-90 text-[14px] w-full"
+                    className="flex p-3 dark:bg-[#222] bg-[#EAEAEA] rounded-lg justify-between items-center dark:text-slate-50 text-[#131313] hover:opacity-90 text-[14px] w-full"
                   >
                     {user && <p className="text-x">{user?.displayName}</p>}{" "}
                     <HiChevronUpDown />

@@ -50,40 +50,46 @@ const Settings = () => {
               </button>
             </div>
           )}
-          <div
-            onClick={goBack}
-            className="cursor-pointer text-3xl hover:animate-pulse"
-          >
-            <IoArrowBack />
+
+          <div className="flex flex-col gap-1 text-[#131313] dark:text-[#FFFFFF]">
+            <h3 className="text-[20px] ">Settings</h3>
+            <p className="text-[14px]">Manage account settings.</p>
           </div>
-          <h3 className="text-[30px] font-semibold">Settings</h3>
         </div>
 
-        <div className="max-w-[1000px] mx-auto mt-8 p-5">
+        <div className="mt-8 p-5">
           <section className="flex flex-col gap-8">
-            <h1 className="font-semibold dark:text-[#fff] text-text text-[24px]">
-              General
-            </h1>
-
-            <div className="flex justify-between">
-              <h3 className="text-[18px] dark:text-[#fff] text-text">
-                Theme Preferences
-              </h3>
-              <DarkModeTheme />
+            <div className="space-y-3">
+              <p className="font-semibold dark:text-[#fff] text-text text-[16px]">
+                General
+              </p>
+              <div className="flex justify-between">
+                <p className="text-[14px] dark:text-[#fff] text-[#131313]">
+                  Theme Preferences
+                </p>
+                <DarkModeTheme />
+              </div>
             </div>
 
             <div className="flex justify-between">
-              <h3 className="text-[18px] dark:text-[#fff] text-text">
+              <p className="text-[14px] dark:text-[#fff] text-text">
                 Note Display Preferences
-              </h3>
+              </p>
 
               <ColorPicker />
-              {/* <div className="flex flex-wrap gap-3">
-                  <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[#c84b4b]"></button>
-                  <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[green]"></button>
-                  <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[pink]"></button>
-                  <button className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 duration-300 transistion-all bg-[pink]"></button>
-                </div> */}
+            </div>
+
+            <div className="flex gap-3 flex-col w-[383px]">
+              <p className="text-[16px] dark:text-[#fff] text-text">
+                Confirm account deletion
+              </p>
+              <p className="text-[#131313] dark:text-[#ccc] text-[14px]">
+                You&apos;ll have access to your Noteey account and be able to
+                restore your account within the next 30 days.
+              </p>
+              <button className="w-full py-4 bg-[#CD4628] hover:opacity-75 duration-300 transition-all dark:text-white rounded-[6px] max-w-[171px]">
+                Delete my account
+              </button>
             </div>
           </section>
         </div>
