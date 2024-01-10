@@ -74,7 +74,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
             </div>
 
             <p className="text-x pt-3">
-              Bugs? Honest feedback would be apperciated. You can also send new
+              Bugs? Honest feedback would be appreciated. You can also send new
               features you want us to add.
             </p>
             <form
