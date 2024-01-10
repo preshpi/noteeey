@@ -143,8 +143,8 @@ const DeletedNotes = () => {
             </div>
           )}
           <div className="flex flex-col gap-1 text-[#131313] dark:text-[#FFFFFF]">
-            <h3 className="text-[20px] text-[#131313]">Trash</h3>
-            <p className="text-[14px] text-[#131313]">Recover deleted notes.</p>
+            <h3 className="text-[20px]">Trash</h3>
+            <p className="text-[14px]">Recover deleted notes.</p>
           </div>{" "}
         </div>
         <div className="flex gap-y-5 justify-between flex-col lg:flex-row pt-5">
