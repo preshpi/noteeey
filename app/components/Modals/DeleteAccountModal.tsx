@@ -1,27 +1,35 @@
 import { NextPage } from "next";
 import React, { useRef } from "react";
 import Overlay from "../Overlay";
-import { DeleteModalProps } from "@/app/types/components/Modals/DeleteModal";
 import useModalAnimation from "./useModalAnimation";
+import { DeleteAccountModalProps } from "@/app/types/components";
 
-const DeleteModal: NextPage<DeleteModalProps> = ({
+const DeleteAccountModal: NextPage<DeleteAccountModalProps> = ({
   show,
   setShow,
-  content,
   buttonContent,
-  handleDeleteCard,
-  id,
+  handleDeleteAccount,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useModalAnimation(modalRef);
 
-  const deleteCard = (id: string) => {
-    handleDeleteCard(id);
-    setShow(false);
-  };
   const cancelModal = () => {
     setShow(false);
   };
+
+  const confirmDeletion = async () => {
+    try {
+      await handleDeleteAccount();
+      // Optionally, you can perform additional actions after deletion
+      // For example, redirect the user or show a success message
+
+      setShow(false);
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      // Handle errors, e.g., show an error message to the user
+    }
+  };
+
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (
@@ -32,8 +40,7 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
         >
           <div className="w-full">
             <div className="text-center text-lg">
-              <p>Are you sure you want to delete </p>
-              <p>&apos;{content}&apos; ?</p>
+              <p>Are you sure you want to delete your account?</p>
             </div>
 
             {buttonContent && (
@@ -45,10 +52,8 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
                   Cancel
                 </button>
                 <button
+                  onClick={confirmDeletion}
                   className="w-full rounded-lg transition-all duration-300 hover:opacity-90 py-2 text-sm  bg-[#CD4628] text-[#FFFFFF]"
-                  onClick={() => {
-                    deleteCard(id);
-                  }}
                 >
                   {buttonContent}
                 </button>
@@ -61,4 +66,4 @@ const DeleteModal: NextPage<DeleteModalProps> = ({
   );
 };
 
-export default DeleteModal;
+export default DeleteAccountModal;

@@ -8,32 +8,36 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { setUser } from "../../userSlice";
 import { toast } from "sonner";
-import { IoArrowBack } from "react-icons/io5";
 import DarkModeTheme from "../../components/DarkModeTheme";
 import ColorPicker from "@/app/components/ColorPicker";
 import { useAppContext } from "@/app/context/AppContext";
 import { FiMenu } from "react-icons/fi";
+import DeleteAccountModal from "@/app/components/Modals/DeleteAccountModal";
+import firebase from "firebase/compat/app";
 
 const Settings = () => {
   const [user, loading] = useAuthState(auth);
   const [show, setShow] = useState(false);
-  const dispatch = useDispatch();
   const router = useRouter();
   const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      dispatch(setUser(null));
-      router.push("/");
-      setShow(false);
-    } catch (error) {
-      toast.error("Error signing out");
-    }
-  };
+  const handleDeleteAccount = async () => {
+    if (user && !loading) {
+      try {
+        // Prompt user for confirmation (you can use a modal or confirm dialog)
+        const isConfirmed = window.confirm(
+          "Are you sure you want to delete your account?"
+        );
 
-  const goBack = () => {
-    router.back();
+        if (isConfirmed && show) {
+          await user.delete();
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error deleting account:", error);
+        // Handle errors, e.g., show an error message to the user
+      }
+    }
   };
 
   return (
@@ -87,13 +91,25 @@ const Settings = () => {
                 You&apos;ll have access to your Noteey account and be able to
                 restore your account within the next 30 days.
               </p>
-              <button className="w-full py-4 bg-[#CD4628] hover:opacity-75 duration-300 transition-all dark:text-white rounded-[6px] max-w-[171px]">
+              <button
+                onClick={handleDeleteAccount}
+                className="w-full py-4 bg-[#CD4628] hover:opacity-75 duration-300 transition-all dark:text-white rounded-[6px] max-w-[171px]"
+              >
                 Delete my account
               </button>
             </div>
           </section>
         </div>
       </section>
+      {/* 
+      {show && (
+        <DeleteAccountModal
+          show={show}
+          setShow={setShow}
+          buttonContent="Yes"
+          handleDeleteAccount={handleDeleteAccount}
+        />
+      )} */}
     </ProtectedRoute>
   );
 };
