@@ -20,6 +20,11 @@ export default function RootLayout({
     <StoreProvider>
       <AppProvider>
         <html lang="en">
+          <head>
+            <link rel="manifest" href="/manifest.json" />
+            <link rel="apple-touch-icon" href="/icon.png"></link>
+            <meta name="theme-color" content="#fff" />
+          </head>
           <body className={`${rubik.className} dark:bg-[#1C1C1C] bg-[#FFF]`}>
             {children}
           </body>

@@ -1,32 +1,47 @@
 {
-    "theme_color": "#FF6D4C",
-    "background_color": "#FF6D4C",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "name": "Note Taking web app",
-    "short_name": "Noteeey",
-    "description": "Noteey is an online tool for taking notes. You can create, edit, delete and share notes.",
-    "icons": [
-        {
-            "src": "/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "theme_color": "#FF6D4C",
+  "background_color": "#FF6D4C",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "./",
+  "id": "/",
+  "name": "Note Taking web app",
+  "short_name": "Noteeey",
+  "description": "Noteey is an online tool for taking notes. You can create, edit, delete and share notes.",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot.png",
+      "type": "image/png",
+      "sizes": "2542x1198",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot2.png",
+      "type": "image/png",
+      "sizes": "650x1006",
+      "form_factor": "narrow"
+    }
+  ]
 }
