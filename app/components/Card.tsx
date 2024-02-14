@@ -59,18 +59,26 @@ const Card: NextPage<Cardsprops> = ({
   const animateCom = useRef(null);
   useModalAnimation(animateCom);
 
+  function capitalizeWords(word: string) {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  }
+
   return (
     <section className="w-full" ref={animateCom}>
       <Draggable scale={1}>
         <div
           className={`dark:bg-[#232323] bg-[#F7F7F7] mb-4 rounded-lg border-l-4 cursor-move space-y-3 shadow-md 
-         ${viewMode === "grid" ? "w-[264px] p-4" : "w-full p-2"}`}
+         ${
+           viewMode === "grid"
+             ? "flex flex-col justify between w-full h-[150px] p-4 place-content-between"
+             : "w-full p-2"
+         }`}
           style={borderStyle}
         >
           <div id="card" className="flex justify-between gap-2 items-center">
             <Link href={`/notes/${id}`}>
               <h2 className="text-xl font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-[#131313] transition-all duration-300 text-wrap w-42">
-                {content}
+                {capitalizeWords(content.substring(0, 6))}
               </h2>
             </Link>
 

@@ -220,8 +220,10 @@ const Notes = () => {
               </h3>
             ) : (
               <div
-                className={`gap-5 w-full ${
-                  viewMode === "grid" ? "flex flex-wrap justify-start" : "grid"
+                className={`gap-3 sm:gap-5 w-full ${
+                  viewMode === "grid"
+                    ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                    : "flex flex-col justify-start"
                 }`}
               >
                 {notes
