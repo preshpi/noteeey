@@ -1,5 +1,11 @@
 "use client";
-import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface AppContextProps {
   theme: string | null;
@@ -15,7 +21,7 @@ export const AppContext = createContext<AppContextProps | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const isBrowser = typeof window !== "undefined";
   const storedTheme = isBrowser ? localStorage.getItem("theme") : null;
-  const storedColor = isBrowser ? localStorage.getItem("selectedColor") : "#e85444";
+  const storedColor = isBrowser ? localStorage.getItem("setColor") : "#e85444";
 
   const [theme, setTheme] = useState<string | null>(storedTheme);
   const [color, setColor] = useState<string | null>(storedColor);
@@ -36,7 +42,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppContext.Provider
-      value={{ theme, setTheme, isSideBarOpen, setIsSideBarOpen, color, setColor }}
+      value={{
+        theme,
+        setTheme,
+        isSideBarOpen,
+        setIsSideBarOpen,
+        color,
+        setColor,
+      }}
     >
       {children}
     </AppContext.Provider>
