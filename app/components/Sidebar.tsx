@@ -14,6 +14,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
 import useModalAnimation from "./Modals/useModalAnimation";
 import { usePathname } from "next/navigation";
+
 const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
   const [settingsModal, SetSettingsModal] = useState<boolean>(false);
@@ -30,7 +31,7 @@ const Sidebar = () => {
           <aside
             id="sidebar"
             ref={animateCom}
-            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
+            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full min-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
           >
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4">
@@ -101,7 +102,7 @@ const Sidebar = () => {
                 <div className="space-y-5 relative">
                   <button
                     onClick={() => setFeedback(!feedback)}
-                    className="p-2 dark:bg-[#222] bg-[#EAEAEA] dark:text-slate-50 text-[#131313] text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center"
+                    className="p-2 dark:bg-[#222] bg-[#EAEAEA] dark:text-slate-50 text-[#131313] text-[0.8em] md:text-[1em] hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center"
                   >
                     <VscFeedback />
                     Send Feedback
@@ -109,9 +110,14 @@ const Sidebar = () => {
                   <div className="">{settingsModal && <SettingsModal />}</div>
                   <button
                     onClick={() => SetSettingsModal(!settingsModal)}
-                    className="flex p-3 dark:bg-[#222] bg-[#EAEAEA] rounded-lg justify-between items-center dark:text-slate-50 text-[#131313] hover:opacity-90 text-[14px] w-full"
+                    className="flex p-3 dark:bg-[#222] bg-[#EAEAEA] rounded-lg justify-between items-center text-[0.8em] md:text-[1em] dark:text-slate-50 text-[#131313] hover:opacity-90 text-[14px] w-full"
                   >
-                    {user && <p className="text-x">{user?.displayName}</p>}{" "}
+                    {user && (
+                      <>
+                        <p className=" text-x">{user?.displayName}</p>
+                      </>
+                    )}
+
                     <HiChevronUpDown />
                   </button>
                 </div>
