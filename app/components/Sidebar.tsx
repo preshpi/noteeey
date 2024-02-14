@@ -14,6 +14,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
 import useModalAnimation from "./Modals/useModalAnimation";
 import { usePathname } from "next/navigation";
+
 const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
   const [settingsModal, SetSettingsModal] = useState<boolean>(false);
@@ -101,7 +102,7 @@ const Sidebar = () => {
                 <div className="space-y-5 relative">
                   <button
                     onClick={() => setFeedback(!feedback)}
-                    className="p-2 dark:bg-[#222] bg-[#EAEAEA] dark:text-slate-50 text-[#131313] text-x hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center"
+                    className="p-2 dark:bg-[#222] bg-[#EAEAEA] dark:text-slate-50 text-[#131313] text-[0.8em] md:text-[1em] hover:opacity-90 rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center"
                   >
                     <VscFeedback />
                     Send Feedback
@@ -109,9 +110,27 @@ const Sidebar = () => {
                   <div className="">{settingsModal && <SettingsModal />}</div>
                   <button
                     onClick={() => SetSettingsModal(!settingsModal)}
-                    className="flex p-3 dark:bg-[#222] bg-[#EAEAEA] rounded-lg justify-between items-center dark:text-slate-50 text-[#131313] hover:opacity-90 text-[14px] w-full"
+                    className="flex p-3 dark:bg-[#222] bg-[#EAEAEA] rounded-lg justify-between items-center text-[0.8em] md:text-[1em] dark:text-slate-50 text-[#131313] hover:opacity-90 text-[14px] w-full"
                   >
-                    {user && <p className="text-x">{user?.displayName}</p>}{" "}
+                    {user && (
+                      <>
+                        <p className="text-[1.2em] md:hidden">
+                          {user?.displayName
+                            ?.split(" ")
+                            .map((word, index, array) => (
+                              <span key={index}>
+                                {index === 0
+                                  ? word
+                                  : ` ${word.charAt(0).toUpperCase()}`}
+                              </span>
+                            ))}
+                        </p>
+                        <p className="hidden md:block text-x">
+                          {user?.displayName}
+                        </p>
+                      </>
+                    )}
+
                     <HiChevronUpDown />
                   </button>
                 </div>
