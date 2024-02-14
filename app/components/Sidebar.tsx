@@ -31,7 +31,7 @@ const Sidebar = () => {
           <aside
             id="sidebar"
             ref={animateCom}
-            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
+            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full min-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
           >
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4">
@@ -114,20 +114,7 @@ const Sidebar = () => {
                   >
                     {user && (
                       <>
-                        <p className="text-[1.2em] md:hidden">
-                          {user?.displayName
-                            ?.split(" ")
-                            .map((word, index, array) => (
-                              <span key={index}>
-                                {index === 0
-                                  ? word
-                                  : ` ${word.charAt(0).toUpperCase()}`}
-                              </span>
-                            ))}
-                        </p>
-                        <p className="hidden md:block text-x">
-                          {user?.displayName}
-                        </p>
+                        <p className=" text-x">{user?.displayName}</p>
                       </>
                     )}
 
