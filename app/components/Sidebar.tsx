@@ -31,7 +31,7 @@ const Sidebar = () => {
           <aside
             id="sidebar"
             ref={animateCom}
-            className="absolute sm:sticky top-0 z-20 flex flex-col h-[100vh] min-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
+            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full min-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
           >
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4">
@@ -112,7 +112,12 @@ const Sidebar = () => {
                     onClick={() => SetSettingsModal(!settingsModal)}
                     className="flex p-3 dark:bg-[#222] bg-[#EAEAEA] rounded-lg justify-between items-center text-[0.8em] md:text-[1em] dark:text-slate-50 text-[#131313] hover:opacity-90 text-[14px] w-full"
                   >
-                    {user && <p className=" text-x">{user?.displayName}</p>}
+                    {user && (
+                      <>
+                        <p className=" text-x">{user?.displayName}</p>
+                      </>
+                    )}
+
                     <HiChevronUpDown />
                   </button>
                 </div>
