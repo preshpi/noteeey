@@ -70,7 +70,7 @@ const Home = () => {
       <Navbar signIn={handleGoogleSignIn} logOut={handleLogout} />
 
       <section className="items-center justify-center flex px-4 flex-col h-full space-y-5">
-        <h1 className="dark:text-[#FAF8FC] text-text lg:text-[80px] md:text-[56px] text-[40px] font-bold text-center">
+        <h1 className="dark:text-[#FAF8FC] text-text lg:text-[60px] md:text-[56px] text-[40px] font-bold text-center max-w-[900px]">
           Organize Your Ideas With Sticky Notes{" "}
           <span className="gradient">Online</span>
         </h1>

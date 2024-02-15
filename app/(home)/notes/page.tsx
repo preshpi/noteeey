@@ -254,7 +254,7 @@ const Notes = () => {
             <button
               onClick={handleModal}
               style={backgroundStyle}
-              className="dark:text-white transition-colors text-black shadow duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
+              className="text-white transition-colors shadow duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
             >
               <BiPlus className="text-[45px]" />
             </button>

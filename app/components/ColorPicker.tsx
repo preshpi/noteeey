@@ -23,9 +23,9 @@ const ColorPicker = () => {
         type="color"
         id="favcolor"
         name="favcolor"
-        value={color || "#131313"}
+        value={color || "#e85444"}
         onChange={handleColorChange}
-        className="rounded-md"
+        className="rounded-md cursor-pointer"
       />
     </div>
   );

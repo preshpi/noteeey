@@ -1,3 +1,4 @@
+const { pluginoptions } = require("@mightymeld/runtime");
 const withPWA = require("next-pwa")({
   dest: "public",
   register: true,
@@ -9,6 +10,11 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   images: {
     domains: ["res.cloudinary.com", "lh3.googleusercontent.com"],
+  },
+  experimental: {
+    swcPlugins: [
+      ["@mightymeld/runtime/swc-plugin-mightymeld", pluginoptions()],
+    ],
   },
   reactStrictMode: true,
 };
