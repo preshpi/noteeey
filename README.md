@@ -1,8 +1,10 @@
-# Noteey web app
+# Noteey
+Noteey is a note-taking web application for taking notes, writing articles, and so on.
+Unlike other note-taking applications, noteey has a color-personalized feature where users can pick a random color that they want their app to look like aside from the dark and light mode feature.
 
 ## Getting Started
 
-The following section provides detailed explanations on how to set up the project. Please refer to the subsequent instructions for step-by-step guidance.
+The following section provides detailed explanations of how to set up the project. I'd like you to please refer to the following instructions for step-by-step guidance.
 
 ### Prerequisites
 
@@ -13,7 +15,7 @@ Before getting started, make sure you have the following prerequisites:
 - [npm](https://www.npmjs.com) (Node Package Manager) installed
 - A code editor such as [Visual Studio Code](https://code.visualstudio.com) or any other preferred code environment
 
-Make sure you have these prerequisites installed and set up on your system before proceeding with the project setup.
+Ensure you have these prerequisites installed and set up on your system before proceeding with the project setup.
 
 ### Installation
 
