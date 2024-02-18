@@ -2,10 +2,6 @@
 Noteey is a note-taking web application for taking notes, writing articles, and so on.
 Unlike other note-taking applications, noteey has a color-personalized feature where users can pick a random color that they want their app to look like aside from the dark and light mode feature.
 
-## Getting Started
-
-The following section provides detailed explanations of how to set up the project. I'd like you to please refer to the following instructions for step-by-step guidance.
-
 ## Prerequisites
 
 Before getting started, make sure you have the following prerequisites:
