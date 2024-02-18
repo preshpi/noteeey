@@ -6,7 +6,7 @@ Unlike other note-taking applications, noteey has a color-personalized feature w
 
 The following section provides detailed explanations of how to set up the project. I'd like you to please refer to the following instructions for step-by-step guidance.
 
-### Prerequisites
+## Prerequisites
 
 Before getting started, make sure you have the following prerequisites:
 
@@ -17,7 +17,7 @@ Before getting started, make sure you have the following prerequisites:
 
 Ensure you have these prerequisites installed and set up on your system before proceeding with the project setup.
 
-### Installation
+## How to run the project
 
 Follow the steps below to install and set up the project:
 
