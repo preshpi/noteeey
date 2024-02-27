@@ -2,6 +2,18 @@
 Noteey is a note-taking web application for taking notes, writing articles, and so on.
 Unlike other note-taking applications, noteey has a color-personalized feature where users can pick a random color that they want their app to look like aside from the dark and light mode feature.
 
+## Hosted site 
+
+To view noteey on your browser, <a href="https://noteeey.vercel.app/">Click here</a> 
+
+## Tech Stacks 
+
+- UI - Nextjs and typescript 
+- Database - Firestore 
+- Authentication - Firebase
+- styling - Tailwind CSS
+- state management - Redux 
+
 ## Prerequisites
 
 Before getting started, make sure you have the following prerequisites:
