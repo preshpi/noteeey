@@ -1,10 +1,20 @@
-# Noteey web app
+# Noteey
+Noteey is a note-taking web application for taking notes, writing articles, and so on.
+Unlike other note-taking applications, noteey has a color-personalized feature where users can pick a random color that they want their app to look like aside from the dark and light mode feature.
 
-## Getting Started
+## Hosted site 
 
-The following section provides detailed explanations on how to set up the project. Please refer to the subsequent instructions for step-by-step guidance.
+To view noteey on your browser, <a href="https://noteeey.vercel.app/">Click here</a> 
 
-### Prerequisites
+## Tech Stacks 
+
+- UI - Nextjs and typescript 
+- Database - Firestore 
+- Authentication - Firebase
+- styling - Tailwind CSS
+- state management - Redux 
+
+## Prerequisites
 
 Before getting started, make sure you have the following prerequisites:
 
@@ -13,9 +23,9 @@ Before getting started, make sure you have the following prerequisites:
 - [npm](https://www.npmjs.com) (Node Package Manager) installed
 - A code editor such as [Visual Studio Code](https://code.visualstudio.com) or any other preferred code environment
 
-Make sure you have these prerequisites installed and set up on your system before proceeding with the project setup.
+Ensure you have these prerequisites installed and set up on your system before proceeding with the project setup.
 
-### Installation
+## How to run the project
 
 Follow the steps below to install and set up the project:
 
