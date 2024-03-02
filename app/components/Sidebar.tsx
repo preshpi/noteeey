@@ -17,10 +17,9 @@ import { usePathname } from "next/navigation";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 const Sidebar = () => {
-  const [feedback, setFeedback] = useState<boolean | null>(false);
+  const [feedback, setFeedback] = useState<boolean>(false);
   const [settingsModal, SetSettingsModal] = useState<boolean>(false);
-  const { isSideBarOpen, setIsSideBarOpen, createNote, setCreateNote } =
-    useAppContext();
+  const { isSideBarOpen, setIsSideBarOpen, setCreateNote } = useAppContext();
   const [user] = useAuthState(auth);
   // const animateCom = useRef(null);
   const pathname = usePathname();

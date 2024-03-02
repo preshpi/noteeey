@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 export interface FeedbackModalProps {
   show: boolean;
-  setShow: Dispatch<SetStateAction<boolean | null>>;
+  setShow: Dispatch<SetStateAction<boolean>>;
   buttonContent?: string;
   buttonAction?: () => void;
 }

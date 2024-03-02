@@ -14,8 +14,8 @@ interface AppContextProps {
   setColor: React.Dispatch<React.SetStateAction<string | null>>;
   isSideBarOpen: boolean | null;
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean | null>>;
-  createNote: boolean | null;
-  setCreateNote: React.Dispatch<React.SetStateAction<boolean | null>>;
+  createNote: boolean;
+  setCreateNote: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -28,7 +28,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<string | null>(storedTheme);
   const [color, setColor] = useState<string | null>(storedColor);
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean | null>(false);
-  const [createNote, setCreateNote] = useState<boolean | null>(false);
+  const [createNote, setCreateNote] = useState<boolean>(false);
 
   useEffect(() => {
     if (isBrowser) {
