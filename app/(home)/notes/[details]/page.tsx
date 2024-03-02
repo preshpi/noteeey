@@ -106,7 +106,7 @@ const NoteDetails = ({ params }: { params: any }) => {
   return (
     <ProtectedRoute>
       <div className="p-5 w-full h-full">
-        <div className="h-full">
+        <div className="h-full overflow-auto">
           <div className="flex items-center justify-center flex-col">
             <div className="flex items-center justify-start w-full dark:text-white text-text">
               <button
@@ -146,7 +146,7 @@ const NoteDetails = ({ params }: { params: any }) => {
               formats={formats}
               theme="snow"
               style={{ height: "500px" }}
-              className="dark:text-white text-[#131313] mb-16"
+              className="dark:text-white text-[#131313] mb-16  -z-10"
             />
           </div>
         </div>

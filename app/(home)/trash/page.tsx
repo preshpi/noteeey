@@ -5,6 +5,7 @@ import Input from "@/app/components/Input";
 import { useAppContext } from "@/app/context/AppContext";
 import { auth, db } from "@/app/firebase";
 import {
+  Timestamp,
   collection,
   deleteDoc,
   doc,
@@ -24,6 +25,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { Toaster, toast } from "sonner";
 import { GoMultiSelect } from "react-icons/go";
 import { FiMenu } from "react-icons/fi";
+import moment from "moment";
 
 const DeletedNotes = () => {
   const [user, loading] = useAuthState(auth);
@@ -34,6 +36,16 @@ const DeletedNotes = () => {
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
   const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
+
+  const formatTimestamp = (timestamp: Timestamp): string | null => {
+    if (timestamp) {
+      const seconds = timestamp.seconds;
+      const nanoseconds = timestamp.nanoseconds / 1000000;
+      const date = new Date(seconds * 1000 + nanoseconds);
+      return moment(date).format("MM/DD/YYYY - h:mm A");
+    }
+    return "";
+  };
 
   const FetchDeletedNotes = async () => {
     if (user && !loading) {
@@ -49,7 +61,11 @@ const DeletedNotes = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        setDeletedNotes(deletedNotesData);
+        const formattedNotes = deletedNotesData.map((data: any) => ({
+          ...data,
+          date: formatTimestamp(data.timestamp),
+        }));
+        setDeletedNotes(formattedNotes);
         setFetching(false);
       } catch (error) {
         toast.error("Error fetching notes");
@@ -79,7 +95,13 @@ const DeletedNotes = () => {
   };
 
   const { color } = useAppContext();
-  const textStyle = color ? { color: color } : {};
+  const borderColor = color || "#e85444";
+  const textStyle = color || "#e85444";
+
+  const style = {
+    borderLeftColor: borderColor,
+    color: textStyle,
+  };
 
   const goBack = () => {
     router.back();
@@ -160,10 +182,7 @@ const DeletedNotes = () => {
               name="search"
               placeholder="Search notes"
             />
-            <span
-              style={textStyle}
-              className="px-3 py-3 text-xl cursor-pointer"
-            >
+            <span style={style} className="px-3 py-3 text-xl cursor-pointer">
               <BiSearch />
             </span>
           </div>
@@ -178,14 +197,14 @@ const DeletedNotes = () => {
             </button> */}
             <button
               onClick={handleToggleOrder}
-              style={textStyle}
+              style={style}
               className="px-4 py-3 rounded hover:opacity-75 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
             >
               <HiMiniArrowsUpDown />
             </button>
             <button
               onClick={handleViewMode}
-              style={textStyle}
+              style={style}
               className="px-4 py-3 rounded hover:opacity-75 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
             >
               {viewMode === "grid" ? <BsGrid /> : <CiBoxList />}

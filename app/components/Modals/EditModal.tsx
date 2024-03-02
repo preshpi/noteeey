@@ -20,7 +20,8 @@ const EditModal: NextPage<EditModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const [newTitle, setNewTitle] = useState(content);
   const { color } = useAppContext();
-  const backgroundStyle = color ? { backgroundColor: color } : {};
+  const background = color || "#e85444";
+  const backgroundStyle = { backgroundColor: background };
 
   useModalAnimation(modalRef);
 

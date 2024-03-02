@@ -1,19 +1,19 @@
 "use client";
 import { NextPage } from "next";
 import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
-import { MdEdit, MdDelete } from "react-icons/md";
+import { MdEdit, MdDelete, MdOutlineMoreHoriz } from "react-icons/md";
 import { Cardsprops } from "../types/components";
 import DeleteModal from "./Modals/DeleteModal";
 import EditModal from "./Modals/EditModal";
-import { IoMdMore } from "react-icons/io";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Link from "next/link";
 import { FaLink } from "react-icons/fa6";
 import { useAppContext } from "../context/AppContext";
 import { toast } from "sonner";
-import Draggable from "react-draggable";
 import useModalAnimation from "./Modals/useModalAnimation";
-
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+// import { PiDotsSixVerticalBold } from "react-icons/pi";
 const Card: NextPage<Cardsprops> = ({
   content,
   date,
@@ -54,44 +54,60 @@ const Card: NextPage<Cardsprops> = ({
   }, []);
 
   const { color } = useAppContext();
-  const borderStyle = color ? { borderLeftColor: color } : {};
+
+  const borderColor = color || "#e85444";
 
   const animateCom = useRef(null);
   useModalAnimation(animateCom);
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transition,
+    borderLeftColor: borderColor,
+    transform: CSS.Transform.toString(transform),
+  };
+
   return (
-    <section className="w-full" ref={animateCom}>
-      <Draggable scale={1}>
-        <div
-          className={`dark:bg-[#232323] bg-[#F7F7F7] mb-4 rounded-lg border-l-4 cursor-move space-y-3 shadow-md 
+    <section className="w-full h-full" ref={animateCom}>
+      <div
+        className={`dark:bg-[#232323] bg-[#F7F7F7] rounded-lg border-l-4 cursor-drag space-y-4 shadow-md h-full
          ${viewMode === "grid" ? "w-[264px] p-4" : "w-full p-2"}`}
-          style={borderStyle}
-        >
-          <div id="card" className="flex justify-between gap-2 items-center">
+        style={style}
+        // ref={setNodeRef}
+        // {...attributes}
+        // {...listeners}
+      >
+        <div id="card" className="flex justify-between gap-2 items-center">
+          <div className="flex gap-2 items-center">
+            {/* <PiDotsSixVerticalBold /> */}
             <Link href={`/notes/${id}`}>
               <h2 className="text-xl font-semibold cursor-pointer hover:opacity-80 dark:text-[#D6D6D6] text-[#131313] transition-all duration-300 text-wrap w-42">
                 {content}
               </h2>
             </Link>
-
-            <button
-              onClick={() => setMoreModal(!moreModal)}
-              className="text-[#858585] dark:text-[#D6D6D6] dark:border-[#3D3D3D] border-[#858585] border opacity-80 rounded p-1 transition-all duration-300"
-            >
-              <IoMdMore />
-            </button>
           </div>
-          <p className="text-[#5C5C5C] dark:text-[#747373] mt-2 text-[12px]">
-            {date}
-          </p>
+          {/* add the select feature */}
+          {/* <input type="checkbox" name="note" id="note" /> */}
         </div>
-      </Draggable>
+        <p className="flex justify-between items-center text-[12px]">
+          <p className="text-[#5C5C5C] dark:text-[#747373]">{date}</p>
+
+          <button
+            onClick={() => setMoreModal(!moreModal)}
+            className={"text-[#858585] dark:text-[#D6D6D6] text-[14px]"}
+          >
+            <MdOutlineMoreHoriz />
+          </button>
+        </p>
+      </div>
 
       {moreModal && (
         <div
           ref={modalRef}
           id="moreModal"
-          className="dark:text-white text-text absolute z-10 w-[170px] rounded-lg shadow dark:bg-[#1C1C1C] bg-[#FFFFFF] dark:border-[#232323] border border-[#F2F4F7]"
+          className="dark:text-white text-text mt-4 absolute z-10 w-[170px] rounded-lg shadow dark:bg-[#1C1C1C] bg-[#FFFFFF] dark:border-[#232323] border border-[#F2F4F7]"
         >
           <ul className="flex flex-col gap-2 p-2">
             <li

@@ -3,7 +3,7 @@ import ProtectedRoute from "@/app/ProtectedRoute";
 import Card from "@/app/components/Card";
 import Input from "@/app/components/Input";
 import TopBar from "@/app/components/TopBar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { Toaster, toast } from "sonner";
 import { BiPlus } from "react-icons/bi";
@@ -26,19 +26,39 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { HiMiniArrowsUpDown } from "react-icons/hi2";
 import { CiBoxList } from "react-icons/ci";
 import { useAppContext } from "@/app/context/AppContext";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import useModalAnimation from "@/app/components/Modals/useModalAnimation";
 
 const Notes = () => {
   const [user, loading] = useAuthState(auth);
-  const [createModal, setCreateModal] = useState(false);
   const [notes, setNotes] = useState<any[]>([]);
   const [fetching, setFetching] = useState(true);
   const [ascendingOrder, setAscendingOrder] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
   const [searchInput, setSearchInput] = useState("");
+  const [tooltipView, setTooltipView] = useState(false);
+  const [tooltipOrder, setTooltipOrder] = useState(false);
+  const { color, createNote, setCreateNote } = useAppContext();
 
-  const { color } = useAppContext();
-  const backgroundStyle = color ? { backgroundColor: color } : {};
-  const textStyle = color ? { color: color } : {};
+  const background = color || "#e85444";
+  const bg = { backgroundColor: background };
+
+  const text = color || "#e85444";
+  const textStyle = { color: text };
 
   const formatTimestamp = (timestamp: Timestamp): string | null => {
     if (timestamp) {
@@ -82,11 +102,36 @@ const Notes = () => {
     setAscendingOrder((prevOrder) => {
       return !prevOrder;
     });
+    setTooltipOrder(true);
     handleFetchNote();
   };
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // Handle click outside of the modal to close it
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setTooltipView(false);
+        setTooltipOrder(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalRef]);
+
+  useModalAnimation(modalRef);
+
   const handleViewMode = () => {
     setViewMode((prevMode) => (prevMode === "grid" ? "list" : "grid"));
+    setTooltipView(true);
   };
 
   const handleDeleteCard = async (id: string) => {
@@ -151,10 +196,6 @@ const Notes = () => {
     setNotes((prevNotes) => [formattedNote, ...prevNotes]);
   };
 
-  const handleModal = () => {
-    setCreateModal(true);
-  };
-
   useEffect(() => {
     if (!loading) {
       handleFetchNote();
@@ -164,6 +205,26 @@ const Notes = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
+
+  const getNotePos = (id: any) => notes.findIndex((note) => note.id === id);
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (active?.id === over?.id) return;
+    setNotes((note) => {
+      const originalPos = getNotePos(active?.id);
+      const newPos = getNotePos(over?.id);
+
+      return arrayMove(note, originalPos, newPos);
+    });
+  };
+
+  const sensors = useSensors(
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+    useSensor(PointerSensor)
+  );
 
   return (
     <ProtectedRoute>
@@ -199,14 +260,45 @@ const Notes = () => {
               >
                 <HiMiniArrowsUpDown />
               </button>
-
+              {tooltipOrder && (
+                <div
+                  ref={modalRef}
+                  style={{
+                    ...bg,
+                    opacity: tooltipOrder ? 1 : 0,
+                    transition: "opacity 0.3s ease-in-out",
+                  }}
+                  className="absolute text-white lg:top-[140px] lg:right-[20px] px-2 py-2 rounded-md lg:mt-4 mt-24 text-[10px]"
+                >
+                  <p>
+                    {ascendingOrder ? "Ascending order" : "Descending order"}
+                  </p>{" "}
+                </div>
+              )}
               <button
                 onClick={handleViewMode}
                 style={textStyle}
-                className="px-4 py-3 rounded hover:opacity-90 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
+                className="px-4 py-3 relative rounded hover:opacity-90 dark:bg-[#2C2C2C] bg-[#EAEAEA] transition-all duration-300"
               >
                 {viewMode === "grid" ? <BsGrid /> : <CiBoxList />}
               </button>
+              {tooltipView && (
+                <div
+                  ref={modalRef}
+                  style={{
+                    ...bg,
+                    opacity: tooltipView ? 1 : 0,
+                    transition: "opacity 0.3s ease-in-out",
+                  }}
+                  className="absolute text-white lg:top-[140px] lg:right-[20px] px-2 py-2 rounded-md lg:mt-4 mt-24 text-[10px] transition-all duration-300"
+                >
+                  {viewMode === "grid" ? (
+                    <p>switch to list view</p>
+                  ) : (
+                    <p>switch to grid view</p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -214,54 +306,93 @@ const Notes = () => {
             <div className="flex justify-center items-center">
               {loading && <div className="spinner"></div>}
             </div>
-            {!fetching && notes?.length === 0 ? (
-              <h3 className="text-gray-400 font-semibold text-[28px] text-center">
-                No Notes
-              </h3>
-            ) : (
-              <div
-                className={`gap-5 w-full ${
-                  viewMode === "grid" ? "flex flex-wrap justify-start" : "grid"
-                }`}
-              >
-                {notes
-                  .filter(
-                    (data) =>
-                      !searchInput ||
-                      data.title
-                        .toLowerCase()
-                        .includes(searchInput.toLocaleLowerCase())
-                  )
-                  .map((data: any) => (
-                    <div key={data.id}>
-                      <Card
-                        id={data.id}
-                        content={data.title}
-                        date={data.date}
-                        handleDeleteCard={handleDeleteCard}
-                        handleUpdateDoc={handleUpdateDoc}
-                        viewMode={viewMode}
-                      />
-                    </div>
-                  ))}
-              </div>
-            )}
-          </section>
-
-          <div className="fixed bottom-4 z-20 right-4">
-            <button
-              onClick={handleModal}
-              style={backgroundStyle}
-              className="text-white transition-colors shadow duration-300 rounded-full m-3 w-16 h-16 flex items-center justify-center"
+            {/* <DndContext
+              collisionDetection={closestCenter}
+              sensors={sensors}
+              onDragEnd={handleDragEnd}
             >
-              <BiPlus className="text-[45px]" />
-            </button>
-          </div>
-          {createModal && (
+              <SortableContext
+                items={notes}
+                strategy={verticalListSortingStrategy}
+              >
+                {!fetching && notes?.length === 0 ? (
+                  <h3 className="text-gray-400 font-semibold text-[28px] text-center">
+                    No Notes
+                  </h3>
+                ) : (
+                  <div
+                    className={`gap-5 w-full ${
+                      viewMode === "grid"
+                        ? "flex flex-wrap justify-start"
+                        : "grid"
+                    }`}
+                  >
+                    {notes
+                      .filter(
+                        (data) =>
+                          !searchInput ||
+                          data.title
+                            .toLowerCase()
+                            .includes(searchInput.toLocaleLowerCase())
+                      )
+                      .map((data: any) => (
+                        <div key={data.id}>
+                          <Card
+                            id={data.id}
+                            content={data.title}
+                            date={data.date}
+                            handleDeleteCard={handleDeleteCard}
+                            handleUpdateDoc={handleUpdateDoc}
+                            viewMode={viewMode}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </SortableContext>
+            </DndContext> */}
+            <>
+              {!fetching && notes?.length === 0 ? (
+                <h3 className="text-gray-400 font-semibold text-[28px] text-center">
+                  No Notes
+                </h3>
+              ) : (
+                <div
+                  className={`gap-5 w-full ${
+                    viewMode === "grid"
+                      ? "flex flex-wrap justify-start"
+                      : "grid"
+                  }`}
+                >
+                  {notes
+                    .filter(
+                      (data) =>
+                        !searchInput ||
+                        data.title
+                          .toLowerCase()
+                          .includes(searchInput.toLocaleLowerCase())
+                    )
+                    .map((data: any) => (
+                      <div key={data.id}>
+                        <Card
+                          id={data.id}
+                          content={data.title}
+                          date={data.date}
+                          handleDeleteCard={handleDeleteCard}
+                          handleUpdateDoc={handleUpdateDoc}
+                          viewMode={viewMode}
+                        />
+                      </div>
+                    ))}
+                </div>
+              )}
+            </>
+          </section>
+          {createNote && (
             <CreateNoteModal
-              show={createModal}
+              show={createNote}
               content="Create a note"
-              setShow={setCreateModal}
+              setShow={setCreateNote}
               buttonContent="Submit"
               addNewNote={addNewNote}
             />

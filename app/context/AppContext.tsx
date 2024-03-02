@@ -14,6 +14,8 @@ interface AppContextProps {
   setColor: React.Dispatch<React.SetStateAction<string | null>>;
   isSideBarOpen: boolean | null;
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean | null>>;
+  createNote: boolean | null;
+  setCreateNote: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -21,11 +23,12 @@ export const AppContext = createContext<AppContextProps | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const isBrowser = typeof window !== "undefined";
   const storedTheme = isBrowser ? localStorage.getItem("theme") : null;
-  const storedColor = isBrowser ? localStorage.getItem("setColor") : "#e85444";
+  const storedColor = isBrowser ? localStorage.getItem("setColor") : null;
 
   const [theme, setTheme] = useState<string | null>(storedTheme);
   const [color, setColor] = useState<string | null>(storedColor);
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean | null>(false);
+  const [createNote, setCreateNote] = useState<boolean | null>(false);
 
   useEffect(() => {
     if (isBrowser) {
@@ -49,6 +52,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setIsSideBarOpen,
         color,
         setColor,
+        createNote,
+        setCreateNote,
       }}
     >
       {children}

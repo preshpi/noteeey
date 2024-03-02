@@ -77,8 +77,9 @@ const CreateNoteModal: NextPage<CreateModalProps> = ({
   };
 
   const { color } = useAppContext();
-  const backgroundStyle = color ? { backgroundColor: color } : {};
 
+  const background = color || "#e85444";
+  const backgroundStyle = { backgroundColor: background };
   return (
     <Overlay show={show} setShow={setShow} modalRef={modalRef}>
       {show && (

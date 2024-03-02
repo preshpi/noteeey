@@ -9,7 +9,7 @@ import { useAppContext } from "@/app/context/AppContext";
 import useModalAnimation from "./useModalAnimation";
 
 const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
-  const [isRequestSent, setRequestSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<{ message: string }>({
     message: "",
   });
@@ -20,8 +20,9 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
     setShow(false);
   };
   const { color } = useAppContext();
-  const backgroundStyle = color ? { backgroundColor: color } : {};
 
+  const background = color || "#e85444";
+  const backgroundStyle = { backgroundColor: background };
   const animateCom = useRef(null);
   useModalAnimation(animateCom);
 
@@ -44,7 +45,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
           .then(
             (result) => {
               toast.success(result.text);
-              setRequestSent(true);
+              setIsLoading(true);
               setShow(false);
             },
             (error) => {
@@ -95,6 +96,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
                 }}
                 className="p-4 text-sm h-32 rounded-lg border focus:outline-none dark:bg-[#1f1f1f] bg-[#EAEAEA] dark:border-[#3D3D3D] border-[#C2C2C2] dark:text-[#eee] text-text"
                 placeholder="Let us know the issue..."
+                disabled={isLoading}
               ></textarea>
               <div className="flex justify-end gap-5">
                 <button
@@ -105,11 +107,11 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
                 </button>
                 <button
                   type="submit"
-                  disabled={isRequestSent}
+                  disabled={isLoading}
                   style={backgroundStyle}
-                  className="px-4 py-2 rounded-lg text-black hover:opacity-70 transition-all duration-300"
+                  className="px-4 py-2 rounded-lg text-black hover:opacity-70 transition-all duration-300 disabled:bg-opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send
+                  {isLoading ? "loading..." : "Send"}
                 </button>
               </div>
             </form>

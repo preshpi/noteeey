@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import { PiNotebookLight } from "react-icons/pi";
@@ -14,15 +14,42 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
 import useModalAnimation from "./Modals/useModalAnimation";
 import { usePathname } from "next/navigation";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 const Sidebar = () => {
-  const [feedback, setFeedback] = useState<boolean>(false);
+  const [feedback, setFeedback] = useState<boolean | null>(false);
   const [settingsModal, SetSettingsModal] = useState<boolean>(false);
-  const { isSideBarOpen, setIsSideBarOpen } = useAppContext();
+  const { isSideBarOpen, setIsSideBarOpen, createNote, setCreateNote } =
+    useAppContext();
   const [user] = useAuthState(auth);
-  const animateCom = useRef(null);
-  useModalAnimation(animateCom);
+  // const animateCom = useRef(null);
   const pathname = usePathname();
+
+  const handleCreateModal = () => {
+    setCreateNote(true);
+  };
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // Handle click outside of the modal to close it
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setIsSideBarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalRef]);
+
+  useModalAnimation(modalRef);
 
   return (
     <>
@@ -30,11 +57,11 @@ const Sidebar = () => {
         <>
           <aside
             id="sidebar"
-            ref={animateCom}
-            className="sticky top-0 z-20 flex flex-col h-[100vh] w-full min-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7]"
+            ref={modalRef}
+            className="lg:sticky top-0 z-20 flex flex-col w-full max-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7] absolute h-full"
           >
             <div className="w-full h-full">
-              <div className="flex justify-between flex-col h-full p-4">
+              <div className="flex justify-between flex-col h-full p-4 z-10">
                 {/* first div */}
                 <div>
                   <div className="w-full flex justify-between items-center">
@@ -54,6 +81,16 @@ const Sidebar = () => {
                     </div>
                   </div>
                   <ul className="mt-8 space-y-4">
+                    <li onClick={handleCreateModal}>
+                      <button
+                        className="p-2 dark:text-slate-50 text-[#131313] text-x dark:hover:bg-[#222] hover:bg-[#EAEAEA] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center
+                            "
+                      >
+                        {" "}
+                        <IoIosAddCircleOutline />
+                        Create Note
+                      </button>
+                    </li>
                     <li>
                       <Link href="/notes">
                         <button
