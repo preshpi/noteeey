@@ -9,10 +9,52 @@ html {
   padding: 0;
 }
 
+.hero-background {
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle, #262626 1px, rgba(0, 0, 0, 0) 1px);
+}
+
 .gradient {
   background: linear-gradient(120deg, #ff6d4d, #d12600);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.herobutton {
+  padding: 0.1em 0.25em;
+  width: 13em;
+  height: 4.2em;
+  background-color: #212121;
+  border: 0.08em solid #fff;
+  border-radius: 0.3em;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.herobutton span {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0.4em;
+  width: 8.25em;
+  height: 2.5em;
+  background-color: #212121;
+  border-radius: 0.2em;
+  font-size: 1.5em;
+  color: #fff;
+  border: 0.08em solid #fff;
+  box-shadow: 0 0.4em 0.1em 0.019em #fff;
+}
+
+.herobutton span:hover {
+  transition: all 0.5s;
+  transform: translate(0, 0.4em);
+  box-shadow: 0 0 0 0 #fff;
+}
+
+.herobutton span:not(hover) {
+  transition: all 1s;
 }
 
 .spinner {

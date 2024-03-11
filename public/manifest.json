@@ -7,7 +7,7 @@
   "id": "/",
   "name": "Note Taking web app",
   "short_name": "Noteeey",
-  "description": "Noteey is an online tool for taking notes. You can create, edit, delete and share notes.",
+  "description": "Noteeey is an online tool for taking notes. You can create, edit, delete and share notes.",
   "icons": [
     {
       "src": "/icon-192x192.png",

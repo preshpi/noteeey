@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Button from "./components/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "./firebase";
@@ -66,27 +66,30 @@ const Home = () => {
     setShow(false);
   };
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen hero-background dark:bg-[#131313]">
       <Navbar signIn={handleGoogleSignIn} logOut={handleLogout} />
 
-      <section className="items-center justify-center flex px-4 flex-col h-full space-y-5">
-        <h1 className="dark:text-[#FAF8FC] text-text lg:text-[60px] md:text-[56px] text-[40px] font-bold text-center max-w-[900px]">
+      <section className="items-center justify-center flex px-4 flex-col h-full gap-y-6">
+        <h1 className="dark:text-[#FAF8FC] text-text lg:text-[60px] md:text-[56px] leading-20 text-[40px] font-bold text-center max-w-[900px]">
           Organize Your Ideas With Sticky Notes{" "}
           <span className="gradient">Online</span>
         </h1>
-        <p className="dark:text-gray-50 text-text font-[300] text-center text-[19px] lg:text-[23px]">
-          Noteey is an online tool for taking notes. You can create, edit,
-          delete and share notes.
+        <p className="dark:text-gray-50 italic max-w-[600px] text-text font-[300] text-center text-[19px] lg:text-[23px]">
+          Noteeey is an online tool for taking notes.
+          <br /> You can create, edit, delete and share notes.
         </p>
 
         <Button
           onClick={handleCreateNote}
           disabled={loading}
-          additionalClasses={`dark:text-white text-text dark:bg-[#d44141] bg-[#FF6D4C] px-12 py-3 rounded-2xl hover:opacity-75 transistion-all duration-300 ${
+          additionalClasses={`herobutton ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
+          // additionalClasses={`dark:text-white text-text dark:bg-[#d44141] herobutton bg-[#FF6D4C] px-12 py-3 rounded-2xl hover:opacity-75 transistion-all duration-300 ${
+          //   loading ? "opacity-50 cursor-not-allowed" : ""
+          // }`}
         >
-          Create a note
+          <span> Create a note</span>
         </Button>
 
         {show && (

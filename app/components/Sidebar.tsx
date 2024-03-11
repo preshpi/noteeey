@@ -68,7 +68,7 @@ const Sidebar = () => {
                       href="/"
                       className="font-bold hover:opacity-80 text-[25px] dark:text-[#FBFBFB] text-[#131313]"
                     >
-                      Noteey
+                      Noteeey
                     </Link>
                     <div className="flex items-center hover:bg-opacity-50 w-8 h-8 justify-center">
                       <button
