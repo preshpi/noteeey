@@ -20,6 +20,21 @@ html {
   -webkit-text-fill-color: transparent;
 }
 
+.backgroungradient {
+  background: linear-gradient(120deg, #ff6d4d, #d12600);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+}
+
+.backgroungradient:hover {
+  box-shadow: 0px 8px 12px #d12600;
+  transform: translateY(-7px);
+}
+
+.backgroungradient:active {
+  transform: translateY(-1px);
+}
+
 .herobutton {
   padding: 0.1em 0.25em;
   width: 13em;

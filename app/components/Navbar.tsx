@@ -13,7 +13,7 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
   const [user, loading, error] = useAuthState(auth);
 
   return (
-    <div className="flex justify-between items-center lg:px-12 px-4 py-5 text-[#180202] dark:text-[#effefb]">
+    <div className="flex justify-between items-center lg:px-12 px-4 py-12 text-[#180202] dark:text-[#effefb]">
       <h1 className="lg:text-3xl text-2xl cursor-pointer font-semibold">
         Noteeey
       </h1>
@@ -38,7 +38,7 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={signIn}
-              className="px-6 py-2 rounded-lg bg-[#141318] text-slate-50 hover:bg-[#e85444] transition-colors duration-500"
+              className="px-6 py-2 rounded-lg backgroungradient text-slate-50 transition-colors duration-500"
             >
               Get Started
             </button>
