@@ -1,15 +1,14 @@
-import { NextPage } from "next";
-import React, { useRef } from "react";
-import Overlay from "../Overlay";
-import useModalAnimation from "./useModalAnimation";
 import { DeleteAccountModalProps } from "@/app/types/components";
+import Overlay from "../Overlay";
+import { NextPage } from "next";
+import { useRef } from "react";
+import useModalAnimation from "./useModalAnimation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const DeleteAccountModal: NextPage<DeleteAccountModalProps> = ({
+const DisableAccountModal: NextPage<DeleteAccountModalProps> = ({
   show,
   setShow,
   buttonContent,
@@ -18,27 +17,12 @@ const DeleteAccountModal: NextPage<DeleteAccountModalProps> = ({
   useModalAnimation(modalRef);
   const router = useRouter();
 
-  const cancelModal = () => {
-    setShow(false);
-  };
   const [user] = useAuthState(auth);
 
-  const deletionAccount = async () => {
+  const disableAccount = async () => {
     const confirmation = confirm(
       "Are you sure you want to delete your account?"
     );
-
-    if (confirmation) {
-      try {
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
-        await user?.delete();
-        toast.success("Account deleted successfully");
-        router.push("/");
-      } catch (error: any) {
-        toast.error(error);
-      }
-    }
   };
 
   return (
@@ -51,20 +35,20 @@ const DeleteAccountModal: NextPage<DeleteAccountModalProps> = ({
         >
           <div className="w-full">
             <div className="text-center text-lg">
-              <p>Are you sure you want to delete your account?</p>
+              <p>Are you sure you want to disable your account?</p>
             </div>
 
             {buttonContent && (
               <div className="flex py-4 gap-5 w-full">
                 <button
                   className="w-full py-2 rounded-lg transition-all duration-300 hover:bg-[#eee] dark:hover:bg-[#1d1d1d] border dark:border-[#3D3D3D] border-[#C2C2C2] dark:text-[#CCCCCC] hover:opacity-90"
-                  onClick={cancelModal}
+                  onClick={() => setShow(!show)}
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={deletionAccount}
-                  className="w-full rounded-lg transition-all duration-300 hover:opacity-90 py-2 text-sm  bg-red-600 text-[#FFFFFF]"
+                  onClick={disableAccount}
+                  className="w-full rounded-lg transition-all duration-300 hover:opacity-90 py-2 text-sm  bg-[#CD4628] text-[#FFFFFF]"
                 >
                   {buttonContent}
                 </button>
@@ -77,4 +61,4 @@ const DeleteAccountModal: NextPage<DeleteAccountModalProps> = ({
   );
 };
 
-export default DeleteAccountModal;
+export default DisableAccountModal;

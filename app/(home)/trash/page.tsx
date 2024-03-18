@@ -21,9 +21,7 @@ import { BiSearch } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import { CiBoxList } from "react-icons/ci";
 import { HiMiniArrowsUpDown } from "react-icons/hi2";
-import { IoArrowBack } from "react-icons/io5";
-import { Toaster, toast } from "sonner";
-import { GoMultiSelect } from "react-icons/go";
+import { toast } from "sonner";
 import { FiMenu } from "react-icons/fi";
 import moment from "moment";
 
@@ -250,7 +248,6 @@ const DeletedNotes = () => {
           )}
         </section>
       </section>
-      <Toaster richColors />
     </ProtectedRoute>
   );
 };

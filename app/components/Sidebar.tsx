@@ -15,6 +15,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import useModalAnimation from "./Modals/useModalAnimation";
 import { usePathname } from "next/navigation";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
@@ -23,30 +24,37 @@ const Sidebar = () => {
   const [user] = useAuthState(auth);
   // const animateCom = useRef(null);
   const pathname = usePathname();
+  const router = useRouter();
+  const checkingRoute = router.pathname !== "/notes";
 
   const handleCreateModal = () => {
-    setCreateNote(true);
+    if (checkingRoute) {
+      router.push("/notes");
+      setCreateNote(true);
+    } else {
+      setCreateNote(true);
+    }
   };
 
   const modalRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    // Handle click outside of the modal to close it
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        setIsSideBarOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   // Handle click outside of the modal to close it
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (
+  //       modalRef.current &&
+  //       !modalRef.current.contains(event.target as Node)
+  //     ) {
+  //       setIsSideBarOpen(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
+  //   document.addEventListener("mousedown", handleClickOutside);
 
-    // Clean up event listener when the component unmounts
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef]);
+  //   // Clean up event listener when the component unmounts
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [modalRef]);
 
   useModalAnimation(modalRef);
 

@@ -5,8 +5,7 @@ import Input from "@/app/components/Input";
 import TopBar from "@/app/components/TopBar";
 import React, { useEffect, useRef, useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { Toaster, toast } from "sonner";
-import { BiPlus } from "react-icons/bi";
+import { toast } from "sonner";
 import { BsGrid } from "react-icons/bs";
 import CreateNoteModal from "@/app/components/Modals/CreateNoteModal";
 
@@ -397,7 +396,6 @@ const Notes = () => {
               addNewNote={addNewNote}
             />
           )}
-          <Toaster position="bottom-right" richColors />
         </div>
       </div>
     </ProtectedRoute>

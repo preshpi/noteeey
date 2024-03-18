@@ -92,18 +92,17 @@ const Home = () => {
           >
             <span> Create a note</span>
           </Button>
-
-          {show && (
-            <AuthCheckModal
-              show={show}
-              content="You must be logged in to create a note"
-              setShow={setShow}
-              buttonContent="Log in"
-              buttonAction={closeModal}
-            />
-          )}
         </section>
-      </div>
+      </div>{" "}
+      {show && (
+        <AuthCheckModal
+          show={show}
+          content="You must be logged in to create a note"
+          setShow={setShow}
+          buttonContent="Log in"
+          buttonAction={closeModal}
+        />
+      )}
       <Toaster richColors position="top-center" />
     </>
   );

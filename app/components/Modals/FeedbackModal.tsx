@@ -1,9 +1,9 @@
 import { FeedbackModalProps } from "@/app/types/components/Modals/FeedbackModal";
 import { NextPage } from "next";
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Overlay from "../Overlay";
 import { MdClose } from "react-icons/md";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import emailjs from "@emailjs/browser";
 import { useAppContext } from "@/app/context/AppContext";
 import useModalAnimation from "./useModalAnimation";
@@ -13,7 +13,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   const [formData, setFormData] = useState<{ message: string }>({
     message: "",
   });
-  const modalRef = useRef<HTMLDivElement>(null);
+  const feedbackModalRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
 
   const cancelModal = () => {
@@ -59,7 +59,7 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
   };
 
   return (
-    <Overlay show={show} setShow={setShow} modalRef={modalRef}>
+    <Overlay show={show} setShow={setShow} modalRef={feedbackModalRef}>
       {show && (
         <div
           ref={animateCom}
@@ -118,7 +118,6 @@ const FeedbackModal: NextPage<FeedbackModalProps> = ({ show, setShow }) => {
           </div>
         </div>
       )}
-      <Toaster richColors />
     </Overlay>
   );
 };

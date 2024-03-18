@@ -5,5 +5,4 @@ export interface DeleteAccountModalProps {
   setShow: Dispatch<SetStateAction<boolean>>;
   buttonContent?: string;
   buttonAction?: () => void;
-  handleDeleteAccount: () => void;
 }
