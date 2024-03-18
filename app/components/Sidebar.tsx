@@ -25,15 +25,16 @@ const Sidebar = () => {
   // const animateCom = useRef(null);
   const pathname = usePathname();
   const router = useRouter();
-  const checkingRoute = router.pathname !== "/notes";
+  // const checkingRoute = router.pathname !== "/notes";
 
   const handleCreateModal = () => {
-    if (checkingRoute) {
-      router.push("/notes");
-      setCreateNote(true);
-    } else {
-      setCreateNote(true);
-    }
+    setCreateNote(true);
+    // if (checkingRoute) {
+    //   router.push("/notes");
+    //   setCreateNote(true);
+    // } else {
+    //   setCreateNote(true);
+    // }
   };
 
   const modalRef = useRef<HTMLDivElement>(null);
