@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Button from "./components/Button";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signOut, signInWithRedirect } from "firebase/auth";
 import { auth } from "./firebase";
 import { db } from "./firebase";
 import { setUser } from "./userSlice";
@@ -23,24 +23,32 @@ const Home = () => {
     const provider = new GoogleAuthProvider();
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const authenticatedUser = result.user;
-      dispatch(setUser(authenticatedUser));
-      const userRef = doc(db, "user", authenticatedUser.uid);
-      const userSnapShot = await getDoc(userRef);
-
-      if (!userSnapShot.exists()) {
-        await setDoc(userRef, {
-          displayName: authenticatedUser.displayName,
-          email: authenticatedUser.email,
-        });
-      }
-      toast.success("Logged in");
-      router.push("/notes");
+      await signInWithRedirect(auth, provider);
     } catch (error) {
       toast.error("Error signing in");
     }
   };
+
+  useEffect(() => {
+    const handleSignIn = async () => {
+      if (user && !loading) {
+        dispatch(setUser(user));
+        const userRef = doc(db, "user", user.uid);
+        const userSnapShot = await getDoc(userRef);
+
+        if (!userSnapShot.exists()) {
+          await setDoc(userRef, {
+            displayName: user.displayName,
+            email: user.email,
+          });
+        }
+        toast.success("Logged in");
+        router.push("/notes");
+      }
+    };
+
+    handleSignIn();
+  }, [user, loading, dispatch, router]);
 
   const handleLogout = async () => {
     try {
@@ -48,7 +56,7 @@ const Home = () => {
       dispatch(setUser(null));
       toast.success("Logged out successfully");
     } catch (error) {
-      toast.error("Error signing out:");
+      toast.error("Error signing out");
     }
   };
 
