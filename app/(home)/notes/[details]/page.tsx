@@ -18,14 +18,19 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import { toast } from "sonner";
 import useModalAnimation from "@/app/components/Modals/useModalAnimation";
+import { useAppContext } from "@/app/context/AppContext";
 
 const NoteDetails = ({ params }: { params: any }) => {
   const router = useRouter();
+  const { color } = useAppContext();
+  const background = color || "#e85444";
+  const backgroundStyle = { backgroundColor: background };
   const [user, loading] = useAuthState(auth);
   const [editorContent, setEditorContent] = useState<string>("");
   const [documentRef, setDocumentRef] = useState<DocumentReference | null>(
     null
   );
+  const [contentModified, setContentModified] = useState<boolean>(false);
   const [notes, setNotes] = useState<any[]>([]);
 
   const Id = params.details;
@@ -71,22 +76,26 @@ const NoteDetails = ({ params }: { params: any }) => {
 
   const getQuillData = (value: any) => {
     setEditorContent(value);
+    setContentModified(true);
+  };
+  const sectionRef = useRef<HTMLDivElement>(null);
+  useModalAnimation(sectionRef);
 
-    // Update document in response to user's actions
-    if (documentRef) {
+  const handleSave = () => {
+    if (documentRef && contentModified) {
+      // Only save if content is modified
       updateDoc(documentRef, {
-        editorContent: value,
+        editorContent: editorContent,
       })
         .then(() => {
           toast.success("Document saved");
+          setContentModified(false); // Reset content modification status
         })
         .catch(() => {
           toast.error("Cannot Save Document");
         });
     }
   };
-  // const sectionRef = useRef<HTMLDivElement>(null);
-  // useModalAnimation(sectionRef);
 
   const formats = [
     "header",
@@ -105,24 +114,30 @@ const NoteDetails = ({ params }: { params: any }) => {
   ];
   return (
     <ProtectedRoute>
-      <div className="p-5 w-full h-full">
-        <div className="h-full overflow-auto">
-          <div className="flex items-center justify-center flex-col">
-            <div className="flex items-center justify-start w-full dark:text-white text-text">
-              <button
-                onClick={goBack}
-                className="cursor-pointer text-3xl hover:animate-pulse"
-              >
-                <IoArrowBack />
-              </button>
-            </div>
-            <p
-              className="text-center p-2 dark:text-white text-[#131313] text-2xl font-semibold"
-              key={selectedNote?.id}
+      <div className="p-5 w-full h-full -z-10">
+        <div className="flex h-full flex-col">
+          <div className="flex items-center justify-between w-full dark:text-white text-text">
+            <button
+              onClick={goBack}
+              className="cursor-pointer text-3xl hover:animate-pulse"
             >
-              {selectedNote?.title}
-            </p>
-
+              <IoArrowBack />
+            </button>
+            <button
+              style={backgroundStyle}
+              onClick={handleSave}
+              className="py-2 px-6 rounded-lg dark:text-white text-[#131313] hover:opacity-75 transistion-all duration-300"
+            >
+              Save
+            </button>
+          </div>
+          <p
+            className="text-center p-2 dark:text-white text-[#131313] text-2xl font-semibold"
+            key={selectedNote?.id}
+          >
+            {selectedNote?.title}
+          </p>
+          <div className="overflow-auto ">
             <ReactQuill
               value={editorContent || ""}
               onChange={getQuillData}
@@ -145,8 +160,7 @@ const NoteDetails = ({ params }: { params: any }) => {
               }}
               formats={formats}
               theme="snow"
-              style={{ height: "500px" }}
-              className="dark:text-white text-[#131313] mb-16  -z-10"
+              className="dark:text-white text-[#131313] -z-10"
             />
           </div>
         </div>

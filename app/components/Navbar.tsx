@@ -14,12 +14,16 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
 
   return (
     <div className="flex justify-between items-center lg:px-12 px-4 py-12 text-[#180202] dark:text-[#effefb]">
-      <h1 className="lg:text-3xl text-2xl cursor-pointer font-semibold">
+      <h1
+        data-testid="logo"
+        className="lg:text-3xl text-2xl cursor-pointer font-semibold"
+      >
         Noteeey
       </h1>
       <div className="flex items-center gap-3">
         {user ? (
           <div className="flex items-center gap-3">
+            {" "}
             {user.displayName && <p>Welcome, {user.displayName} 👋</p>}
             <button
               onClick={logOut}
@@ -38,6 +42,7 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={signIn}
+              data-testid="cta-btn"
               className="px-6 py-2 rounded-lg backgroungradient text-slate-50 transition-colors duration-500"
             >
               Get Started
