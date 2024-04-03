@@ -114,7 +114,7 @@ const NoteDetails = ({ params }: { params: any }) => {
   ];
   return (
     <ProtectedRoute>
-      <div className="p-5 w-full h-full -z-10">
+      <div className="p-5 w-full h-full">
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between w-full dark:text-white text-text">
             <button
@@ -137,7 +137,7 @@ const NoteDetails = ({ params }: { params: any }) => {
           >
             {selectedNote?.title}
           </p>
-          <div className="overflow-auto ">
+          <div className="overflow-auto">
             <ReactQuill
               value={editorContent || ""}
               onChange={getQuillData}
@@ -160,7 +160,7 @@ const NoteDetails = ({ params }: { params: any }) => {
               }}
               formats={formats}
               theme="snow"
-              className="dark:text-white text-[#131313] -z-10"
+              className="dark:text-white text-[#131313]"
             />
           </div>
         </div>
