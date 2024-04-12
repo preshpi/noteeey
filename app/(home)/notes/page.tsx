@@ -23,24 +23,10 @@ import { auth, db } from "@/app/firebase";
 import moment from "moment";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { HiMiniArrowsUpDown } from "react-icons/hi2";
-import { CiBoxList } from "react-icons/ci";
+import { CiBoxList, CiMusicNote1 } from "react-icons/ci";
 import { useAppContext } from "@/app/context/AppContext";
-import {
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
 import useModalAnimation from "@/app/components/Modals/useModalAnimation";
+import PlaylistModal from "@/app/components/Modals/PlaylistModal";
 
 const Notes = () => {
   const [user, loading] = useAuthState(auth);
@@ -52,7 +38,10 @@ const Notes = () => {
   const [tooltipView, setTooltipView] = useState(false);
   const [tooltipOrder, setTooltipOrder] = useState(false);
   const { color, createNote, setCreateNote } = useAppContext();
-
+  const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
+  const [submittedEmbedCode, setSubmittedEmbedCode] = useState<string | null>(
+    null
+  );
   const background = color || "#e85444";
   const bg = { backgroundColor: background };
 
@@ -205,31 +194,28 @@ const Notes = () => {
     setSearchInput(e.target.value);
   };
 
-  const getNotePos = (id: any) => notes.findIndex((note) => note.id === id);
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event;
-
-    if (active?.id === over?.id) return;
-    setNotes((note) => {
-      const originalPos = getNotePos(active?.id);
-      const newPos = getNotePos(over?.id);
-
-      return arrayMove(note, originalPos, newPos);
-    });
+  const handleAddPlaylist = () => {
+    setShowPlaylist(true);
   };
 
-  const sensors = useSensors(
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-    useSensor(PointerSensor)
-  );
+  useEffect(() => {
+    const savedEmbedCode = localStorage.getItem("submittedEmbedCode");
+    if (savedEmbedCode) {
+      setSubmittedEmbedCode(savedEmbedCode);
+    }
+  }, []);
+
+  const handlePlaylistSubmit = (embedCode: string) => {
+    // Handle the embed code submission
+    setSubmittedEmbedCode(embedCode);
+    localStorage.setItem("submittedEmbedCode", embedCode);
+  };
 
   return (
     <ProtectedRoute>
       <div className="flex flex-col w-full min-h-screen overflow-auto">
         <TopBar />
-        <div className="p-5 flex flex-col gap-5">
+        <div className="p-5 flex flex-col gap-5 h-full">
           <div className="flex gap-y-5 lg:justify-between flex-col lg:flex-row">
             <div className="flex items-center justify-between w-[300px] dark:bg-[#2C2C2C] bg-[#F7F7F7] border-none text-[14px] rounded-lg focus-within:shadow-md">
               <Input
@@ -300,56 +286,14 @@ const Notes = () => {
               )}
             </div>
           </div>
-
-          <section className="flex flex-col mt-12">
+          <section
+            className={`flex flex-col mt-12  ${
+              notes?.length === 0 ? "justify-center " : "justify-start"
+            }items-center h-full`}
+          >
             <div className="flex justify-center items-center">
               {loading && <div className="spinner"></div>}
             </div>
-            {/* <DndContext
-              collisionDetection={closestCenter}
-              sensors={sensors}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={notes}
-                strategy={verticalListSortingStrategy}
-              >
-                {!fetching && notes?.length === 0 ? (
-                  <h3 className="text-gray-400 font-semibold text-[28px] text-center">
-                    No Notes
-                  </h3>
-                ) : (
-                  <div
-                    className={`gap-5 w-full ${
-                      viewMode === "grid"
-                        ? "flex flex-wrap justify-start"
-                        : "grid"
-                    }`}
-                  >
-                    {notes
-                      .filter(
-                        (data) =>
-                          !searchInput ||
-                          data.title
-                            .toLowerCase()
-                            .includes(searchInput.toLocaleLowerCase())
-                      )
-                      .map((data: any) => (
-                        <div key={data.id}>
-                          <Card
-                            id={data.id}
-                            content={data.title}
-                            date={data.date}
-                            handleDeleteCard={handleDeleteCard}
-                            handleUpdateDoc={handleUpdateDoc}
-                            viewMode={viewMode}
-                          />
-                        </div>
-                      ))}
-                  </div>
-                )}
-              </SortableContext>
-            </DndContext> */}
             <>
               {!fetching && notes?.length === 0 ? (
                 <h3 className="text-gray-400 font-semibold text-[28px] text-center">
@@ -387,6 +331,25 @@ const Notes = () => {
               )}
             </>
           </section>
+          <div
+            className={`flex items-end ${
+              submittedEmbedCode ? "justify-between" : "justify-end"
+            } `}
+          >
+            {submittedEmbedCode && (
+              <div
+                dangerouslySetInnerHTML={{ __html: submittedEmbedCode || "" }}
+              />
+            )}
+            <button
+              style={{ ...bg }}
+              onClick={handleAddPlaylist}
+              className="flex items-center justify-center p-5 text-2xl text-black dark:text-white shadow hover:opacity-80 transistion-all duration-300 rounded-full"
+            >
+              <CiMusicNote1 />
+            </button>
+          </div>
+
           {createNote && (
             <CreateNoteModal
               show={createNote}
@@ -394,6 +357,13 @@ const Notes = () => {
               setShow={setCreateNote}
               buttonContent="Submit"
               addNewNote={addNewNote}
+            />
+          )}
+          {showPlaylist && (
+            <PlaylistModal
+              handlePlaylistSubmit={handlePlaylistSubmit}
+              show={showPlaylist}
+              setShow={setShowPlaylist}
             />
           )}
         </div>
