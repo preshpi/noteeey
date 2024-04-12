@@ -10,7 +10,7 @@ import { db } from "./firebase";
 import { setUser } from "./userSlice";
 import { Toaster, toast } from "sonner";
 import AuthCheckModal from "./components/Modals/AuthCheckModal";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const Home = () => {
@@ -18,12 +18,14 @@ const Home = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
+  const [hasVisitedLandingPage, setHasVisitedLandingPage] = useState(false);
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
 
     try {
       await signInWithRedirect(auth, provider);
+      setHasVisitedLandingPage(true);
     } catch (error) {
       toast.error("Error signing in");
     }
@@ -40,10 +42,18 @@ const Home = () => {
           await setDoc(userRef, {
             displayName: user.displayName,
             email: user.email,
+            hasVisitedLandingPage: false,
           });
+        } else {
+          const userData = userSnapShot.data();
+          if (userData && !userData.hasVisitedLandingPage) {
+            await updateDoc(userRef, {
+              hasVisitedLandingPage: true,
+            });
+            toast.success("Logged in");
+            router.push("/notes");
+          }
         }
-        toast.success("Logged in");
-        router.push("/notes");
       }
     };
 
