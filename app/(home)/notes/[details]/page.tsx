@@ -13,12 +13,10 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoArrowBack } from "react-icons/io5";
-import dynamic from "next/dynamic";
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
 import { toast } from "sonner";
 import useModalAnimation from "@/app/components/Modals/useModalAnimation";
 import { useAppContext } from "@/app/context/AppContext";
+import MDEditor from "@uiw/react-md-editor";
 
 const NoteDetails = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -26,7 +24,7 @@ const NoteDetails = ({ params }: { params: any }) => {
   const background = color || "#e85444";
   const backgroundStyle = { backgroundColor: background };
   const [user, loading] = useAuthState(auth);
-  const [editorContent, setEditorContent] = useState<string>("");
+  const [editorContent, setEditorContent] = useState("");
   const [documentRef, setDocumentRef] = useState<DocumentReference | null>(
     null
   );
@@ -97,21 +95,6 @@ const NoteDetails = ({ params }: { params: any }) => {
     }
   };
 
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "align",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "video",
-  ];
   return (
     <ProtectedRoute>
       <div className="p-5 w-full h-full">
@@ -137,32 +120,15 @@ const NoteDetails = ({ params }: { params: any }) => {
           >
             {selectedNote?.title}
           </p>
-          <div className="overflow-auto">
-            <ReactQuill
-              value={editorContent || ""}
-              onChange={getQuillData}
-              modules={{
-                toolbar: [
-                  ["bold", "italic", "underline", "strike"],
-                  ["blockquote", "code-block"],
-                  ["link", "image", "video"],
-                  [{ header: 1 }, { header: 2 }],
-                  [{ list: "ordered" }, { list: "bullet" }],
-                  [{ script: "sub" }, { script: "super" }],
-                  [{ indent: "-1" }, { indent: "+1" }],
-                  [{ direction: "rtl" }],
-                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                  [{ color: [] }, { background: [] }],
-                  [{ font: [] }],
-                  [{ align: [] }],
-                  ["clean"],
-                ],
-              }}
-              formats={formats}
-              theme="snow"
-              className="dark:text-white text-[#131313]"
-            />
-          </div>
+
+          <MDEditor
+            value={editorContent}
+            onChange={(newValue: string | undefined) => {
+              if (newValue) {
+                getQuillData(newValue);
+              }
+            }}
+          />
         </div>
       </div>
     </ProtectedRoute>

@@ -80,7 +80,7 @@ const Home = () => {
 
         <section className="items-center justify-center flex px-4 flex-col h-full gap-y-6">
           <h1 className="dark:text-[#FAF8FC] text-text lg:text-[60px] md:text-[56px] leading-20 text-[40px] font-bold text-center max-w-[900px]">
-            Organize Your Ideas With Sticky Notes{" "}
+            Organize Your Ideas With Notes{" "}
             <span className="gradient">Online</span>
           </h1>
           <p className="dark:text-gray-50 italic max-w-[600px] text-text font-[300] text-center text-[19px] lg:text-[23px]">
