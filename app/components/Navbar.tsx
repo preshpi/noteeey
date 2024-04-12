@@ -31,10 +31,10 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
                   Welcome, {user.displayName} 👋
                 </p>
                 <Image
-                  src={`https://ui-avatars.com/api/?name=${user.displayName}&rounded=true&size=128&background=FAF8FC`}
+                  src={`https://ui-avatars.com/api/?name=${user.displayName}&rounded=true&size=128&background=FAF8FC`} // you can use a more preferrable color.
                   alt={user.displayName + "'s photo"}
-                  width={30}
-                  height={30}
+                  width={50}
+                  height={50}
                   className="object-cover rounded-[50%] w-[50px] h-[50px] md:hidden"
                 />
               </div>
