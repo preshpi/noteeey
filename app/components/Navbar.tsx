@@ -24,7 +24,21 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
         {user ? (
           <div className="flex items-center gap-3">
             {" "}
-            {user.displayName && <p>Welcome, {user.displayName} 👋</p>}
+            {user.displayName && (
+              <div>
+                <p className="hidden md:block">
+                  Welcome, {user.displayName} 👋
+                </p>
+
+                <Image
+                  src={`https://ui-avatars.com/api/?name=${user.displayName}&rounded=true&size=128`}
+                  alt={user.displayName + "'s photo"}
+                  width={30}
+                  height={30}
+                  className="object-cover rounded-[50%] w-[38px] h-[38px] md:hidden"
+                />
+              </div>
+            )}
             <button
               onClick={logOut}
               className="px-6 py-2 lg:block hidden rounded-lg bg-[#e85444] text-white hover:bg-[#D12600] transition-colors duration-500"
