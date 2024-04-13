@@ -14,7 +14,7 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
   const [user, loading, error] = useAuthState(auth);
 
   return (
-    <div className="flex justify-between items-center lg:px-12 px-4 py-12 text-[#180202] dark:text-[#effefb]">
+    <div className="flex justify-between items-center lg:px-12 px-4 lg:py-12 py-6 text-[#180202] dark:text-[#effefb]">
       <h1
         data-testid="logo"
         className="lg:text-3xl text-2xl cursor-pointer font-semibold"
@@ -33,9 +33,9 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
                 <Image
                   src={`https://ui-avatars.com/api/?name=${user.displayName}&rounded=true&size=128&background=FAF8FC`} // you can use a more preferrable color.
                   alt={user.displayName + "'s photo"}
-                  width={50}
-                  height={50}
-                  className="object-cover rounded-[50%] w-[50px] h-[50px] md:hidden"
+                  width={40}
+                  height={40}
+                  className="object-cover rounded-[50%] w-[40px] h-[40px] md:hidden"
                 />
               </div>
             )}
