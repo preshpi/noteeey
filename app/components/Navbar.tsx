@@ -4,6 +4,7 @@ import React from "react";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
+import Image from "next/image";
 
 export interface navbarProps {
   signIn: () => void;
@@ -24,7 +25,20 @@ const Navbar: NextPage<navbarProps> = ({ signIn, logOut }) => {
         {user ? (
           <div className="flex items-center gap-3">
             {" "}
-            {user.displayName && <p>Welcome, {user.displayName} 👋</p>}
+            {user.displayName && (
+              <div>
+                <p className="hidden md:block">
+                  Welcome, {user.displayName} 👋
+                </p>
+                <Image
+                  src={`https://ui-avatars.com/api/?name=${user.displayName}&rounded=true&size=128&background=FAF8FC`} // you can use a more preferrable color.
+                  alt={user.displayName + "'s photo"}
+                  width={50}
+                  height={50}
+                  className="object-cover rounded-[50%] w-[50px] h-[50px] md:hidden"
+                />
+              </div>
+            )}
             <button
               onClick={logOut}
               className="px-6 py-2 lg:block hidden rounded-lg bg-[#e85444] text-white hover:bg-[#D12600] transition-colors duration-500"
