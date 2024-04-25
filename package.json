@@ -42,7 +42,7 @@
     "tailwind-merge": "^2.2.2",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6" ,
-    "@mightymeld/runtime": "^0.1.49",
+    "@mightymeld/runtime": "^0.1.49"
 
   },
   "devDependencies": {
