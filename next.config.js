@@ -1,4 +1,3 @@
-const { pluginoptions } = require("@mightymeld/runtime");
 const withPWA = require("next-pwa")({
   dest: "public",
   register: true,
@@ -15,11 +14,11 @@ const nextConfig = {
       "ui-avatars.com",
     ],
   },
-  experimental: {
-    swcPlugins: [
-      ["@mightymeld/runtime/swc-plugin-mightymeld", pluginoptions()],
-    ],
-  },
+  // experimental: {
+  //   swcPlugins: [
+  //     ["@mightymeld/runtime/swc-plugin-mightymeld", pluginoptions()],
+  //   ],
+  // },
   reactStrictMode: true,
 };
 

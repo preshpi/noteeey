@@ -11,8 +11,6 @@ import { FaLink } from "react-icons/fa6";
 import { useAppContext } from "../context/AppContext";
 import { toast } from "sonner";
 import useModalAnimation from "./Modals/useModalAnimation";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 // import { PiDotsSixVerticalBold } from "react-icons/pi";
 const Card: NextPage<Cardsprops> = ({
   content,
@@ -60,13 +58,11 @@ const Card: NextPage<Cardsprops> = ({
   const animateCom = useRef(null);
   useModalAnimation(animateCom);
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+  // const { attributes, listeners, setNodeRef, transform, transition } =
+  //   useSortable({ id });
 
   const style = {
-    transition,
     borderLeftColor: borderColor,
-    transform: CSS.Transform.toString(transform),
   };
 
   return (
@@ -91,7 +87,7 @@ const Card: NextPage<Cardsprops> = ({
           {/* add the select feature */}
           {/* <input type="checkbox" name="note" id="note" /> */}
         </div>
-        <p className="flex justify-between items-center text-[12px]">
+        <div className="flex justify-between items-center text-[12px]">
           <p className="text-[#5C5C5C] dark:text-[#747373]">{date}</p>
 
           <button
@@ -100,7 +96,7 @@ const Card: NextPage<Cardsprops> = ({
           >
             <MdOutlineMoreHoriz />
           </button>
-        </p>
+        </div>
       </div>
 
       {moreModal && (
