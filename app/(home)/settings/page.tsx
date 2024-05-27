@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import ProtectedRoute from "../../ProtectedRoute";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
-import { useRouter } from "next/navigation";
 
 import DarkModeTheme from "../../components/DarkModeTheme";
 import ColorPicker from "@/app/components/ColorPicker";
