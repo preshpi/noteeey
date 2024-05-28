@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import { PiNotebookLight } from "react-icons/pi";
@@ -16,19 +16,30 @@ import useModalAnimation from "./Modals/useModalAnimation";
 import { usePathname } from "next/navigation";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { CiMusicNote1 } from "react-icons/ci";
+import PlaylistModal from "./Modals/PlaylistModal";
 
 const Sidebar = () => {
   const [feedback, setFeedback] = useState<boolean>(false);
   const [settingsModal, SetSettingsModal] = useState<boolean>(false);
-  const { isSideBarOpen, setIsSideBarOpen, setCreateNote } = useAppContext();
+  const {
+    isSideBarOpen,
+    setIsSideBarOpen,
+    setCreateNote,
+    color,
+    submittedEmbedCode,
+    setSubmittedEmbedCode,
+  } = useAppContext();
+  const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
   const [user] = useAuthState(auth);
-  // const animateCom = useRef(null);
   const pathname = usePathname();
   const router = useRouter();
   const checkingRoute = pathname !== "/notes";
 
+  const background = color || "#e85444";
+  const backgroundStyle = { backgroundColor: background };
+
   const handleCreateModal = () => {
-    // setCreateNote(true);
     if (checkingRoute) {
       router.push("/notes");
       setCreateNote(true);
@@ -38,26 +49,17 @@ const Sidebar = () => {
   };
 
   const modalRef = useRef<HTMLDivElement>(null);
-  // useEffect(() => {
-  //   // Handle click outside of the modal to close it
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       modalRef.current &&
-  //       !modalRef.current.contains(event.target as Node)
-  //     ) {
-  //       setIsSideBarOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   // Clean up event listener when the component unmounts
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [modalRef]);
 
   useModalAnimation(modalRef);
+
+  const handleAddPlaylist = () => {
+    setShowPlaylist(true);
+  };
+
+  const handlePlaylistSubmit = (embedCode: string) => {
+    setSubmittedEmbedCode(embedCode);
+    localStorage.setItem("submittedEmbedCode", embedCode);
+  };
 
   return (
     <>
@@ -91,7 +93,8 @@ const Sidebar = () => {
                   <ul className="mt-8 space-y-4">
                     <li onClick={handleCreateModal}>
                       <button
-                        className="p-2 dark:text-slate-50 text-[#131313] text-x dark:hover:bg-[#222] hover:bg-[#EAEAEA] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center
+                        style={backgroundStyle}
+                        className="p-2 dark:text-slate-50 text-[#131313] text-x rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center
                             "
                       >
                         {" "}
@@ -109,7 +112,7 @@ const Sidebar = () => {
                           }`}
                         >
                           {" "}
-                          <PiNotebookLight /> Notes
+                          <PiNotebookLight /> All Notes
                         </button>
                       </Link>
                     </li>
@@ -126,6 +129,15 @@ const Sidebar = () => {
                           <AiOutlineDelete /> Trash
                         </button>
                       </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleAddPlaylist}
+                        className="p-2 dark:text-slate-50 text-[#131313] text-x dark:hover:bg-[#222] hover:bg-[#EAEAEA] rounded-lg w-full border-1 duration-300 transition-colors flex gap-5 items-center
+          "
+                      >
+                        <CiMusicNote1 /> Add Playlist
+                      </button>
                     </li>
                     <li>
                       <Link href="/settings">
@@ -174,6 +186,13 @@ const Sidebar = () => {
               <FeedbackModal setShow={setFeedback} show={feedback} />
             )}
           </div>
+          {showPlaylist && (
+            <PlaylistModal
+              handlePlaylistSubmit={handlePlaylistSubmit}
+              show={showPlaylist}
+              setShow={setShowPlaylist}
+            />
+          )}
         </>
       )}
     </>

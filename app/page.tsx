@@ -120,7 +120,7 @@ const Home = () => {
       {show && (
         <AuthCheckModal
           show={show}
-          content="You must be logged in to create a note"
+          content="Kindly login to create a note"
           setShow={setShow}
           buttonContent="Log in"
           buttonAction={closeModal}

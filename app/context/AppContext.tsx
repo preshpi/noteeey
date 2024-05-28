@@ -16,6 +16,9 @@ interface AppContextProps {
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean | null>>;
   createNote: boolean;
   setCreateNote: React.Dispatch<React.SetStateAction<boolean>>;
+  submittedEmbedCode: string | null;
+  setSubmittedEmbedCode: React.Dispatch<React.SetStateAction<string | null>>;
+
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -27,7 +30,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const [theme, setTheme] = useState<string | null>(storedTheme);
   const [color, setColor] = useState<string | null>(storedColor);
-  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean | null>(false);
+  const [submittedEmbedCode, setSubmittedEmbedCode] = useState<string | null>(
+    null
+  );
+  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean | null>(true);
   const [createNote, setCreateNote] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,6 +56,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setTheme,
         isSideBarOpen,
         setIsSideBarOpen,
+        submittedEmbedCode,
+        setSubmittedEmbedCode,
         color,
         setColor,
         createNote,

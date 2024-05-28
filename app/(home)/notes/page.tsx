@@ -3,7 +3,7 @@ import ProtectedRoute from "@/app/ProtectedRoute";
 import Card from "@/app/components/Card";
 import Input from "@/app/components/Input";
 import TopBar from "@/app/components/TopBar";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { toast } from "sonner";
 import { BsGrid } from "react-icons/bs";
@@ -26,7 +26,6 @@ import { HiMiniArrowsUpDown } from "react-icons/hi2";
 import { CiBoxList, CiMusicNote1 } from "react-icons/ci";
 import { useAppContext } from "@/app/context/AppContext";
 import useModalAnimation from "@/app/components/Modals/useModalAnimation";
-import PlaylistModal from "@/app/components/Modals/PlaylistModal";
 
 const Notes = () => {
   const [user, loading] = useAuthState(auth);
@@ -38,10 +37,6 @@ const Notes = () => {
   const [tooltipView, setTooltipView] = useState(false);
   const [tooltipOrder, setTooltipOrder] = useState(false);
   const { color, createNote, setCreateNote } = useAppContext();
-  const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
-  const [submittedEmbedCode, setSubmittedEmbedCode] = useState<string | null>(
-    null
-  );
   const background = color || "#e85444";
   const bg = { backgroundColor: background };
 
@@ -58,7 +53,7 @@ const Notes = () => {
     return "";
   };
 
-  const handleFetchNote = async () => {
+  const handleFetchNote = useCallback(async () => {
     if (user && !loading) {
       const userDocRef = doc(db, "user", user?.uid); // Reference to the user document
       const noteCollectionRef = collection(userDocRef, "note"); // Reference to the "note" subcollection
@@ -84,7 +79,7 @@ const Notes = () => {
         toast.error("Error fetching notes");
       }
     }
-  };
+  }, [user, loading, ascendingOrder]);
 
   const handleToggleOrder = () => {
     setAscendingOrder((prevOrder) => {
@@ -188,27 +183,10 @@ const Notes = () => {
     if (!loading) {
       handleFetchNote();
     }
-  }, [user, loading]);
+  }, [handleFetchNote, loading]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
-  };
-
-  const handleAddPlaylist = () => {
-    setShowPlaylist(true);
-  };
-
-  useEffect(() => {
-    const savedEmbedCode = localStorage.getItem("submittedEmbedCode");
-    if (savedEmbedCode) {
-      setSubmittedEmbedCode(savedEmbedCode);
-    }
-  }, []);
-
-  const handlePlaylistSubmit = (embedCode: string) => {
-    // Handle the embed code submission
-    setSubmittedEmbedCode(embedCode);
-    localStorage.setItem("submittedEmbedCode", embedCode);
   };
 
   return (
@@ -225,7 +203,7 @@ const Notes = () => {
                 onChange={handleInputChange}
                 required
                 autoComplete="off"
-                additionalClasses="h-10 w-full rounded-md w-full dark:text-[#eee] text-text bg-transparent px-4 py-3 text-[15px] font-light outline-none md:placeholder-text"
+                additionalClasses="h-10 w-full rounded-md w-full text-[#5C5C5C] dark:text-[#747373] bg-transparent px-4 py-3 text-[15px] font-light outline-none md:placeholder-[#5C5C5C]"
                 name="search"
                 placeholder="Search notes"
               />
@@ -253,9 +231,13 @@ const Notes = () => {
                     opacity: tooltipOrder ? 1 : 0,
                     transition: "opacity 0.3s ease-in-out",
                   }}
-                  className="absolute text-white lg:top-[140px] lg:right-[20px] px-2 py-2 rounded-md lg:mt-4 mt-24 text-[10px]"
+                  className="absolute text-white lg:top-[140px] lg:right-[25px] px-2 py-2 rounded-md lg:mt-4 mt-24 text-[10px]"
                 >
-                  <p>
+                  <div
+                    className="w-3 h-3 -mt-2.5 absolute rotate-45"
+                    style={bg}
+                  ></div>
+                  <p className="relative">
                     {ascendingOrder ? "Ascending order" : "Descending order"}
                   </p>{" "}
                 </div>
@@ -277,6 +259,10 @@ const Notes = () => {
                   }}
                   className="absolute text-white lg:top-[140px] lg:right-[20px] px-2 py-2 rounded-md lg:mt-4 mt-24 text-[10px] transition-all duration-300"
                 >
+                  <div
+                    className="w-3 h-3 -mt-2.5 absolute rotate-45 right-[1rem]"
+                    style={bg}
+                  ></div>
                   {viewMode === "grid" ? (
                     <p>switch to list view</p>
                   ) : (
@@ -331,24 +317,6 @@ const Notes = () => {
               )}
             </>
           </section>
-          <div
-            className={`flex items-end ${
-              submittedEmbedCode ? "justify-between" : "justify-end"
-            } `}
-          >
-            {submittedEmbedCode && (
-              <div
-                dangerouslySetInnerHTML={{ __html: submittedEmbedCode || "" }}
-              />
-            )}
-            <button
-              style={{ ...bg }}
-              onClick={handleAddPlaylist}
-              className="flex items-center justify-center p-5 text-2xl text-black dark:text-white shadow hover:opacity-80 transistion-all duration-300 rounded-full"
-            >
-              <CiMusicNote1 />
-            </button>
-          </div>
 
           {createNote && (
             <CreateNoteModal
@@ -357,13 +325,6 @@ const Notes = () => {
               setShow={setCreateNote}
               buttonContent="Submit"
               addNewNote={addNewNote}
-            />
-          )}
-          {showPlaylist && (
-            <PlaylistModal
-              handlePlaylistSubmit={handlePlaylistSubmit}
-              show={showPlaylist}
-              setShow={setShowPlaylist}
             />
           )}
         </div>

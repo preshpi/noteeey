@@ -49,9 +49,11 @@ const DarkModeTheme = () => {
               theme === "light" ? "border border-[#3D3D3D]" : ""
             }`}
           >
-            {theme === "light" && (
-              <IoMdCheckmark className="text-2xl text-[#000]" />
-            )}
+            <span>
+              {theme === "light" && (
+                <IoMdCheckmark className="text-2xl text-[#000]" />
+              )}
+            </span>
           </button>
         </div>
         <div className="flex flex-col items-center gap-3">
@@ -61,9 +63,11 @@ const DarkModeTheme = () => {
               theme === "dark" ? "border border-[#3D3D3D]" : ""
             }`}
           >
-            {mounted && theme === "dark" && (
-              <IoMdCheckmark className="text-2xl text-[#fff]" />
-            )}
+            <span>
+              {mounted && theme === "dark" && (
+                <IoMdCheckmark className="text-2xl text-[#fff]" />
+              )}
+            </span>
           </button>
         </div>
       </div>
