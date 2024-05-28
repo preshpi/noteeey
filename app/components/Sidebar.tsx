@@ -165,17 +165,18 @@ const Sidebar = () => {
                     Send Feedback
                   </button>
                   <div className="">{settingsModal && <SettingsModal />}</div>
-                  <div>
-                    <button
-                      onClick={() => SetSettingsModal(!settingsModal)}
-                      className="p-3 text-x dark:bg-[#222] bg-[#EAEAEA] rounded-lg text-[0.8em] md:text-[1em] dark:text-slate-50 text-[#131313] hover:opacity-90 w-full"
-                    >
-                      <span className="flex justify-between items-center w-full">
-                        {user?.displayName ?? "John Doe"}
-                        <HiChevronUpDown />
-                      </span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => SetSettingsModal(!settingsModal)}
+                    className="flex p-3 dark:bg-[#222] bg-[#EAEAEA] rounded-lg justify-between items-center text-[0.8em] md:text-[1em] dark:text-slate-50 text-[#131313] hover:opacity-90 text-[14px] w-full"
+                  >
+                    {user && (
+                      <>
+                        <p className=" text-x">{user?.displayName}</p>
+                      </>
+                    )}
+
+                    <HiChevronUpDown />
+                  </button>
                 </div>
               </div>
             </div>
