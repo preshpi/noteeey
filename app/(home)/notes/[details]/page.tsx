@@ -17,10 +17,11 @@ import { toast } from "sonner";
 import useModalAnimation from "@/app/components/Modals/useModalAnimation";
 import { useAppContext } from "@/app/context/AppContext";
 import MDEditor from "@uiw/react-md-editor";
+import { MdClose } from "react-icons/md";
 
 const NoteDetails = ({ params }: { params: any }) => {
   const router = useRouter();
-  const { color } = useAppContext();
+  const { color, submittedEmbedCode, setSubmittedEmbedCode } = useAppContext();
   const background = color || "#e85444";
   const backgroundStyle = { backgroundColor: background };
   const [user, loading] = useAuthState(auth);
@@ -94,11 +95,16 @@ const NoteDetails = ({ params }: { params: any }) => {
         });
     }
   };
+  const handleRemovePlaylist = () => {
+    localStorage.removeItem("submittedEmbedCode");
+    setSubmittedEmbedCode(null);
+    toast.success("Playlist removed successfully!")
+  };
 
   return (
     <ProtectedRoute>
       <div className="p-5 w-full h-full">
-        <div className="flex h-full flex-col">
+        <div className="flex h-full flex-col overflow-auto">
           <div className="flex items-center justify-between w-full dark:text-white text-text">
             <button
               onClick={goBack}
@@ -129,6 +135,21 @@ const NoteDetails = ({ params }: { params: any }) => {
               }
             }}
           />
+          {submittedEmbedCode && (
+            <div className="flex gap-x-5 items-end w-full mt-24 bottom-0 ">
+              <div
+                dangerouslySetInnerHTML={{ __html: submittedEmbedCode || "" }}
+              />
+
+              <button
+                style={backgroundStyle}
+                onClick={handleRemovePlaylist}
+                className="px-1 py-1 text-[0.8rem] dark:text-white text-text hover:opacity-75 transistion-all duration-300  rounded-lg"
+              >
+                remove playlist
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </ProtectedRoute>
