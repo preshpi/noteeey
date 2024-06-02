@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import { PiNotebookLight } from "react-icons/pi";
@@ -27,7 +27,6 @@ const Sidebar = () => {
     setIsSideBarOpen,
     setCreateNote,
     color,
-    submittedEmbedCode,
     setSubmittedEmbedCode,
   } = useAppContext();
   const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
@@ -61,6 +60,27 @@ const Sidebar = () => {
     localStorage.setItem("submittedEmbedCode", embedCode);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsSideBarOpen(false);
+      } else {
+        setIsSideBarOpen(true);
+      }
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [setIsSideBarOpen]);
+
   return (
     <>
       {isSideBarOpen && (
@@ -68,7 +88,9 @@ const Sidebar = () => {
           <aside
             id="sidebar"
             ref={modalRef}
-            className="lg:sticky top-0 z-20 flex flex-col w-full max-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7] absolute h-full"
+            className={`lg:sticky top-0 z-20 flex flex-col w-full max-w-[200px] sm:max-w-[220px] text-white dark:bg-[#131313] bg-[#F7F7F7] absolute h-full ${
+              isSideBarOpen ? "" : "hidden"
+            }`}
           >
             <div className="w-full h-full">
               <div className="flex justify-between flex-col h-full p-4 z-10">
